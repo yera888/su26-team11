@@ -2,6 +2,6 @@
 > Your project title
 
 ## Team Members
-> Jacob
+> Jacob McGinniss
 
 > Yeraldine Tamayo
