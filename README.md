@@ -4,4 +4,4 @@
 ## Team Members
 > Jacob
 
-> Yera
+> Yeraldine Tamayo
