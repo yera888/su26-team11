@@ -2,7 +2,7 @@
 > Swap-a-bookaroo
 
 ## Team Members
-> Team Member #1 name
+> Jacob McGinniss
 
 > Yeraldine Tamayo
 
