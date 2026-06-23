@@ -1,7 +1,21 @@
 ## Title
-> Your project title
+> Swap-a-bookaroo
 
 ## Team Members
 > Jacob McGinniss
 
 > Yeraldine Tamayo
+
+## Description 
+
+## App Functions
+1. Customer (Yeraldine Tamayo):
+    i.      
+    ii. 
+    iii. 
+    iv. 
+2. Provider (Jacob McGinniss):
+    i.      
+    ii. 
+    iii. 
+    iv. 
