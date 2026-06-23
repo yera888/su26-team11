@@ -7,15 +7,16 @@
 > Yeraldine Tamayo
 
 ## Description 
+On Swap-a-bookaroo
 
 ## App Functions
-1. Customer (Yeraldine Tamayo):
-    i.      
+1. Customer (Jacob McGinniss):
+    i. 
     ii. 
     iii. 
     iv. 
-2. Provider (Jacob McGinniss):
-    i.      
+2. Provider (Yeraldine Tamayo):
+    i. 
     ii. 
     iii. 
     iv. 
