@@ -7,7 +7,7 @@
 > Yeraldine Tamayo
 
 ## Description 
-On Swap-a-bookaroo
+Swap-a-bookaroo is a swap-matching platform designed to help users declutter their bookshelves by trading books based on genre preference. Each book will be assigned at least 3 tags used to describe its genre. This way it can be matched up with someone looking for books they may be interested in, or they can simply look up a specific book of interest. 
 
 ## App Functions
 1. Customer (Jacob McGinniss):
@@ -17,6 +17,6 @@ On Swap-a-bookaroo
     iv. 
 2. Provider (Yeraldine Tamayo):
     i. 
-    ii. 
+    ii. Assign a minimum of 3 genres to each book listed.
     iii. 
     iv. 
