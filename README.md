@@ -29,7 +29,7 @@ Swap-a-bookaroo is a swap-matching platform designed to help users declutter the
 2. Provider (Yeraldine Tamayo):
     i. Create/Modify/Remove book listings
         - When the provider lists a book they will paste a web link of the book cover image
-        - Provider will manually fill out Title, author, ISBN 
+        - Provider will manually fill out Title, author, ISBN
         - Assign at least 3 genres (tag names) to each book
         - Provider can view, edit or remove their active book listing.
 
@@ -39,4 +39,4 @@ Swap-a-bookaroo is a swap-matching platform designed to help users declutter the
    
     iii. Manage Ongoing Transactions
         - View the history of all books they currently have listed on the platform and how many have been swapped giving them the option to receive a book.
-        - Track the status of their books to see which ones are "Available" and which ones have been "Requested" by a customer.
+        - Track the status of their books to see which ones are "Available" and which ones have been "Requested" by a customer.# HxH
