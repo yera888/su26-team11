@@ -10,7 +10,7 @@
 ---
 
 ## 1. Overview
-**Vision.** Swap-a-bookaroo is a genre-based book-swapping platform designed to help readers declutter their bookshelves by trading books that match their personal tastes. The system supports customers seeking books aligned with their genre preferences, as well as providers who want to list and circulate books they no longer need. 
+**Vision.** Swap-a-bookaroo is a genre-based book-swapping platform designed to help readers declutter their bookshelves by trading books that match their personal preferences. The system supports customers seeking books aligned with their genre preferences, as well as providers who want to list and circulate books they no longer need. 
 
 
 **Glossary** Terms used in the project
