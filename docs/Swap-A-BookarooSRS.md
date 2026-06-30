@@ -29,7 +29,7 @@
 
 
 **Scope (this semester).**
-- User profiles (customers & providers)
+- User profiles(customers & providers)
 - Search/browse books by ISBN and genre tags
 - Posting, editing, and removing book listings
 - Personalized matched-book feed based on Swap requests and "Interested Books" list
@@ -41,3 +41,10 @@
 > This document is **requirements‑level** and solution‑neutral; design decisions (UI layouts, API endpoints, schemas) are documented separately.
 
 ---
+
+## 2. Functional Requirements (User Stories)
+
+### 2.1 Customer Stories
+
+
+### 2.2 Provider Stories
