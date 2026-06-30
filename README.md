@@ -15,40 +15,33 @@ Swap-a-bookaroo is a swap-matching platform designed to help users declutter the
 
 ## App Functions
 1. Customer (Jacob McGinniss):<br>
-    i. Create/Modify/Remove Customer Profile<br>
-        - Register for an account with login and sign up<br>
-        - Edit customer profile page to select genre preferences with tags (Sci-Fi, Fantasy, Roamance etc.)<br>
-        - They can delete their account<br>
 
+i. Create/Modify/Remove Customer Profile
+- Register for an account with login and sign up
+- Edit customer profile page to select genre preferences with tags (Sci-Fi, Fantasy, Roamance etc.)
+- They can delete their account
 
-    ii. View available services<br>
-        - Search Local Inventory by ISBN through search bar and it will check if that book exists in the database<br>
+ii. View available services
+- Search Local Inventory by ISBN through search bar and it will check if that book exists in the database
 
+iii.Subscribe to available services
+- Customer can request a Book Swap
+- Customer can like a book and it will save in their "Interested Books" linked to their profile
+
+iv. Browse through Matched Books
+- View a personalized feed of books from the database that were at least one book tag that matches the preferences in customers profile
 
 2. Provider (Yeraldine Tamayo):
-    i. Create/Modify/Remove book listings
-        - When the provider lists a book they will paste a web link of the book cover image
-        - Provider will manually fill out Title, author, ISBN
-        - Assign at least 3 genres (tag names) to each book
-        - Provider can view, edit or remove their active book listing.
+i. Create/Modify/Remove book listings
+- When the provider lists a book they will paste a web link of the book cover image
+- Provider will manually fill out Title, author, ISBN
+- Assign at least 3 genres (tag names) to each book
+- Provider can view, edit or remove their active book listing.
 
+ii. Create/Modify/Remove Provider Profile
+- Register for an account with login and sign up
+- Edit, remove provider profile page or listings
 
-    iv. Browse through Matched Books<br>
-        - View a personalized feed of books from the database that were at least one book tag that matches the preferences in customers profile <br>
-
-
-2. Provider (Yeraldine Tamayo):<br>
-    i. Create/Modify/Remove book listings<br>
-        - When the provider lists a book they will paste a web link of the book cover image<br>
-        - Provider will manually fill out Title, author, ISBN <br>
-        - Assign at least 3 genres (tag names) to each book<br>
-        - Provider can view, edit or remove their active book listing.<br>
-
-
-    ii. Create/Modify/Remove Provider Profile<br>
-        - Register for an account with login and sign up<br>
-        - Edit, remove provider profile page or listings<br>
-   
-    iii. Manage Ongoing Transactions
-        - View the history of all books they currently have listed on the platform and how many have been swapped giving them the option to receive a book.
-        - Track the status of their books to see which ones are "Available" and which ones have been "Requested" by a customer.# 
+iii. Manage Ongoing Transactions
+- View the history of all books they currently have listed on the platform and how many have been swapped giving them the option to receive a book.
+- Track the status of their books to see which ones are "Available" and which ones have been "Requested" by a customer.
