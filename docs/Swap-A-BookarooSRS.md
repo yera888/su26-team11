@@ -45,6 +45,11 @@
 ## 2. Functional Requirements (User Stories)
 
 ### 2.1 Customer Stories
+-As a customer I want to be able to create an account to post my prefrences and find books based on them.
+- As a customer I want to select tags based on my book prefrences on my profile.  
+- As a customer I want to be able to swap books with other users based on tags I posted as my prefrences. 
+- As a customer I want to be able to request a
 
 
 ### 2.2 Provider Stories
+- As a provider I want to post my books by their ISBN number, three tags, image link when asked.
