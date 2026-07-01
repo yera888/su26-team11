@@ -3,101 +3,143 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Customer Profile — Swap-A-Bookaroo</title>
-  <link rel="stylesheet" href="../provider-prototype/css/base.css" />
-  <link rel="stylesheet" href="../provider-prototype/css/nav.css" />
-  <link rel="stylesheet" href="../provider-prototype/css/profile.css" />
-  <link rel="stylesheet" href="css/tagSelect.css" />
+  <title>Provider Profile — Swap<-A->Bookaroo</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/nav.css" />
+  <link rel="stylesheet" href="css/profile.css" />
 </head>
 <body>
   <nav class="topnav">
-    <a class="brand-link" href="profile.html">Swap-A-Bookaroo</a>
+    <a class="brand-link" href="profile.html">Swap<-A->Bookaroo</a>
     <div class="nav-links">
       <a href="myFeed.html">My Feed</a>
       <a href="profile.html">Profile</a>
+      <a href="addListing.html">Add Book</a>
       <button type="button" id="logoutBtn">Log out</button>
     </div>
   </nav>
 
   <main class="profile-wrap">
     <h1 class="page-title">Profile</h1>
-    <p class="page-subtitle">Select the genres you're interested in so we can match you with books.</p>
+    <p class="page-subtitle">Manage your account, active listings, and swap history.</p>
 
     <section class="profile-section">
       <div class="section-head">
-        <h3>Book Preferences</h3>
+        <h3>My Listings</h3>
+        <a class="btn-secondary" href="addListing.html">+ Add Book</a>
       </div>
-      <div class="tag-grid" id="tagGrid">
-        <button type="button" class="tag-chip" data-tag="Sci-Fi">Sci-Fi</button>
-        <button type="button" class="tag-chip" data-tag="Fantasy">Fantasy</button>
-        <button type="button" class="tag-chip" data-tag="Romance">Romance</button>
-        <button type="button" class="tag-chip" data-tag="Mystery">Mystery</button>
-        <button type="button" class="tag-chip" data-tag="Thriller">Thriller</button>
-        <button type="button" class="tag-chip" data-tag="Horror">Horror</button>
-        <button type="button" class="tag-chip" data-tag="Non-Fiction">Non-Fiction</button>
-        <button type="button" class="tag-chip" data-tag="Biography">Biography</button>
-        <button type="button" class="tag-chip" data-tag="Young Adult">Young Adult</button>
-        <button type="button" class="tag-chip" data-tag="Classics">Classics</button>
-        <button type="button" class="tag-chip" data-tag="Poetry">Poetry</button>
-        <button type="button" class="tag-chip" data-tag="Self-Help">Self-Help</button>
+
+      <div class="listing-grid">
+        <article class="listing-card">
+          <div class="listing-media">
+            <span class="media-text">The Night Circus</span>
+          </div>
+          <div class="listing-body">
+            <span class="title">The Night Circus</span>
+            <span class="author">by Erin Morgenstern</span>
+            <span class="isbn">ISBN: 978-0-385-53463-5</span>
+            <span class="status-badge">Available</span>
+            <div class="listing-tags">
+              <span class="pill pill-fantasy">Fantasy</span>
+              <span class="pill pill-romance">Romance</span>
+              <span class="pill pill-magical-realism">Magical Realism</span>
+            </div>
+          </div>
+          <div class="listing-card-actions">
+            <a class="btn-small" href="addListing.html">Edit</a>
+            <button class="btn-small danger" type="button" onclick="this.closest('.listing-card').remove()">Remove</button>
+          </div>
+        </article>
+
+        <article class="listing-card">
+          <div class="listing-media">
+            <span class="media-text">Dune</span>
+          </div>
+          <div class="listing-body">
+            <span class="title">Dune</span>
+            <span class="author">by Frank Herbert</span>
+            <span class="isbn">ISBN: 978-0-441-17271-9</span>
+            <span class="status-badge requested">Requested</span>
+            <div class="listing-tags">
+              <span class="pill pill-sci-fi">Sci-Fi</span>
+              <span class="pill pill-adventure">Adventure</span>
+              <span class="pill pill-classics">Classics</span>
+            </div>
+          </div>
+          <div class="listing-card-actions">
+            <a class="btn-small" href="addListing.html">Edit</a>
+            <button class="btn-small danger" type="button" onclick="this.closest('.listing-card').remove()">Remove</button>
+          </div>
+        </article>
       </div>
-      <p class="save-hint">Tap a genre to add or remove it — that's how you edit your profile. Your matched feed updates based on the tags you select.</p>
+    </section>
+
+    <section class="profile-section">
+      <div class="section-head">
+        <h3>History</h3>
+      </div>
+
+      <div class="listing-grid">
+        <article class="listing-card">
+          <div class="listing-media blurred">
+            <span class="media-text">Project Hail Mary</span>
+          </div>
+          <div class="listing-body">
+            <span class="title">Project Hail Mary</span>
+            <span class="author">by Andy Weir</span>
+          </div>
+          <div class="listing-card-actions">
+            <button class="btn-selected" type="button">Selected</button>
+          </div>
+        </article>
+
+        <article class="listing-card">
+          <div class="listing-media blurred">
+            <span class="media-text">Pride and Prejudice</span>
+          </div>
+          <div class="listing-body">
+            <span class="title">Pride and Prejudice</span>
+            <span class="author">by Jane Austen</span>
+          </div>
+          <div class="listing-card-actions">
+            <button class="btn-selected" type="button">Selected</button>
+          </div>
+        </article>
+      </div>
     </section>
 
     <section class="account-actions">
+      <button class="btn-account" id="editProfileBtn" type="button">Edit Profile</button>
       <button class="btn-account danger" id="deleteAccountBtn" type="button">Delete Account</button>
     </section>
   </main>
 
-  <script src="../provider-prototype/js/storage.js"></script>
+  <script src="js/storage.js"></script>
   <script>
-    requireLogin("../provider-prototype/loginPage.html");
+    requireLogin();
 
-    const PREFERENCES_KEY = "swab_customer_preferences";
-
-    function getPreferences() {
-      return JSON.parse(localStorage.getItem(PREFERENCES_KEY) || "[]");
-    }
-
-    function savePreferences(tags) {
-      localStorage.setItem(PREFERENCES_KEY, JSON.stringify(tags));
-    }
-
-    const selected = new Set(getPreferences());
-    const tagGrid = document.getElementById("tagGrid");
-
-    document.querySelectorAll(".tag-chip").forEach((chip) => {
-      if (selected.has(chip.dataset.tag)) {
-        chip.classList.add("selected");
+    document.getElementById("editProfileBtn").addEventListener("click", function () {
+      const name = prompt("Update your display name:", getProviderName());
+      if (name && name.trim()) {
+        setProviderName(name.trim());
       }
-    });
-
-    tagGrid.addEventListener("click", function (e) {
-      const chip = e.target.closest(".tag-chip");
-      if (!chip) return;
-
-      const tag = chip.dataset.tag;
-      if (selected.has(tag)) {
-        selected.delete(tag);
-        chip.classList.remove("selected");
-      } else {
-        selected.add(tag);
-        chip.classList.add("selected");
-      }
-      savePreferences([...selected]);
     });
 
     document.getElementById("deleteAccountBtn").addEventListener("click", function () {
-      if (confirm("Delete your customer account? This will log you out.")) {
+      if (confirm("Delete your provider account? This will log you out.")) {
         localStorage.clear();
-        window.location.href = "../provider-prototype/loginPage.html";
+        window.location.href = "loginPage.html";
       }
     });
 
     document.getElementById("logoutBtn").addEventListener("click", function () {
       logout();
-      window.location.href = "../provider-prototype/loginPage.html";
+      window.location.href = "loginPage.html";
     });
   </script>
 </body>
 </html>
+
+
+
+
