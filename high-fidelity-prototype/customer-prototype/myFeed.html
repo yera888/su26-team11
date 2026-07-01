@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Feed — Swap-A-Bookaroo</title>
+  <link rel="stylesheet" href="../provider-prototype/css/base.css" />
+  <link rel="stylesheet" href="../provider-prototype/css/nav.css" />
+  <link rel="stylesheet" href="../provider-prototype/css/profile.css" />
+</head>
+<body>
+  <nav class="topnav">
+    <a class="brand-link" href="profile.html">Swap-A-Bookaroo</a>
+    <div class="nav-links">
+      <a href="myFeed.html">My Feed</a>
+      <a href="profile.html">Profile</a>
+      <button type="button" id="logoutBtn">Log out</button>
+    </div>
+  </nav>
+
+  <main class="profile-wrap">
+    <div class="feed-banner">
+      <img class="feed-banner-img" src="/images/bookswap.png" alt="Feed banner" />
+    </div>
+
+    <h1 class="page-title">My Feed</h1>
+    <p class="page-subtitle">Books matched to the genres in your profile.</p>
+
+    <div class="listing-grid">
+      <article class="listing-card">
+        <div class="listing-media"><span class="media-text">Circe</span></div>
+        <div class="listing-body">
+          <span class="title">Circe</span>
+          <span class="author">by Madeline Miller</span>
+          <div class="listing-tags">
+            <span class="pill pill-fantasy">Fantasy</span>
+            <span class="pill pill-mythology">Mythology</span>
+            <span class="pill pill-classics">Classics</span>
+          </div>
+        </div>
+        <div class="listing-card-actions">
+          <button class="btn-request" type="button" onclick="this.textContent='Requested'; this.disabled=true;">Request Swap</button>
+        </div>
+      </article>
+
+      <article class="listing-card">
+        <div class="listing-media"><span class="media-text">The Martian</span></div>
+        <div class="listing-body">
+          <span class="title">The Martian</span>
+          <span class="author">by Andy Weir</span>
+          <div class="listing-tags">
+            <span class="pill pill-sci-fi">Sci-Fi</span>
+            <span class="pill pill-adventure">Adventure</span>
+            <span class="pill pill-humor">Humor</span>
+          </div>
+        </div>
+        <div class="listing-card-actions">
+          <button class="btn-request" type="button" onclick="this.textContent='Requested'; this.disabled=true;">Request Swap</button>
+        </div>
+      </article>
+
+      <article class="listing-card">
+        <div class="listing-media"><span class="media-text">Beloved</span></div>
+        <div class="listing-body">
+          <span class="title">Beloved</span>
+          <span class="author">by Toni Morrison</span>
+          <div class="listing-tags">
+            <span class="pill pill-classics">Classics</span>
+            <span class="pill pill-historical-fiction">Historical Fiction</span>
+            <span class="pill pill-drama">Drama</span>
+          </div>
+        </div>
+        <div class="listing-card-actions">
+          <button class="btn-request" type="button" onclick="this.textContent='Requested'; this.disabled=true;">Request Swap</button>
+        </div>
+      </article>
+
+      <article class="listing-card">
+        <div class="listing-media"><span class="media-text">Mexican Gothic</span></div>
+        <div class="listing-body">
+          <span class="title">Mexican Gothic</span>
+          <span class="author">by Silvia Moreno-Garcia</span>
+          <div class="listing-tags">
+            <span class="pill pill-horror">Horror</span>
+            <span class="pill pill-mystery">Mystery</span>
+            <span class="pill pill-gothic">Gothic</span>
+          </div>
+        </div>
+        <div class="listing-card-actions">
+          <button class="btn-request" type="button" onclick="this.textContent='Requested'; this.disabled=true;">Request Swap</button>
+        </div>
+      </article>
+
+      <article class="listing-card">
+        <div class="listing-media"><span class="media-text">Red, White &amp; Royal Blue</span></div>
+        <div class="listing-body">
+          <span class="title">Red, White &amp; Royal Blue</span>
+          <span class="author">by Casey McQuiston</span>
+          <div class="listing-tags">
+            <span class="pill pill-romance">Romance</span>
+            <span class="pill pill-young-adult">Young Adult</span>
+            <span class="pill pill-comedy">Comedy</span>
+          </div>
+        </div>
+        <div class="listing-card-actions">
+          <button class="btn-request" type="button" onclick="this.textContent='Requested'; this.disabled=true;">Request Swap</button>
+        </div>
+      </article>
+
+      <article class="listing-card">
+        <div class="listing-media"><span class="media-text">Sapiens</span></div>
+        <div class="listing-body">
+          <span class="title">Sapiens</span>
+          <span class="author">by Yuval Noah Harari</span>
+          <div class="listing-tags">
+            <span class="pill pill-non-fiction">Non-Fiction</span>
+            <span class="pill pill-history">History</span>
+            <span class="pill pill-science">Science</span>
+          </div>
+        </div>
+        <div class="listing-card-actions">
+          <button class="btn-request" type="button" onclick="this.textContent='Requested'; this.disabled=true;">Request Swap</button>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <script src="../provider-prototype/js/storage.js"></script>
+  <script>
+    requireLogin("../provider-prototype/loginPage.html");
+
+    document.getElementById("logoutBtn").addEventListener("click", function () {
+      logout();
+      window.location.href = "../provider-prototype/loginPage.html";
+    });
+  </script>
+</body>
+</html>

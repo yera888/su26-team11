@@ -1,0 +1,31 @@
+.form-wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.form-wrap h1 { font-size: 2.4rem; margin-bottom: .4rem; }
+.form-wrap .form-subhead { margin: 0 0 2rem; color: #444; font-size: 1.4rem; }
+
+.form-card {
+  border: 1px solid #111;
+  border-radius: 0;
+  padding: 2.4rem;
+  display: grid;
+  gap: 1.4rem;
+}
+
+.tag-hint { margin: .6rem 0 0; font-size: 1.4rem; font-weight: 700; color: #444; text-align: left; }
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: .6rem;
+}
+
+.form-error {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #c0392b;
+  min-height: 1.6rem;
+}
