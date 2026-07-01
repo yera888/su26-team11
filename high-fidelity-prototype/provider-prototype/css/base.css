@@ -1,0 +1,69 @@
+
+html { font-size: 62.5%; }
+
+@font-face {
+  font-family: "fredoka";
+  src: url("./fonts/Fredoka/fredoka-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "fredoka";
+  src: url("./fonts/Fredoka/fredoka-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #faf7f2;
+  color: #111;
+  font-family: "fredoka", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  font-size: 1.6rem;
+}
+
+a { color: #111; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+button, input, textarea, select {
+  font-family: inherit;
+}
+
+.pill {
+  display: inline-block;
+  padding: .5rem 1rem;
+  border-radius: 0;
+  font-size: 1.3rem;
+  line-height: 1;
+  font-weight: 600;
+  border: 1px solid transparent;
+  background: #555;
+  color: #fff;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid #111;
+  border-radius: 0;
+  padding: 1.1rem 1.2rem;
+  background: #111;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn:hover { opacity: .92; }
+
+.btn-secondary {
+  appearance: none;
+  border: 1px solid #111;
+  border-radius: 0;
+  padding: 1.1rem 1.2rem;
+  background: #fff;
+  color: #111;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-secondary:hover { opacity: .8; }

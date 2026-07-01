@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Customer Profile — Swap-A-Bookaroo</title>
+  <link rel="stylesheet" href="../provider-prototype/css/base.css" />
+  <link rel="stylesheet" href="../provider-prototype/css/nav.css" />
+  <link rel="stylesheet" href="../provider-prototype/css/profile.css" />
+  <link rel="stylesheet" href="css/tagSelect.css" />
+</head>
+<body>
+  <nav class="topnav">
+    <a class="brand-link" href="profile.html">Swap-A-Bookaroo</a>
+    <div class="nav-links">
+      <a href="myFeed.html">My Feed</a>
+      <a href="profile.html">Profile</a>
+      <button type="button" id="logoutBtn">Log out</button>
+    </div>
+  </nav>
+
+  <main class="profile-wrap">
+    <h1 class="page-title">Profile</h1>
+    <p class="page-subtitle">Select the genres you're interested in so we can match you with books.</p>
+
+    <section class="profile-section">
+      <div class="section-head">
+        <h3>Book Preferences</h3>
+      </div>
+      <div class="tag-grid" id="tagGrid">
+        <button type="button" class="tag-chip" data-tag="Sci-Fi">Sci-Fi</button>
+        <button type="button" class="tag-chip" data-tag="Fantasy">Fantasy</button>
+        <button type="button" class="tag-chip" data-tag="Romance">Romance</button>
+        <button type="button" class="tag-chip" data-tag="Mystery">Mystery</button>
+        <button type="button" class="tag-chip" data-tag="Thriller">Thriller</button>
+        <button type="button" class="tag-chip" data-tag="Horror">Horror</button>
+        <button type="button" class="tag-chip" data-tag="Non-Fiction">Non-Fiction</button>
+        <button type="button" class="tag-chip" data-tag="Biography">Biography</button>
+        <button type="button" class="tag-chip" data-tag="Young Adult">Young Adult</button>
+        <button type="button" class="tag-chip" data-tag="Classics">Classics</button>
+        <button type="button" class="tag-chip" data-tag="Poetry">Poetry</button>
+        <button type="button" class="tag-chip" data-tag="Self-Help">Self-Help</button>
+      </div>
+      <p class="save-hint">Tap a genre to add or remove it — that's how you edit your profile. Your matched feed updates based on the tags you select.</p>
+    </section>
+
+    <section class="account-actions">
+      <button class="btn-account danger" id="deleteAccountBtn" type="button">Delete Account</button>
+    </section>
+  </main>
+
+  <script src="../provider-prototype/js/storage.js"></script>
+  <script>
+    requireLogin("../provider-prototype/loginPage.html");
+
+    const PREFERENCES_KEY = "swab_customer_preferences";
+
+    function getPreferences() {
+      return JSON.parse(localStorage.getItem(PREFERENCES_KEY) || "[]");
+    }
+
+    function savePreferences(tags) {
+      localStorage.setItem(PREFERENCES_KEY, JSON.stringify(tags));
+    }
+
+    const selected = new Set(getPreferences());
+    const tagGrid = document.getElementById("tagGrid");
+
+    document.querySelectorAll(".tag-chip").forEach((chip) => {
+      if (selected.has(chip.dataset.tag)) {
+        chip.classList.add("selected");
+      }
+    });
+
+    tagGrid.addEventListener("click", function (e) {
+      const chip = e.target.closest(".tag-chip");
+      if (!chip) return;
+
+      const tag = chip.dataset.tag;
+      if (selected.has(tag)) {
+        selected.delete(tag);
+        chip.classList.remove("selected");
+      } else {
+        selected.add(tag);
+        chip.classList.add("selected");
+      }
+      savePreferences([...selected]);
+    });
+
+    document.getElementById("deleteAccountBtn").addEventListener("click", function () {
+      if (confirm("Delete your customer account? This will log you out.")) {
+        localStorage.clear();
+        window.location.href = "../provider-prototype/loginPage.html";
+      }
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", function () {
+      logout();
+      window.location.href = "../provider-prototype/loginPage.html";
+    });
+  </script>
+</body>
+</html>
