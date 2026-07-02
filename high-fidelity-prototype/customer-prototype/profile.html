@@ -13,7 +13,7 @@
   <nav class="topnav">
     <a class="brand-link" href="profile.html">Swap-A-Bookaroo</a>
     <div class="nav-links">
-      <a href="myFeed.html">Book Feed</a>
+      <a href="myFeed.html">My Feed</a>
       <a href="profile.html">Profile</a>
       <button type="button" id="logoutBtn">Log out</button>
     </div>
@@ -21,15 +21,15 @@
 
   <main class="profile-wrap">
     <h1 class="page-title">My Profile</h1>
-    <p class="page-subtitle">As a Book Seeker change your preferences.</p>
+    <p class="page-subtitle">Manage your book seeker interests, preferences, and swap requests.</p>
 
     <section class="profile-section">
       <div class="section-head">
-        <h3>Book Seeker</h3>
+        <h3>Book Seeker Summary</h3>
       </div>
       <div class="summary-grid">
         <div class="summary-card">
-          <h4>Name</h4>
+          <h4>Book Seeker Name</h4>
           <p>Maya Chen</p>
         </div>
         <div class="summary-card">
@@ -37,8 +37,12 @@
           <p>mchen</p>
         </div>
         <div class="summary-card">
-          <h4>Preference Tags</h4>
-          <p>Fantasy, Romance, Classics</p>
+          <h4>Preferred Tags</h4>
+          <p id="preferredTagsValue">Fantasy, Romance, Classics</p>
+        </div>
+        <div class="summary-card">
+          <h4>Next Match</h4>
+          <p>2 books available</p>
         </div>
       </div>
     </section>
@@ -61,7 +65,7 @@
         <button type="button" class="tag-chip" data-tag="Poetry">Poetry</button>
         <button type="button" class="tag-chip" data-tag="Self-Help">Self-Help</button>
       </div>
-      <p class="save-hint">Tap a Book Genre to update your preferences and recieve matched feed that reflects your interests!</p>
+      <p class="save-hint">Tap a genre to update your interests. Your matched feed reflects these choices.</p>
     </section>
 
     <section class="profile-section">
@@ -81,12 +85,12 @@
         </article>
         <article class="listing-card">
           <div class="listing-body">
-            <span class="title">Swaped Out</span>
+            <span class="title">Completed</span>
             <span class="author">The Hobbit swapped successfully</span>
-            <span class="isbn">Status: Finished</span>
+            <span class="isbn">Status: finished</span>
           </div>
           <div class="listing-card-actions">
-            <button class="btn-selected" type="button">Completed</button>
+            <button class="btn-selected" type="button">Done</button>
           </div>
         </article>
       </div>
@@ -114,12 +118,20 @@
 
     const selected = new Set(getPreferences());
     const tagGrid = document.getElementById("tagGrid");
+    const preferredTagsValue = document.getElementById("preferredTagsValue");
+
+    function updatePreferredTagsDisplay() {
+      const tags = Array.from(selected);
+      preferredTagsValue.textContent = tags.length ? tags.join(", ") : "No preferences selected";
+    }
 
     document.querySelectorAll(".tag-chip").forEach((chip) => {
       if (selected.has(chip.dataset.tag)) {
         chip.classList.add("selected");
       }
     });
+
+    updatePreferredTagsDisplay();
 
     tagGrid.addEventListener("click", function (e) {
       const chip = e.target.closest(".tag-chip");
@@ -134,6 +146,7 @@
         chip.classList.add("selected");
       }
       savePreferences([...selected]);
+      updatePreferredTagsDisplay();
     });
 
     document.getElementById("deleteAccountBtn").addEventListener("click", function () {
