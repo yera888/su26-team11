@@ -10,8 +10,9 @@
   <link rel="stylesheet" href="css/tagSelect.css" />
 </head>
 <body>
+  <!-- Navigation bar -->
   <nav class="topnav">
-    <a class="brand-link" href="profile.html">Swap-A-Bookaroo</a>
+    <a class="brand-link" href="profile.html">Swap<-A->Bookaroo</a>
     <div class="nav-links">
       <a href="myFeed.html">My Feed</a>
       <a href="profile.html">Profile</a>
@@ -19,10 +20,13 @@
     </div>
   </nav>
 
+  <!-- Main content -->
+  <!-- Top of page intro -->
   <main class="profile-wrap">
     <h1 class="page-title">My Profile</h1>
     <p class="page-subtitle">Manage your book seeker interests, preferences, and swap requests.</p>
 
+    <!-- Profile Summary -->
     <section class="profile-section">
       <div class="section-head">
         <h3>Book Seeker Summary</h3>
@@ -43,6 +47,7 @@
       </div>
     </section>
 
+    <!-- Book Preferences -->
     <section class="profile-section">
       <div class="section-head">
         <h3>Book Preferences</h3>
@@ -64,6 +69,7 @@
       <p class="save-hint">Tap a genre to update your interests. Your matched feed reflects these choices.</p>
     </section>
 
+    <!-- Swap Info -->
     <section class="profile-section">
       <div class="section-head">
         <h3>Swap Requests</h3>
@@ -76,7 +82,7 @@
             <span class="isbn">Status: pending</span>
           </div>
           <div class="listing-card-actions">
-            <button class="btn-request" type="button">View</button>
+            <a class="btn-request" type="button" href="swapRequests.html" style="text-align: center;">View</a>
           </div>
         </article>
         <article class="listing-card">
@@ -86,12 +92,13 @@
             <span class="isbn">Status: finished</span>
           </div>
           <div class="listing-card-actions">
-            <button class="btn-selected" type="button">Done</button>
+             <button class="btn-selected" type="button">Done</button>
           </div>
         </article>
       </div>
     </section>
 
+    <!-- Account Actions -->
     <section class="account-actions">
       <a class="btn-account" href="../provider-prototype/profile.html">Open Book Lister Profile</a>
       <button class="btn-account danger" id="deleteAccountBtn" type="button">Delete Account</button>

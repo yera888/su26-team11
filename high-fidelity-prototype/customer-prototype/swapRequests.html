@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swap Requests</title>
+    <link rel="stylesheet" href="../provider-prototype/css/base.css" />
+    <link rel="stylesheet" href="../provider-prototype/css/nav.css" />
+    <link rel="stylesheet" href="../provider-prototype/css/profile.css" />
+    <link rel="stylesheet" href="css/requestOverlay.css?v=2" />
+    <link rel="stylesheet" href="css/tagSelect.css" />
+</head>
+<body>
+    <!-- Navigation bar -->
+    <nav class="topnav">
+        <a class="brand-link" href="profile.html">Swap<-A->Bookaroo</a>
+        <div class="nav-links">
+            <a href="myFeed.html">My Feed</a>
+            <a href="profile.html">Profile</a>
+        <button type="button" id="logoutBtn">Log out</button>
+        </div>
+    </nav>
+<!-- Main content -->
+    <main class="profile-wrap">
+        <h1 class="page-title">Requested Books</h1>
+        <p></p>
+
+        <div class="listing-grid">
+            
+            <article class="listing-card">
+                <div class="listing-media"><span class="media-text">Dune</span></div>
+                <div class="listing-body">
+                    <span class="title">Dune</span>
+                    <span class="author">by Frank Herbert</span>
+                <div class="listing-tags">
+                    <span class="pill pill-sci-fi">Sci-Fi</span>
+                    <span class="pill pill-Drama">Drama</span>
+                    <span class="pill pill-classics">Adventure</span>
+                </div>
+                </div>
+                <div class="listing-card-actions">
+                    <a class="btn-request request-trigger" href="#" data-title="Dune" data-author="by Frank Herbert" data-tags="Sci-Fi • Drama • Adventure" data-owner="Available from Jordan Rivera" data-cover="D">Cancel Request</a>
+                </div>
+            </article>
+        
+        </div>
+    </main>
+
+   <div class="request-overlay" id="requestOverlay" aria-hidden="true">
+    <div class="request-modal" role="dialog" aria-modal="true" aria-labelledby="requestModalTitle">
+      <div class="modal-header">
+        <h1 id="requestModalTitle">Cancel Request</h1>
+        <button class="modal-close" type="button" id="closeRequestOverlay">Close</button>
+      </div>
+
+      <div class="request-content">
+        <div class="request-panel">
+          <h2>Selected Book</h2>
+          <div class="book-card">
+            <div class="book-cover" id="requestBookCover">D</div>
+            <div class="book-details">
+              <h3 id="requestBookTitle">Dune</h3>
+              <p id="requestBookAuthor">by Frank Herbert</p>
+              <p id="requestBookMeta">Sci-Fi • Drama • Adventure</p>
+              <p id="requestBookOwner">Available from Jordan Rivera</p>
+            </div>
+          </div>
+          <p class="prompt">Are you sure you want to cancel this request?</p>
+          <div class="request-actions">
+            <button class="btn" type="button" id="confirmRequestBtn">Yes</button>
+            <button class="btn-secondary" type="button" id="keepLookingBtn">No</button>
+          </div>
+          <p class="status-message" id="requestStatus"></p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+    <script src="../provider-prototype/js/storage.js"></script>
+    <script>
+        requireLogin("../provider-prototype/loginPage.html?redirect=customer");
+
+        const requestOverlay = document.getElementById("requestOverlay");
+        const closeRequestOverlay = document.getElementById("closeRequestOverlay");
+        const confirmRequestBtn = document.getElementById("confirmRequestBtn");
+        const keepLookingBtn = document.getElementById("keepLookingBtn");
+        const requestStatus = document.getElementById("requestStatus");
+        const requestBookCover = document.getElementById("requestBookCover");
+        const requestBookTitle = document.getElementById("requestBookTitle");
+        const requestBookAuthor = document.getElementById("requestBookAuthor");
+        const requestBookMeta = document.getElementById("requestBookMeta");
+        const requestBookOwner = document.getElementById("requestBookOwner");
+
+        function openRequestOverlay(book) {
+        requestBookCover.textContent = book.cover || "?";
+        requestBookTitle.textContent = book.title || "Untitled";
+        requestBookAuthor.textContent = book.author || "";
+        requestBookMeta.textContent = book.tags || "";
+        requestBookOwner.textContent = book.owner || "";
+        requestStatus.textContent = "";
+        requestOverlay.classList.add("visible");
+        requestOverlay.setAttribute("aria-hidden", "false");
+        document.body.classList.add("overlay-open");
+        }
+
+        function closeRequestOverlayModal() {
+        requestOverlay.classList.remove("visible");
+        requestOverlay.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("overlay-open");
+        }
+
+        document.querySelectorAll(".request-trigger").forEach((trigger) => {
+        trigger.addEventListener("click", function (e) {
+            e.preventDefault();
+            openRequestOverlay({
+            cover: trigger.dataset.cover || "?",
+            title: trigger.dataset.title || "Book",
+            author: trigger.dataset.author || "",
+            tags: trigger.dataset.tags || "",
+            owner: trigger.dataset.owner || ""
+            });
+        });
+        });
+
+        closeRequestOverlay.addEventListener("click", closeRequestOverlayModal);
+        requestOverlay.addEventListener("click", function (e) {
+        if (e.target === requestOverlay) {
+            closeRequestOverlayModal();
+        }
+        });
+        keepLookingBtn.addEventListener("click", closeRequestOverlayModal);
+        confirmRequestBtn.addEventListener("click", function () {
+        requestStatus.textContent = "Request Cancelled!";
+        });
+
+        document.getElementById("logoutBtn").addEventListener("click", function () {
+        logout();
+        window.location.href = "../provider-prototype/loginPage.html?redirect=customer";
+        });
+    </script>
+    </body>
+
+</html>
