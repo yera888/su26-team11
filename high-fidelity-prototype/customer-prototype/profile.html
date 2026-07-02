@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Customer Profile — Swap-A-Bookaroo</title>
+  <title>Book Seeker Profile — Swap-A-Bookaroo</title>
   <link rel="stylesheet" href="../provider-prototype/css/base.css" />
   <link rel="stylesheet" href="../provider-prototype/css/nav.css" />
   <link rel="stylesheet" href="../provider-prototype/css/profile.css" />
@@ -13,15 +13,35 @@
   <nav class="topnav">
     <a class="brand-link" href="profile.html">Swap-A-Bookaroo</a>
     <div class="nav-links">
-      <a href="myFeed.html">My Feed</a>
+      <a href="myFeed.html">Book Feed</a>
       <a href="profile.html">Profile</a>
       <button type="button" id="logoutBtn">Log out</button>
     </div>
   </nav>
 
   <main class="profile-wrap">
-    <h1 class="page-title">Profile</h1>
-    <p class="page-subtitle">Select the genres you're interested in so we can match you with books.</p>
+    <h1 class="page-title">My Profile</h1>
+    <p class="page-subtitle">As a Book Seeker change your preferences.</p>
+
+    <section class="profile-section">
+      <div class="section-head">
+        <h3>Book Seeker</h3>
+      </div>
+      <div class="summary-grid">
+        <div class="summary-card">
+          <h4>Name</h4>
+          <p>Maya Chen</p>
+        </div>
+        <div class="summary-card">
+          <h4>Username</h4>
+          <p>mchen</p>
+        </div>
+        <div class="summary-card">
+          <h4>Preference Tags</h4>
+          <p>Fantasy, Romance, Classics</p>
+        </div>
+      </div>
+    </section>
 
     <section class="profile-section">
       <div class="section-head">
@@ -41,10 +61,39 @@
         <button type="button" class="tag-chip" data-tag="Poetry">Poetry</button>
         <button type="button" class="tag-chip" data-tag="Self-Help">Self-Help</button>
       </div>
-      <p class="save-hint">Tap a genre to add or remove it — that's how you edit your profile. Your matched feed updates based on the tags you select.</p>
+      <p class="save-hint">Tap a Book Genre to update your preferences and recieve matched feed that reflects your interests!</p>
+    </section>
+
+    <section class="profile-section">
+      <div class="section-head">
+        <h3>Swap Requests</h3>
+      </div>
+      <div class="listing-grid">
+        <article class="listing-card">
+          <div class="listing-body">
+            <span class="title">Requested</span>
+            <span class="author">Dune requested from Jordan</span>
+            <span class="isbn">Status: pending</span>
+          </div>
+          <div class="listing-card-actions">
+            <button class="btn-request" type="button">View</button>
+          </div>
+        </article>
+        <article class="listing-card">
+          <div class="listing-body">
+            <span class="title">Swaped Out</span>
+            <span class="author">The Hobbit swapped successfully</span>
+            <span class="isbn">Status: Finished</span>
+          </div>
+          <div class="listing-card-actions">
+            <button class="btn-selected" type="button">Completed</button>
+          </div>
+        </article>
+      </div>
     </section>
 
     <section class="account-actions">
+      <a class="btn-account" href="../provider-prototype/profile.html">Open Book Lister Profile</a>
       <button class="btn-account danger" id="deleteAccountBtn" type="button">Delete Account</button>
     </section>
   </main>
@@ -88,7 +137,7 @@
     });
 
     document.getElementById("deleteAccountBtn").addEventListener("click", function () {
-      if (confirm("Delete your customer account? This will log you out.")) {
+      if (confirm("Delete your member account? This will log you out.")) {
         localStorage.clear();
         window.location.href = "../provider-prototype/loginPage.html";
       }

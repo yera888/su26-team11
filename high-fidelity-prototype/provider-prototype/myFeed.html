@@ -4,27 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>My Feed — Swap-A-Bookaroo</title>
-  <link rel="stylesheet" href="../provider-prototype/css/base.css" />
-  <link rel="stylesheet" href="../provider-prototype/css/nav.css" />
-  <link rel="stylesheet" href="../provider-prototype/css/profile.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/nav.css" />
+  <link rel="stylesheet" href="css/profile.css" />
 </head>
 <body>
   <nav class="topnav">
     <a class="brand-link" href="profile.html">Swap-A-Bookaroo</a>
     <div class="nav-links">
-      <a href="myFeed.html">My Feed</a>
+      <a href="myFeed.html">Book Feed</a>
       <a href="profile.html">Profile</a>
+      <a href="addListing.html">Add Book</a>
       <button type="button" id="logoutBtn">Log out</button>
     </div>
   </nav>
 
   <main class="profile-wrap">
     <div class="feed-banner">
-      <img class="feed-banner-img" src="/images/bookswap.jpg" alt="Feed banner" />
+      <img class="feed-banner-img" src="images/bookswap.png" alt="Feed banner" />
     </div>
 
-    <h1 class="page-title">My Feed</h1>
-    <p class="page-subtitle">Books matched to the genres in your profile.</p>
+    <h1 class="page-title">Book Feed</h1>
 
     <div class="listing-grid">
       <article class="listing-card">
@@ -125,14 +125,15 @@
     </div>
   </main>
 
-  <script src="../provider-prototype/js/storage.js"></script>
+  <script src="js/storage.js"></script>
   <script>
-    requireLogin("../provider-prototype/loginPage.html");
+    requireLogin();
 
     document.getElementById("logoutBtn").addEventListener("click", function () {
       logout();
-      window.location.href = "../provider-prototype/loginPage.html";
+      window.location.href = "loginPage.html";
     });
   </script>
 </body>
 </html>
+
