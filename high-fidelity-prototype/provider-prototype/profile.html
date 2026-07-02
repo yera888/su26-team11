@@ -10,9 +10,9 @@
 </head>
 <body>
   <nav class="topnav">
-    <a class="brand-link" href="profile.html">Swap-A-Bookaroo</a>
+    <a class="brand-link" href="profile.html">Swap<-A->Bookaroo</a>
     <div class="nav-links">
-      <a href="myFeed.html">Book Feed</a>
+      <a href="myFeed.html">My Feed</a>
       <a href="profile.html">Profile</a>
       <a href="addListing.html">Add Book</a>
       <button type="button" id="logoutBtn">Log out</button>
@@ -21,15 +21,15 @@
 
   <main class="profile-wrap">
     <h1 class="page-title">My Profile</h1>
-    <p class="page-subtitle">Manage your book lister profile, view active listings, and previous swap activity.</p>
+    <p class="page-subtitle">Manage your book lister profile, active listings, and swap activity.</p>
 
     <section class="profile-section">
       <div class="section-head">
-        <h3>Book Lister </h3>
+        <h3>Book Lister Summary</h3>
       </div>
       <div class="summary-grid">
         <div class="summary-card">
-          <h4>Name</h4>
+          <h4>Book Lister Name</h4>
           <p>Jordan Rivera</p>
         </div>
         <div class="summary-card">
@@ -37,12 +37,12 @@
           <p>jrivera</p>
         </div>
         <div class="summary-card swap-credit-card">
-          <h4 class="swap-credit-label">Swap Credit!</h4>
-          <p class="swap-credit-value">2</p>
+          <h4 class="swap-credit-label">SWAP CREDIT</h4>
+          <p class="swap-credit-value">: 3</p>
         </div>
         <div class="summary-card">
-          <h4>Book Listings Currently Requested</h4>
-          <p>2 Books</p>
+          <h4>Listings Selected</h4>
+          <p>2 books selected</p>
         </div>
       </div>
     </section>
@@ -100,7 +100,7 @@
 
     <section class="profile-section">
       <div class="section-head">
-        <h3>Book Requests & Swap History</h3>
+        <h3>Requests & History</h3>
       </div>
 
       <div class="listing-grid">
@@ -117,9 +117,9 @@
 
         <article class="listing-card">
           <div class="listing-body">
-            <span class="title">Swap Out</span>
+            <span class="title">Recent Swap</span>
             <span class="author">Completed with Aiden</span>
-            <span class="isbn">Status: Finished</span>
+            <span class="isbn">Status: finished</span>
           </div>
           <div class="listing-card-actions">
             <button class="btn-selected" type="button">Completed</button>
@@ -129,8 +129,7 @@
     </section>
 
     <section class="account-actions">
-      <a class="btn-account" href="../customer-prototype/profile.html">Edit Book Seeker Preferences</a>
-      <button class="btn-account" id="editProfileBtn" type="button">Edit Profile</button>
+      <a class="btn-account" href="../customer-prototype/profile.html">Edit Preferences</a>
       <button class="btn-account danger" id="deleteAccountBtn" type="button">Delete Account</button>
     </section>
   </main>
@@ -138,10 +137,6 @@
   <script src="js/storage.js"></script>
   <script>
     requireLogin();
-
-    document.getElementById("editProfileBtn").addEventListener("click", function () {
-      window.location.href = "../customer-prototype/profile.html";
-    });
 
     document.getElementById("deleteAccountBtn").addEventListener("click", function () {
       if (confirm("Delete your member account? This will log you out.")) {

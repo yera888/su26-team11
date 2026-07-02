@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,20 +32,25 @@
       </form>
 
       <p class="hint-credentials" id="signupMessage" style="display:none;">
-        Account created! Log in with username: <strong>username</strong>, password: <strong>password</strong>.
+        Account created! This is a prototype, so log in with username: <strong>username</strong>, password: <strong>password</strong>.
       </p>
 
       <div class="switch">
         Already have an account?
-        <a href="loginPage.html">Log in</a>
+        <a href="loginPage.html" id="loginLink">Log in</a>
       </div>
 
       <footer class="small">By creating an account you agree to our Terms &amp; Privacy.</footer>
-      <footer class="small">You can <strong>NOT</strong> list or swap books unless you have an account.</footer>
+      <footer class="small">You can <strong>NOT</strong> list or swap books unless you have a Member account.</footer>
     </div>
   </div>
 
   <script>
+    const redirect = new URLSearchParams(window.location.search).get("redirect");
+    if (redirect) {
+      document.getElementById("loginLink").href = "loginPage.html?redirect=" + redirect;
+    }
+
     document.getElementById("signupForm").addEventListener("submit", function (e) {
       e.preventDefault();
       document.getElementById("signupMessage").style.display = "block";

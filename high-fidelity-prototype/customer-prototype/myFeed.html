@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Book Feed — Swap-A-Bookaroo</title>
+  <title>My Feed — Swap-A-Bookaroo</title>
   <link rel="stylesheet" href="../provider-prototype/css/base.css" />
   <link rel="stylesheet" href="../provider-prototype/css/nav.css" />
   <link rel="stylesheet" href="../provider-prototype/css/profile.css" />
@@ -13,7 +13,7 @@
   <nav class="topnav">
     <a class="brand-link" href="profile.html">Swap-A-Bookaroo</a>
     <div class="nav-links">
-      <a href="myFeed.html">Book Feed</a>
+      <a href="myFeed.html">My Feed</a>
       <a href="profile.html">Profile</a>
       <button type="button" id="logoutBtn">Log out</button>
     </div>
@@ -25,18 +25,20 @@
     </div>
 
     <h1 class="page-title">My Feed</h1>
-      <div class="listing-grid">
-        <article class="listing-card">
-          <div class="listing-media"><span class="media-text">Circe</span></div>
-          <div class="listing-body">
-            <span class="title">Circe</span>
-            <span class="author">by Madeline Miller</span>
-            <div class="listing-tags">
-              <span class="pill pill-fantasy">Fantasy</span>
-              <span class="pill pill-mythology">Mythology</span>
-              <span class="pill pill-classics">Classics</span>
-            </div>
+    <p class="page-subtitle">Books matched to the genres in your book seeker profile.</p>
+
+    <div class="listing-grid">
+      <article class="listing-card">
+        <div class="listing-media"><span class="media-text">Circe</span></div>
+        <div class="listing-body">
+          <span class="title">Circe</span>
+          <span class="author">by Madeline Miller</span>
+          <div class="listing-tags">
+            <span class="pill pill-fantasy">Fantasy</span>
+            <span class="pill pill-mythology">Mythology</span>
+            <span class="pill pill-classics">Classics</span>
           </div>
+        </div>
         <div class="listing-card-actions">
           <a class="btn-request request-trigger" href="#" data-title="Circe" data-author="by Madeline Miller" data-tags="Fantasy • Mythology • Classics" data-owner="Available from Jordan Rivera" data-cover="C">Request Swap</a>
         </div>
@@ -127,7 +129,7 @@
   <div class="request-overlay" id="requestOverlay" aria-hidden="true">
     <div class="request-modal" role="dialog" aria-modal="true" aria-labelledby="requestModalTitle">
       <div class="modal-header">
-        <h1 id="requestModalTitle">Request A Swap</h1>
+        <h1 id="requestModalTitle">Request Swap</h1>
         <button class="modal-close" type="button" id="closeRequestOverlay">Close</button>
       </div>
 
@@ -164,7 +166,7 @@
 
   <script src="../provider-prototype/js/storage.js"></script>
   <script>
-    requireLogin("../provider-prototype/loginPage.html");
+    requireLogin("../provider-prototype/loginPage.html?redirect=customer");
 
     const requestOverlay = document.getElementById("requestOverlay");
     const closeRequestOverlay = document.getElementById("closeRequestOverlay");
@@ -221,7 +223,7 @@
 
     document.getElementById("logoutBtn").addEventListener("click", function () {
       logout();
-      window.location.href = "../provider-prototype/loginPage.html";
+      window.location.href = "../provider-prototype/loginPage.html?redirect=customer";
     });
   </script>
 </body>

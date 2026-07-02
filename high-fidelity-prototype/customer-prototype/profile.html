@@ -104,7 +104,7 @@
 
   <script src="../provider-prototype/js/storage.js"></script>
   <script>
-    requireLogin("../provider-prototype/loginPage.html");
+    requireLogin("../provider-prototype/loginPage.html?redirect=customer");
 
     const PREFERENCES_KEY = "swab_customer_preferences";
 
@@ -152,14 +152,15 @@
     document.getElementById("deleteAccountBtn").addEventListener("click", function () {
       if (confirm("Delete your member account? This will log you out.")) {
         localStorage.clear();
-        window.location.href = "../provider-prototype/loginPage.html";
+        window.location.href = "../provider-prototype/loginPage.html?redirect=customer";
       }
     });
 
     document.getElementById("logoutBtn").addEventListener("click", function () {
       logout();
-      window.location.href = "../provider-prototype/loginPage.html";
+      window.location.href = "../provider-prototype/loginPage.html?redirect=customer";
     });
   </script>
 </body>
 </html>
+
