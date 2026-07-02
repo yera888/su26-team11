@@ -20,7 +20,7 @@ function requireLogin(loginPath) {
 }
 
 function getProviderName() {
-  return localStorage.getItem(PROFILE_NAME_KEY) || "Provider Account";
+  return localStorage.getItem(PROFILE_NAME_KEY) || "Member Account";
 }
 
 function setProviderName(name) {

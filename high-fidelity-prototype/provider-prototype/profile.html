@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Provider Profile — Swap<-A->Bookaroo</title>
+  <title>Book Lister Profile — Swap-A-Bookaroo</title>
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/nav.css" />
   <link rel="stylesheet" href="css/profile.css" />
@@ -20,8 +20,32 @@
   </nav>
 
   <main class="profile-wrap">
-    <h1 class="page-title">Profile</h1>
-    <p class="page-subtitle">Manage your account, active listings, and swap history.</p>
+    <h1 class="page-title">My Profile</h1>
+    <p class="page-subtitle">Manage your book lister profile, active listings, and swap activity.</p>
+
+    <section class="profile-section">
+      <div class="section-head">
+        <h3>Book Lister Summary</h3>
+      </div>
+      <div class="summary-grid">
+        <div class="summary-card">
+          <h4>Book Lister Name</h4>
+          <p>Jordan Rivera</p>
+        </div>
+        <div class="summary-card">
+          <h4>Username</h4>
+          <p>jrivera</p>
+        </div>
+        <div class="summary-card swap-credit-card">
+          <h4 class="swap-credit-label">SWAP CREDIT</h4>
+          <p class="swap-credit-value">: 3</p>
+        </div>
+        <div class="summary-card">
+          <h4>Listings Selected</h4>
+          <p>2 books selected</p>
+        </div>
+      </div>
+    </section>
 
     <section class="profile-section">
       <div class="section-head">
@@ -76,40 +100,36 @@
 
     <section class="profile-section">
       <div class="section-head">
-        <h3>History</h3>
+        <h3>Requests & History</h3>
       </div>
 
       <div class="listing-grid">
         <article class="listing-card">
-          <div class="listing-media blurred">
-            <span class="media-text">Project Hail Mary</span>
-          </div>
           <div class="listing-body">
-            <span class="title">Project Hail Mary</span>
-            <span class="author">by Andy Weir</span>
+            <span class="title">Pending Request</span>
+            <span class="author">Maya requested The Night Circus</span>
+            <span class="isbn">Status: waiting for approval</span>
           </div>
           <div class="listing-card-actions">
-            <button class="btn-selected" type="button">Selected</button>
+            <button class="btn-request" type="button">Approve</button>
           </div>
         </article>
 
         <article class="listing-card">
-          <div class="listing-media blurred">
-            <span class="media-text">Pride and Prejudice</span>
-          </div>
           <div class="listing-body">
-            <span class="title">Pride and Prejudice</span>
-            <span class="author">by Jane Austen</span>
+            <span class="title">Recent Swap</span>
+            <span class="author">Completed with Aiden</span>
+            <span class="isbn">Status: finished</span>
           </div>
           <div class="listing-card-actions">
-            <button class="btn-selected" type="button">Selected</button>
+            <button class="btn-selected" type="button">Completed</button>
           </div>
         </article>
       </div>
     </section>
 
     <section class="account-actions">
-      <button class="btn-account" id="editProfileBtn" type="button">Edit Profile</button>
+      <a class="btn-account" href="../customer-prototype/profile.html">Edit Preferences</a>
       <button class="btn-account danger" id="deleteAccountBtn" type="button">Delete Account</button>
     </section>
   </main>
@@ -118,15 +138,8 @@
   <script>
     requireLogin();
 
-    document.getElementById("editProfileBtn").addEventListener("click", function () {
-      const name = prompt("Update your display name:", getProviderName());
-      if (name && name.trim()) {
-        setProviderName(name.trim());
-      }
-    });
-
     document.getElementById("deleteAccountBtn").addEventListener("click", function () {
-      if (confirm("Delete your provider account? This will log you out.")) {
+      if (confirm("Delete your member account? This will log you out.")) {
         localStorage.clear();
         window.location.href = "loginPage.html";
       }
@@ -139,7 +152,3 @@
   </script>
 </body>
 </html>
-
-
-
-

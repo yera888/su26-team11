@@ -45,13 +45,171 @@
 ## 2. Functional Requirements (User Stories)
 
 ### 2.1 Customer Stories
-- As a customer I want to be able to create an account to post my prefrences and find books based on them.
-- As a customer I want to select tags based on my book prefrences on my profile.  
-- As a customer I want to be able to swap books with other users based on tags I posted as my prefrences. 
-- As a customer I want to be able to request a book swap from the feed of books I am presented with. 
+- **US‑1 - Create & manage customer profile **
+    
+     _Story:_ As a customer I want to be able to create an account to post my prefrences as tags and find books based on them.
+    
+    _Acceptance:_
+    ```gherkin
+    Scenario: Register with valid credentials
+        Given I am not registered
+        When I provide valid registration details
+        Then I should be successfully registered and logged in
+    ```
+
+- **US‑2 - Find books based on prefrences**
+    
+     _Story:_ As a customer I want to be able to find books that can be swaped with other users based on tags I posted as my prefrences. 
+
+    _Acceptance:_
+    ```gherkin
+    Scenario: Browse swappable books 
+        Given I am logged in as a customer
+        When I am on my feed page
+        Then I should see books that match my prefrences and that are swappable
+    ```
+
+- **US‑3 - Swap books**
+    
+     _Story:_ As a customer I want to be able to request a book swap from the feed of books I am presented with.
+   
+    _Acceptance:_
+    ```gherkin
+    Scenario: Swap books 
+        Given I am logged in as a customer
+        When I have found a book
+        Then I should be able to send a swap request
+    ```
+
+- **US‑4 - Pending book swaps**
+    
+     _Story:_ As a customer I want to be able to veiw my curent pending book swap requets.
+    
+    _Acceptance:_
+    ```gherkin
+    Scenario: See book swap requests
+        Given I have requested a book swap
+        When I look for pending book swap requests
+        Then I should see pending book swap requests
+    ```
 
 ### 2.2 Provider Stories
-- As a provider I want to post my books by their ISBN number, three tags, and an image link.
-- As a provider I want to be able to veiw, edit, or remove any active book listing.
-- As a provider I want the books I am offering to be recorded and the history of how many of my listings have been selected by customers.
-- As a provider I want to be able to create, modify, or remove my account.
+
+- **US‑5 - Create & manage provider profile**
+
+     _Story:_ As a provider I want to be able to create, modify, or remove my account.
+
+    _Acceptance:_
+    ```gherkin
+    Scenario: Create a provider account
+        Given I do not have an account
+        When I submit the sign-up form with first name, last name, username, and password
+        Then I can log in with my credentials
+    ```
+
+- **US‑6 - Create book listings**
+
+     _Story:_ As a provider I want to post my books by their ISBN number, three tags, and an image link.
+
+    _Acceptance:_
+    ```gherkin
+    Scenario: Successfully create a listing
+        Given I am logged in as a provider
+        When I fill in title, author, ISBN, and at least 3 tags, an IMG and successfully submit
+        Then I see a confirmation that the book was added
+
+    ```
+
+- **US‑7 - Manage book listings**
+
+     _Story:_ As a provider I want to be able to veiw, edit, or remove any active book listing.
+    
+    _Acceptance:_
+    ```gherkin
+    Scenario: Manage book listings
+        Given I am logged in as a provider 
+        When I have posted a book listing
+        Then I should be able to edit the listing
+    ```
+
+- **US‑8 - Record listing history**
+
+     _Story:_ As a provider I want the books I am offering to be recorded and the history of how many of my listings have been selected by customers.
+
+    _Acceptance:_
+    ```gherkin
+    Scenario: View pending and completed requests
+        Given I am logged in as a provider
+        When I open My Profile
+        Then I see a "Requests & History" section with pending requests (Approve the swap) and finished swaps
+    ```
+
+- **US‑5 - Create & manage provider profile**
+
+     _Story:_ As a provider I want to be able to create, modify, or remove my account.
+
+    _Acceptance:_
+    ```gherkin
+    Scenario: Create a provider account
+        Given I do not have an account
+        When I submit the sign-up form with first name, last name, username, and password
+        Then I can log in with my credentials
+    ```
+
+- **US‑6 - Create book listings**
+
+     _Story:_ As a provider I want to post my books by their ISBN number, three tags, and an image link.
+
+    _Acceptance:_
+    ```gherkin
+    Scenario: Successfully create a listing
+        Given I am logged in as a provider
+        When I fill in title, author, ISBN, and at least 3 tags, an IMG and successfully submit
+        Then I see a confirmation that the book was added
+
+    ```
+
+- **US‑7 - Manage book listings**
+
+     _Story:_ As a provider I want to be able to veiw, edit, or remove any active book listing.
+    
+    _Acceptance:_
+    ```gherkin
+    Scenario: Manage book listings
+        Given I am logged in as a provider 
+        When I have posted a book listing
+        Then I should be able to edit the listing
+    ```
+
+- **US‑8 - Record listing history**
+
+     _Story:_ As a provider I want the books I am offering to be recorded and the history of how many of my listings have been selected by customers.
+
+    _Acceptance:_
+    ```gherkin
+    Scenario: View pending and completed requests from profile
+        Given I am logged in as a provider
+        When I open My Profile, 
+        Then I see a "Requests & History" section with pending requests: to Approve the swap, and all previous finished swaps
+    ```
+
+## 3. Non‑Functional Requirements (make them measurable)
+- **Performance:** The system shall use less than 160 MB of user RAM.
+- **Availability/Reliability:** The system should be available 99% of the time, with communicated maintenance time.
+- **Security/Privacy:** No sensitive data is public by default. Methods will be used to ensure user data is safe.
+- **Usability:** New users should be able to complete the registration process to find a book to swap within five minutes.
+
+## 4. Assumptions, Constraints, and Policies
+list any rules, policies, assumptions, etc.
+
+## 5. Milestones (course‑aligned)
+- **M1 Requirements** — this file + stories opened as issues.
+- **M2 High‑fidelity prototype** — core customer/provider UI flows fully interactive.
+- **M3 Design** — architecture, schema, API outline.
+- **M4 Backend API** — key endpoints + tests.
+- **M5 Increment** — ≥2 use cases end‑to‑end.
+- **M6 Final** — complete system & documentation.
+
+## 6. Change Management
+- Stories are living artifacts; changes are tracked via repository issues and linked pull requests.
+- Major changes should update this SRS.

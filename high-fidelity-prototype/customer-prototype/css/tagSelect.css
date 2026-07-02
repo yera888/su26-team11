@@ -1,4 +1,4 @@
-tag-grid {
+.tag-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;

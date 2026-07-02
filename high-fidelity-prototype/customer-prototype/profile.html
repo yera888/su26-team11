@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Customer Profile — Swap-A-Bookaroo</title>
+  <title>Book Seeker Profile — Swap-A-Bookaroo</title>
   <link rel="stylesheet" href="../provider-prototype/css/base.css" />
   <link rel="stylesheet" href="../provider-prototype/css/nav.css" />
   <link rel="stylesheet" href="../provider-prototype/css/profile.css" />
   <link rel="stylesheet" href="css/tagSelect.css" />
 </head>
 <body>
+  <!-- Navigation bar -->
   <nav class="topnav">
     <a class="brand-link" href="profile.html">Swap<-A->Bookaroo</a>
     <div class="nav-links">
@@ -19,10 +20,34 @@
     </div>
   </nav>
 
+  <!-- Main content -->
+  <!-- Top of page intro -->
   <main class="profile-wrap">
-    <h1 class="page-title">Profile</h1>
-    <p class="page-subtitle">Select the genres you're interested in so we can match you with books.</p>
+    <h1 class="page-title">My Profile</h1>
+    <p class="page-subtitle">Manage your book seeker interests, preferences, and swap requests.</p>
 
+    <!-- Profile Summary -->
+    <section class="profile-section">
+      <div class="section-head">
+        <h3>Book Seeker Summary</h3>
+      </div>
+      <div class="summary-grid">
+        <div class="summary-card">
+          <h4>Book Seeker Name</h4>
+          <p>Maya Chen</p>
+        </div>
+        <div class="summary-card">
+          <h4>Username</h4>
+          <p>mchen</p>
+        </div>
+        <div class="summary-card">
+          <h4>Preferred Tags</h4>
+          <p id="preferredTagsValue">Fantasy, Romance, Classics</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Book Preferences -->
     <section class="profile-section">
       <div class="section-head">
         <h3>Book Preferences</h3>
@@ -41,17 +66,48 @@
         <button type="button" class="tag-chip" data-tag="Poetry">Poetry</button>
         <button type="button" class="tag-chip" data-tag="Self-Help">Self-Help</button>
       </div>
-      <p class="save-hint">Tap a genre to add or remove it — that's how you edit your profile. Your matched feed updates based on the tags you select.</p>
+      <p class="save-hint">Tap a genre to update your interests. Your matched feed reflects these choices.</p>
     </section>
 
+    <!-- Swap Info -->
+    <section class="profile-section">
+      <div class="section-head">
+        <h3>Swap Requests</h3>
+      </div>
+      <div class="listing-grid">
+        <article class="listing-card">
+          <div class="listing-body">
+            <span class="title">Requested</span>
+            <span class="author">Dune requested from Jordan</span>
+            <span class="isbn">Status: pending</span>
+          </div>
+          <div class="listing-card-actions">
+            <a class="btn-request" type="button" href="swapRequests.html" style="text-align: center;">View</a>
+          </div>
+        </article>
+        <article class="listing-card">
+          <div class="listing-body">
+            <span class="title">Completed</span>
+            <span class="author">The Hobbit swapped successfully</span>
+            <span class="isbn">Status: finished</span>
+          </div>
+          <div class="listing-card-actions">
+             <button class="btn-selected" type="button">Done</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Account Actions -->
     <section class="account-actions">
+      <a class="btn-account" href="../provider-prototype/profile.html">Open Book Lister Profile</a>
       <button class="btn-account danger" id="deleteAccountBtn" type="button">Delete Account</button>
     </section>
   </main>
 
   <script src="../provider-prototype/js/storage.js"></script>
   <script>
-    requireLogin("../provider-prototype/loginPage.html");
+    requireLogin("../provider-prototype/loginPage.html?redirect=customer");
 
     const PREFERENCES_KEY = "swab_customer_preferences";
 
@@ -65,12 +121,20 @@
 
     const selected = new Set(getPreferences());
     const tagGrid = document.getElementById("tagGrid");
+    const preferredTagsValue = document.getElementById("preferredTagsValue");
+
+    function updatePreferredTagsDisplay() {
+      const tags = Array.from(selected);
+      preferredTagsValue.textContent = tags.length ? tags.join(", ") : "No preferences selected";
+    }
 
     document.querySelectorAll(".tag-chip").forEach((chip) => {
       if (selected.has(chip.dataset.tag)) {
         chip.classList.add("selected");
       }
     });
+
+    updatePreferredTagsDisplay();
 
     tagGrid.addEventListener("click", function (e) {
       const chip = e.target.closest(".tag-chip");
@@ -85,19 +149,21 @@
         chip.classList.add("selected");
       }
       savePreferences([...selected]);
+      updatePreferredTagsDisplay();
     });
 
     document.getElementById("deleteAccountBtn").addEventListener("click", function () {
-      if (confirm("Delete your customer account? This will log you out.")) {
+      if (confirm("Delete your member account? This will log you out.")) {
         localStorage.clear();
-        window.location.href = "../provider-prototype/loginPage.html";
+        window.location.href = "../provider-prototype/loginPage.html?redirect=customer";
       }
     });
 
     document.getElementById("logoutBtn").addEventListener("click", function () {
       logout();
-      window.location.href = "../provider-prototype/loginPage.html";
+      window.location.href = "../provider-prototype/loginPage.html?redirect=customer";
     });
   </script>
 </body>
 </html>
+
