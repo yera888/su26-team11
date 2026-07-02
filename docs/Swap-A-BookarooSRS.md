@@ -47,7 +47,7 @@
 ### 2.1 Customer Stories
 - **US‑1 - Create & manage customer profile **
     
-     _Story:_ As a customer I want to be able to create an account to post my prefrences and find books based on them.
+     _Story:_ As a customer I want to be able to create an account to post my prefrences as tags and find books based on them.
     
     _Acceptance:_
     ```gherkin
@@ -144,9 +144,9 @@
     ```
 
 ## 3. Non‑Functional Requirements (make them measurable)
-- **Performance:** 
+- **Performance:** The system shall use less than 160 MB of user RAM.
 - **Availability/Reliability:** The system should be available 99% of the time, with communicated maintenance time.
-- **Security/Privacy:** The system must implement secure authentication and authorization. All sensitive data should be encrypted in transit and at rest.
+- **Security/Privacy:** No sensitive data is public by default. Methods will be used to ensure user data is safe.
 - **Usability:** New users should be able to complete the registration process to find a book to swap within five minutes.
 
 ## 4. Assumptions, Constraints, and Policies
