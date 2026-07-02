@@ -173,4 +173,17 @@ body.overlay-open {
   }
 }
 
-
+/*
+  Keeps the cards in a consestent size with each other.
+  Prevents one card from tacking up the whole screen.
+*/
+.listing-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .listing-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
