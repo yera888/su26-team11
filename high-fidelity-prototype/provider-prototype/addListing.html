@@ -13,7 +13,7 @@
   <nav class="topnav">
     <a class="brand-link" href="profile.html">Swap-A-Bookaroo</a>
     <div class="nav-links">
-      <a href="myFeed.html">My Feed</a>
+      <a href="myFeed.html">Book Feed</a>
       <a href="profile.html">Profile</a>
       <a href="addListing.html">Add Book</a>
       <button type="button" id="logoutBtn">Log out</button>
@@ -46,9 +46,9 @@
       </div>
 
       <div>
-        <label class="label" for="tags">Tags (genres)</label>
+        <label class="label" for="tags">Tags (Book Genres)</label>
         <input class="input" id="tags" list="tagOptions" type="text" placeholder="Fantasy, Sci-Fi, Romance" required />
-        <p class="tag-hint">Enter at least 3 tags.</p>
+        <p class="tag-hint">Must Enter at least 3 tags.</p>
         <datalist id="tagOptions">
           <option value="Sci-Fi"></option>
           <option value="Fantasy"></option>
@@ -74,7 +74,7 @@
     </form>
 
     <p class="hint-credentials" id="successMessage" style="display:none;">
-      Book added! 
+      Book added!
     </p>
   </main>
 
@@ -107,3 +107,5 @@
   </script>
 </body>
 </html>
+
+

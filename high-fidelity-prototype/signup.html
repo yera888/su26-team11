@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Login — Swap-A-Bookaroo</title>
+  <title>Sign Up — Swap-A-Bookaroo</title>
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/loginPage.css" />
 </head>
@@ -11,48 +11,50 @@
   <div class="logincontainer">
     <div class="loginbox">
       <h1 class="brand">Swap-A-Bookaroo</h1>
-      <p class="subhead">Welcome back</p>
+      <p class="subhead">Create your Member account</p>
 
-      <form class="form" id="loginForm">
-        <label class="label" for="username">Username</label>
-        <input class="input" id="username" name="username" type="text" placeholder="username" required />
+      <form class="form" id="signupForm">
+        <label class="label" for="first-name">First name</label>
+        <input class="input" id="first-name" name="first_name" type="text" placeholder="First name" required />
 
-        <label class="label" for="password">Password</label>
-        <input class="input" id="password" name="password" type="password" placeholder="password" required />
+        <label class="label" for="last-name">Last name</label>
+        <input class="input" id="last-name" name="last_name" type="text" placeholder="Last name" required />
 
-        <p class="error-message" id="loginError"></p>
+        <label class="label" for="signup-username">Username</label>
+        <input class="input" id="signup-username" name="username" type="text" placeholder="Choose a username" required />
+
+        <label class="label" for="signup-password">Password</label>
+        <input class="input" id="signup-password" name="password" type="password" placeholder="Choose a password" required />
 
         <div class="actions">
-          <button class="btn" type="submit">Continue</button>
+          <button class="btn" type="submit">Create account</button>
         </div>
       </form>
 
-      <p class="hint-credentials">Demo login — username: <strong>username</strong>, password: <strong>password</strong></p>
+      <p class="hint-credentials" id="signupMessage" style="display:none;">
+        Account created! This is a prototype, so log in with username: <strong>username</strong>, password: <strong>password</strong>.
+      </p>
 
       <div class="switch">
-        Don't have an account?
-        <a href="signup.html">Sign up</a>
+        Already have an account?
+        <a href="loginPage.html" id="loginLink">Log in</a>
       </div>
 
-      <footer class="small">By continuing you agree to our Terms &amp; Privacy.</footer>
-      <footer class="small">You can <strong>NOT</strong> list or swap books unless you have an account.</footer>
+      <footer class="small">By creating an account you agree to our Terms &amp; Privacy.</footer>
+      <footer class="small">You can <strong>NOT</strong> list or swap books unless you have a Member account.</footer>
     </div>
   </div>
 
-  <script src="js/storage.js"></script>
   <script>
-    document.getElementById("loginForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value;
-      const errorEl = document.getElementById("loginError");
+    const redirect = new URLSearchParams(window.location.search).get("redirect");
+    if (redirect) {
+      document.getElementById("loginLink").href = "loginPage.html?redirect=" + redirect;
+    }
 
-      if (username === "username" && password === "password") {
-        login();
-        window.location.href = "profile.html";
-      } else {
-        errorEl.textContent = "Invalid username or password.";
-      }
+    document.getElementById("signupForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      document.getElementById("signupMessage").style.display = "block";
+      document.getElementById("signupForm").reset();
     });
   </script>
 </body>
