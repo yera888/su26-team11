@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Swap Requests</title>
+    <title>Swap Requests — Swap-A-Bookaroo</title>
     <link rel="stylesheet" href="../provider-prototype/css/base.css" />
     <link rel="stylesheet" href="../provider-prototype/css/nav.css" />
     <link rel="stylesheet" href="../provider-prototype/css/profile.css" />
     <link rel="stylesheet" href="css/requestOverlay.css?v=2" />
-    <link rel="stylesheet" href="css/tagSelect.css" />
 </head>
 <body>
     <!-- Navigation bar -->
     <nav class="topnav">
-        <a class="brand-link" href="profile.html">Swap<-A->Bookaroo</a>
+        <a class="brand-link" href="profile.html">Swap-A-Bookaroo</a>
         <div class="nav-links">
             <a href="myFeed.html">My Feed</a>
+            <a href="swapRequests.html">Swap Requests</a>
             <a href="profile.html">Profile</a>
         <button type="button" id="logoutBtn">Log out</button>
         </div>
@@ -23,10 +23,10 @@
 <!-- Main content -->
     <main class="profile-wrap">
         <h1 class="page-title">Requested Books</h1>
-        <p></p>
+        <p class="page-subtitle">Books you've requested that are still awaiting a swap.</p>
 
         <div class="listing-grid">
-            
+
             <article class="listing-card">
                 <div class="listing-media"><span class="media-text">Dune</span></div>
                 <div class="listing-body">
@@ -34,26 +34,26 @@
                     <span class="author">by Frank Herbert</span>
                 <div class="listing-tags">
                     <span class="pill pill-sci-fi">Sci-Fi</span>
-                    <span class="pill pill-Drama">Drama</span>
-                    <span class="pill pill-classics">Adventure</span>
+                    <span class="pill pill-drama">Drama</span>
+                    <span class="pill pill-adventure">Adventure</span>
                 </div>
                 </div>
                 <div class="listing-card-actions">
                     <a class="btn-request request-trigger" href="#" data-title="Dune" data-author="by Frank Herbert" data-tags="Sci-Fi • Drama • Adventure" data-owner="Available from Jordan Rivera" data-cover="D">Cancel Request</a>
                 </div>
             </article>
-        
+
         </div>
     </main>
 
    <div class="request-overlay" id="requestOverlay" aria-hidden="true">
-    <div class="request-modal" role="dialog" aria-modal="true" aria-labelledby="requestModalTitle">
+    <div class="request-modal" role="dialog" aria-modal="true" aria-labelledby="requestModalTitle" style="width: min(92vw, 520px);">
       <div class="modal-header">
         <h1 id="requestModalTitle">Cancel Request</h1>
         <button class="modal-close" type="button" id="closeRequestOverlay">Close</button>
       </div>
 
-      <div class="request-content">
+      <div class="request-content" style="grid-template-columns: 1fr;">
         <div class="request-panel">
           <h2>Selected Book</h2>
           <div class="book-card">

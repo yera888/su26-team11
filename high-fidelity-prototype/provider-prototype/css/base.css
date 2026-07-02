@@ -1,5 +1,6 @@
 html { font-size: 62.5%; }
 
+
 * { box-sizing: border-box; }
 
 body {
@@ -55,5 +56,4 @@ button, input, textarea, select {
   font-family: "Vilaka Modern Serif", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
 }
 .btn-secondary:hover { opacity: .8; }
-
 

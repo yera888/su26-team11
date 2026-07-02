@@ -67,6 +67,7 @@ body.overlay-open {
   align-items: center;
 }
 
+
 .request-panel h2 {
   margin: 0 0 0.8rem;
   font-size: 1.2rem;
@@ -81,7 +82,6 @@ body.overlay-open {
   align-items: center;
   padding: 0.9rem;
   background: #fff;
-  border: 1px solid #111;
   min-height: 190px;
   width: 100%;
   box-sizing: border-box;
@@ -107,7 +107,6 @@ body.overlay-open {
   background: linear-gradient(135deg, #f6efe7, #d8c0a3);
   color: #4b2b1d;
 }
-
 
 
 .book-details h3,
@@ -173,17 +172,4 @@ body.overlay-open {
   }
 }
 
-/*
-  Keeps the cards in a consestent size with each other.
-  Prevents one card from tacking up the whole screen.
-*/
-.listing-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-}
-@media (min-width: 768px) {
-  .listing-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
+
