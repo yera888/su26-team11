@@ -48,3 +48,52 @@
 
 
 ### 2.2 Provider Stories
+
+- **US‑5 - Create & manage provider profile**
+
+     _Story:_ As a provider I want to be able to create, modify, or remove my account.
+
+    _Acceptance:_
+    ```gherkin
+    Scenario: Create a provider account
+        Given I do not have an account
+        When I submit the sign-up form with first name, last name, username, and password
+        Then I can log in with my credentials
+    ```
+
+- **US‑6 - Create book listings**
+
+     _Story:_ As a provider I want to post my books by their ISBN number, three tags, and an image link.
+
+    _Acceptance:_
+    ```gherkin
+    Scenario: Successfully create a listing
+        Given I am logged in as a provider
+        When I fill in title, author, ISBN, and at least 3 tags, an IMG and successfully submit
+        Then I see a confirmation that the book was added
+
+    ```
+
+- **US‑7 - Manage book listings**
+
+     _Story:_ As a provider I want to be able to veiw, edit, or remove any active book listing.
+    
+    _Acceptance:_
+    ```gherkin
+    Scenario: Manage book listings
+        Given I am logged in as a provider 
+        When I have posted a book listing
+        Then I should be able to edit the listing
+    ```
+
+- **US‑8 - Record listing history**
+
+     _Story:_ As a provider I want the books I am offering to be recorded and the history of how many of my listings have been selected by customers.
+
+    _Acceptance:_
+    ```gherkin
+    Scenario: View pending and completed requests
+        Given I am logged in as a provider
+        When I open My Profile
+        Then I see a "Requests & History" section with pending requests (Approve the swap) and finished swaps
+    ```
