@@ -1,4 +1,4 @@
-package com.csc340.Swap_A_Bookaroo.BackendAPI;
+package com.csc340.Swap_A_Bookaroo.entities;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
