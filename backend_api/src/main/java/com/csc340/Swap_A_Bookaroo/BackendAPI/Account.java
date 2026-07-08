@@ -1,4 +1,4 @@
-package swapBackendAPI;
+package com.csc340.Swap_A_Bookaroo.BackendAPI;
 
 import jakarta.persistence.Id;
 import jakarta.persistence.Column;
