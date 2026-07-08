@@ -1,10 +1,15 @@
 package com.csc340.Swap_A_Bookaroo.entities;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -57,4 +62,8 @@ public class CustomerProfile extends Account {
     public void viewPendingRequests() {
         // View pending requests logic here
     }
+
+    @OneToMany(mappedBy = "customerProfile")
+    @JsonIgnoreProperties({"customer"})
+    private List<CustomerPreference> preferences;
 }
