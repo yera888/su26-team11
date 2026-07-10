@@ -25,11 +25,8 @@
 
 ## 1. Overview
 
-The Swap-A-Bookaroo backend exposes a RESTful API for a genre-based book-swapping platform. The system allows customers to find books based on genre preferences and allows providers to list books they want to swap with other users.
+The Swap-A-Bookaroo backend demonstrates to API for a genre-based book-swapping platform. The system allows customers to find books based on genre preferences and allows providers to list books they want to swap with other users.
 
-This backend supports provider profile creation, book listing creation, listing management, swap request tracking, and provider swap history. Providers can create an account, manage their provider profile, post books using title, author, ISBN, genre tags, and an uploaded image or image path, and view requests from customers who are interested in swapping.
-
-Customer-side API details are intentionally left blank for the customer-side developer to complete.
 
 ---
 
@@ -43,7 +40,6 @@ Customer-side API details are intentionally left blank for the customer-side dev
 
 ### 3.1 Customer Endpoints
 
-Customer-side endpoints will be completed by the customer-side developer.
 
 #### Create a customer
 
