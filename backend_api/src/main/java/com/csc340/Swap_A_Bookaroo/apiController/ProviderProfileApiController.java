@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,17 +63,6 @@ public class ProviderProfileApiController {
         return ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/{providerProfileId}")
-    public ResponseEntity<ProviderProfile> updateProviderProfile(@PathVariable Long providerProfileId,
-            @RequestBody ProviderProfile updatedProviderProfile) {
-        ProviderProfile providerProfile = providerProfileService.updateProviderProfile(providerProfileId,
-                updatedProviderProfile);
-        if (providerProfile != null) {
-            return ResponseEntity.ok(providerProfile);
-        }
-        return ResponseEntity.notFound().build();
-    }
-
     @DeleteMapping("/{providerProfileId}")
     public ResponseEntity<Void> deleteProviderProfile(@PathVariable Long providerProfileId) {
         boolean deleted = providerProfileService.deleteProviderProfile(providerProfileId);
@@ -112,3 +100,5 @@ public class ProviderProfileApiController {
     }
 
 }
+
+

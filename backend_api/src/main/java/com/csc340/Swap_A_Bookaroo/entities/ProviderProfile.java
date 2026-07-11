@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,27 +32,16 @@ public class ProviderProfile {
     @JsonIgnoreProperties({ "password", "description" })
     private Account account;
 
-    @Column(columnDefinition = "TEXT")
-    private String bio;
-
     private int swapCreditBalance;
 
     @OneToMany(mappedBy = "providerProfile")
     @JsonIgnoreProperties({ "providerProfile" })
     private List<BookListing> bookListings;
 
-    public ProviderProfile(Account account, String bio) {
+    public ProviderProfile(Account account) {
         this.account = account;
-        this.bio = bio;
         this.swapCreditBalance = 0;
     }
 
-    public void createProviderProfile(String bio) {
-        this.bio = bio;
-    }
-
-    public void updateProviderProfile(String bio) {
-        this.bio = bio;
-    }
-
 }
+

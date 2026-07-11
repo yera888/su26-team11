@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -17,22 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CustomerProfile extends Account {
 
-    @Column(columnDefinition = "TEXT")
-    private String bio;
-    // Constructor
-    public CustomerProfile(String bio) {
-        this.bio = bio;
-    }
-
     // Methods
-    public void createCustomerProfile(String bio) {
-        this.bio = bio;
-    }
-
-    public void updateCustomerProfile(String bio) {
-        this.bio = bio;
-    }
-
     public void addpreference(Tag tag) {
         // Add preference logic here
     }
@@ -57,3 +41,9 @@ public class CustomerProfile extends Account {
     @JsonIgnoreProperties({"customer"})
     private List<CustomerPreference> preferences;
 }
+
+
+
+
+
+
