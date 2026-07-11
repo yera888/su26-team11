@@ -158,7 +158,32 @@ Example request body:
 
 ```json
 {
+  "bio": "Updated bio: Big fan of classic sci-fi, cyberpunk world-building, and high-fantasy series like Lord of the Rings."
+}
+```
 
+Example response:
+
+```json
+{
+	"customerProfileId": 1,
+	"account": {
+		"accountId": 1,
+		"firstName": "Jacob",
+		"lastName": "McGinniss",
+		"username": "jacob_c"
+	},
+	"bio": "Updated bio: Big fan of classic sci-fi, cyberpunk world-building, and high-fantasy series like Lord of the Rings.",
+	"preferences": [
+		{
+			"tagId": 4,
+			"tagName": "Sci-Fi"
+		},
+		{
+			"tagId": 5,
+			"tagName": "Classic"
+		}
+	]
 }
 ```
 
@@ -182,10 +207,40 @@ Example request body:
 }
 ```
 
+Example response:
+
+```json
+[
+	{
+		"customerProfile": {
+			"customerProfileId": 1,
+			"bio": "Avid reader focusing on high-fantasy and sci-fi classics."
+		},
+		"tagId": 4,
+		"tagName": "Sci-Fi"
+	}
+]
+```
+
 #### Get customer preference tags
 
 ```http
  GET /api/customer-profiles/{customerProfileId}/preferences
+```
+
+Example response:
+
+```json
+[
+	{
+		"customerProfile": {
+			"customerProfileId": 1,
+			"bio": "Avid reader focusing on high-fantasy and sci-fi classics."
+		},
+		"tagId": 4,
+		"tagName": "Sci-Fi"
+	}
+]
 ```
 
 #### Remove a customer preference tag
@@ -194,10 +249,66 @@ Example request body:
  DELETE /api/customer-profiles/{customerProfileId}/preferences/{tagId}
 ```
 
+```json
+[
+	{
+		"customerProfile": {
+			"customerProfileId": 1,
+			"bio": "Avid reader focusing on high-fantasy and sci-fi classics."
+		},
+		"tagId": 4,
+		"tagName": "Sci-Fi"
+	}
+]
+```
+
 #### Get matched book feed for a customer
 
 ```http
  GET /api/customer-profiles/{customerProfileId}/feed
+```
+
+```json
+[
+	{
+		"listingId": 1,
+		"providerProfile": {
+			"providerProfileId": 1,
+			"bio": "Local textbook distributor and independent bookstore owner.",
+			"swapCreditBalance": 10
+		},
+		"isbn": "978-0143111597",
+		"title": "Dune",
+		"author": "Frank Herbert",
+		"IMG": "https://example.com/covers/dune.jpg",
+		"status": "AVAILABLE",
+		"datePosted": "2026-07-11 03:47",
+		"listingTags": [
+			{
+				"listingTagId": 1,
+				"tag": {
+					"tagId": 1,
+					"tagName": "Sci-Fi"
+				}
+			},
+			{
+				"listingTagId": 2,
+				"tag": {
+					"tagId": 2,
+					"tagName": "Classic"
+				}
+			},
+			{
+				"listingTagId": 3,
+				"tag": {
+					"tagId": 3,
+					"tagName": "Adventure"
+				}
+			}
+		],
+		"tagNames": null
+	}
+]
 ```
 
 #### Create a swap request
@@ -210,7 +321,12 @@ Request body:
 
 ```json
 {
-
+  "customerProfile": {
+    "customerProfileId": 1
+  },
+  "bookListing": {
+    "listingId": 1
+  }
 }
 ```
 
@@ -218,7 +334,54 @@ Example response:
 
 ```json
 {
-
+	"requestId": 1,
+	"customerProfile": {
+		"customerProfileId": 1,
+		"account": {
+			"accountId": 1,
+			"firstName": "Jacob",
+			"lastName": "McGinniss",
+			"username": "jacob_c"
+		},
+		"bio": "Avid reader focusing on high-fantasy and sci-fi classics."
+	},
+	"bookListing": {
+		"listingId": 1,
+		"isbn": "978-0143111597",
+		"title": "Dune",
+		"author": "Frank Herbert",
+		"IMG": "https://example.com/covers/dune.jpg",
+		"status": "AVAILABLE",
+		"datePosted": "2026-07-11 03:47",
+		"listingTags": [
+			{
+				"listingTagId": 1,
+				"tag": {
+					"tagId": 1,
+					"tagName": "Sci-Fi"
+				}
+			},
+			{
+				"listingTagId": 2,
+				"tag": {
+					"tagId": 2,
+					"tagName": "Classic"
+				}
+			},
+			{
+				"listingTagId": 3,
+				"tag": {
+					"tagId": 3,
+					"tagName": "Adventure"
+				}
+			}
+		],
+		"tagNames": null
+	},
+	"status": "PENDING",
+	"requestDate": "2026-07-11 03:53",
+	"responseDate": null,
+	"completedDate": null
 }
 ```
 
@@ -226,6 +389,61 @@ Example response:
 
 ```http
  GET /api/swap-requests/customer/{customerProfileId}/pending
+```
+
+Example response:
+
+```json
+{
+	"requestId": 1,
+	"customerProfile": {
+		"customerProfileId": 1,
+		"account": {
+			"accountId": 1,
+			"firstName": "Jacob",
+			"lastName": "McGinniss",
+			"username": "jacob_c"
+		},
+		"bio": "Avid reader focusing on high-fantasy and sci-fi classics."
+	},
+	"bookListing": {
+		"listingId": 1,
+		"isbn": "978-0143111597",
+		"title": "Dune",
+		"author": "Frank Herbert",
+		"IMG": "https://example.com/covers/dune.jpg",
+		"status": "AVAILABLE",
+		"datePosted": "2026-07-11 03:47",
+		"listingTags": [
+			{
+				"listingTagId": 1,
+				"tag": {
+					"tagId": 1,
+					"tagName": "Sci-Fi"
+				}
+			},
+			{
+				"listingTagId": 2,
+				"tag": {
+					"tagId": 2,
+					"tagName": "Classic"
+				}
+			},
+			{
+				"listingTagId": 3,
+				"tag": {
+					"tagId": 3,
+					"tagName": "Adventure"
+				}
+			}
+		],
+		"tagNames": null
+	},
+	"status": "PENDING",
+	"requestDate": "2026-07-11 03:53",
+	"responseDate": null,
+	"completedDate": null
+}
 ```
 
 ---
