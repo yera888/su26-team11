@@ -50,7 +50,13 @@ Request body:
 
 ```json
 {
-
+  "account": {
+    "firstName": "Jacob",
+    "lastName": "McGinniss",
+    "username": "jacob_c",
+    "password": "securePassword123"
+  },
+  "bio": "Avid reader focusing on high-fantasy and sci-fi classics."
 }
 ```
 
@@ -58,7 +64,15 @@ Example response:
 
 ```json
 {
-
+	"customerProfileId": 1,
+	"account": {
+		"accountId": 1,
+		"firstName": "Jacob",
+		"lastName": "McGinniss",
+		"username": "jacob_c"
+	},
+	"bio": "Avid reader focusing on high-fantasy and sci-fi classics.",
+	"preferences": null
 }
 ```
 
@@ -68,16 +82,70 @@ Example response:
  GET /api/customer-profiles
 ```
 
+Example response:
+
+```json
+[
+	{
+		"customerProfileId": 1,
+		"account": {
+			"accountId": 1,
+			"firstName": "Jacob",
+			"lastName": "McGinniss",
+			"username": "jacob_c"
+		},
+		"bio": "Avid reader focusing on high-fantasy and sci-fi classics.",
+		"preferences": []
+	}
+]
+```
+
 #### Get a customer by id
 
 ```http
  GET /api/customer-profiles/{customerProfileId}
 ```
 
+Example response:
+
+```json
+[
+	{
+		"customerProfileId": 1,
+		"account": {
+			"accountId": 1,
+			"firstName": "Jacob",
+			"lastName": "McGinniss",
+			"username": "jacob_c"
+		},
+		"bio": "Avid reader focusing on high-fantasy and sci-fi classics.",
+		"preferences": []
+	}
+]
+```
+
 #### Get a customer by account id
 
 ```http
  GET /api/customer-profiles/account/{accountId}
+```
+
+Example response:
+
+```json
+[
+	{
+		"customerProfileId": 1,
+		"account": {
+			"accountId": 1,
+			"firstName": "Jacob",
+			"lastName": "McGinniss",
+			"username": "jacob_c"
+		},
+		"bio": "Avid reader focusing on high-fantasy and sci-fi classics.",
+		"preferences": []
+	}
+]
 ```
 
 #### Update a customer profile
@@ -110,7 +178,7 @@ Example request body:
 
 ```json
 {
-
+  "tagName": "Sci-Fi"
 }
 ```
 
