@@ -2,68 +2,43 @@ package com.csc340.Swap_A_Bookaroo.entities;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import jakarta.persistence.Column;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 
 @Entity
-@Table(name = "Profiles")
-@Data
+@Table(name = "customer_profiles")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerProfile extends Account {
-
-    // Data fields 
+public class CustomerProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long customerId;
+    private Long id;
 
-    @Column(columnDefinition = "TEXT")
-    private String bio;
-    // Constructor
-    public CustomerProfile(String bio) {
-        this.bio = bio;
-    }
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "account_id", nullable = false, unique = true)
+    private Account account;
 
-    // Methods
-    public void createCustomerProfile(String bio) {
-        this.bio = bio;
-    }
-
-    public void updateCustomerProfile(String bio) {
-        this.bio = bio;
-    }
-
-    public void addpreference(Tag tag) {
-        // Add preference logic here
-    }
-
-    public void removepreference(Tag tag) {
-        // Remove preference logic here
-    }
-
-    public void viewMatchedFeed(){
-        // View matched feed logic here
-    }
-
-    public void requestSwap(BookListing listing) {
-        // Request swap logic here
-    }
-
-    public void viewPendingRequests() {
-        // View pending requests logic here
-    }
-
-    @OneToMany(mappedBy = "customerProfile")
-    @JsonIgnoreProperties({"customer"})
-    private List<CustomerPreference> preferences;
+    // Many-to-Many mapping to represent the "CustomerPreference chooses Tag" relationship
+    @ManyToMany
+    @JoinTable(
+        name = "customer_preferences",
+        joinColumns = @JoinColumn(name = "customer_profile_id"),
+        inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<Tag> preferences;
 }
