@@ -7,33 +7,33 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Table(name = "Profiles")
-@Data
+@Table(name = "accounts")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Account {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long accountId;
+    private Long id;
 
     @Column(nullable = false)
-    private String userName;
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false, unique = true)
+    private String username;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String description;
-
-    public Account(String userName, String password, String description) {
-        this.userName = userName;
-        this.password = password;
-        this.description = description;
-    }
-
+    @Column(nullable = false)
+    private String role; // "CUSTOMER" or "PROVIDER"
 }
