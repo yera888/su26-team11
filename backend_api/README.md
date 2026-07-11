@@ -50,7 +50,12 @@ Request body:
 
 ```json
 {
-
+  "account": {
+    "firstName": "Yeraldine",
+    "lastName": "Tamayo",
+    "username": "yeraldine_provider",
+    "password": "password123"
+  },
 }
 ```
 
@@ -58,7 +63,16 @@ Example response:
 
 ```json
 {
-
+  "customerProfileId": 1,
+  "account": {
+    "accountId": 1,
+    "firstName": "Yeraldine",
+    "lastName": "Tamayo",
+    "username": "yeraldine_provider",
+    "role": "PROVIDER"
+  },
+  "swapCreditBalance": 0,
+  "bookListings": []
 }
 ```
 

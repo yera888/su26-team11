@@ -27,7 +27,7 @@ import lombok.Setter;
 public class CustomerProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long customerProfileId;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "account_id", nullable = false, unique = true)

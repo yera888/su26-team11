@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.csc340.Swap_A_Bookaroo.entities.CustomerProfile;
 import com.csc340.Swap_A_Bookaroo.entities.Tag;
 import com.csc340.Swap_A_Bookaroo.service.CustomerProfileService;
-import com.csc340.Swap_A_Bookaroo.service.SwapRequestService;
 
 @RestController
 @RequestMapping("/api/customer-profiles")
@@ -25,9 +24,6 @@ public class CustomerProfileController {
 
     @Autowired
     private CustomerProfileService customerProfileService;
-
-    @Autowired
-    private SwapRequestService swapRequestService;
 
     @PostMapping
     public ResponseEntity<CustomerProfile> createCustomer(@RequestBody CustomerProfile profile) {

@@ -5,22 +5,20 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.csc340.Swap_A_Bookaroo.entities.Account;
 import com.csc340.Swap_A_Bookaroo.entities.CustomerProfile;
 import com.csc340.Swap_A_Bookaroo.entities.Tag;
-import com.csc340.Swap_A_Bookaroo.repository.AccountRepository;
 import com.csc340.Swap_A_Bookaroo.repository.CustomerProfileRepository;
 import com.csc340.Swap_A_Bookaroo.repository.TagRepository;
 
 @Service
+@Transactional
 public class CustomerProfileService {
 
     @Autowired
     private CustomerProfileRepository customerProfileRepository;
-
-    @Autowired
-    private AccountRepository accountRepository;
 
     @Autowired
     private TagRepository tagRepository;
