@@ -1,27 +1,23 @@
 package com.csc340.Swap_A_Bookaroo.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Table(name = "tags")
-@Getter
-@Setter
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Tag {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long tagId;
 
-    @Column(nullable = false, unique = true)
     private String tagName;
+
+    public void createTag(String tagName) { this.tagName = tagName; }
+    public void updateTag(String tagName) { this.tagName = tagName; }
 }

@@ -1,48 +1,70 @@
 package com.csc340.Swap_A_Bookaroo.entities;
 
-import java.time.LocalDate;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "swap_requests")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class SwapRequest {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long requestId;
 
     @ManyToOne
     @JoinColumn(name = "customer_profile_id", nullable = false)
-    private CustomerProfile customerProfile; 
+    @JsonIgnoreProperties({ "preferences" })
+    private CustomerProfile customerProfile;
 
     @ManyToOne
-    @JoinColumn(name = "provider_profile_id", nullable = false)
-    private ProviderProfile providerProfile; 
+    @JoinColumn(name = "listing_id", nullable = false)
+    @JsonIgnoreProperties({ "providerProfile" })
+    private BookListing bookListing;
 
-    @ManyToOne
-    @JoinColumn(name = "book_listing_id", nullable = false)
-    private BookListing bookListing; 
+    @Enumerated(EnumType.STRING)
+    private SwapRequestStatus status;
 
-    @Column(nullable = false)
-    private String status; // "PENDING", "APPROVED", "REJECTED", "COMPLETED"
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private Date requestDate;
 
-    private String requestMessage;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private Date responseDate;
 
-    @Column(nullable = false)
-    private LocalDate requestDate = LocalDate.now();
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private Date completedDate;
+
+    @PrePersist
+    protected void onCreate() {
+        this.requestDate = new Date();
+        if (this.status == null) {
+            this.status = SwapRequestStatus.PENDING;
+        }
+    }
+
+    public void approveRequest() {
+        this.status = SwapRequestStatus.APPROVED;
+        this.responseDate = new Date();
+    }
+
+    public void rejectRequest() {
+        this.status = SwapRequestStatus.REJECTED;
+        this.responseDate = new Date();
+    }
+
+    public void cancelRequest() { this.status = SwapRequestStatus.CANCELLED; }
+    public void completeSwap() {
+        this.status = SwapRequestStatus.COMPLETED;
+        this.completedDate = new Date();
+    }
 }

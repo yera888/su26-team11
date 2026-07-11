@@ -1,34 +1,30 @@
 package com.csc340.Swap_A_Bookaroo.entities;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 
 @Entity
 @Table(name = "book_listings")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookListing {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long listingId;
+
+    @ManyToOne
+    @JoinColumn(name = "provider_profile_id", nullable = false)
+    @JsonIgnoreProperties({ "bookListings", "account" })
+    private ProviderProfile providerProfile;
 
     @Column(nullable = false)
     private String isbn;
@@ -39,24 +35,33 @@ public class BookListing {
     @Column(nullable = false)
     private String author;
 
-    @Column(name = "img_url")
-    private String img;
+    @JsonProperty("IMG")
+    private String imageLink;
 
-    @Column(nullable = false)
-    private String status; // "AVAILABLE", "REQUESTED", "SWAPPED"
+    @Enumerated(EnumType.STRING)
+    private ListingStatus status;
 
-    @Column(nullable = false)
-    private LocalDateTime datePosted = LocalDateTime.now();
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private Date datePosted;
 
-    @ManyToOne
-    @JoinColumn(name = "provider_profile_id", nullable = false)
-    private ProviderProfile providerProfile;
+    @OneToMany(mappedBy = "bookListing", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({ "bookListing" })
+    private List<ListingTag> listingTags;
 
-    @ManyToMany
-    @JoinTable(
-        name = "listing_tags_map",
-        joinColumns = @JoinColumn(name = "book_listing_id"),
-        inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
-    private List<Tag> listingTags;
+    @Transient
+    private List<String> tagNames;
+
+    @PrePersist
+    protected void onCreate() {
+        this.datePosted = new Date();
+        if (this.status == null) {
+            this.status = ListingStatus.AVAILABLE;
+        }
+    }
+
+    public void markRequested() { this.status = ListingStatus.REQUESTED; }
+    public void markAvailable() { this.status = ListingStatus.AVAILABLE; }
+    public void markSwapped() { this.status = ListingStatus.SWAPPED; }
+    public void markRemoved() { this.status = ListingStatus.REMOVED; }
 }

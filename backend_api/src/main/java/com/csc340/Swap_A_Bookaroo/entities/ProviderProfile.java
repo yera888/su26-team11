@@ -1,36 +1,34 @@
 package com.csc340.Swap_A_Bookaroo.entities;
 
 import java.util.List;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "provider_profiles")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProviderProfile {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long providerProfileId;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "account_id", nullable = false, unique = true)
+    @ManyToOne
+    @JoinColumn(name = "account_id", nullable = false)
+    @JsonIgnoreProperties({ "password", "role" })
     private Account account;
 
-    @OneToMany(mappedBy = "providerProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Column(columnDefinition = "TEXT")
+    private String bio;
+
+    private int swapCreditBalance;
+
+    @OneToMany(mappedBy = "providerProfile", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({ "providerProfile" })
     private List<BookListing> bookListings;
 }
