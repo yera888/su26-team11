@@ -10,6 +10,7 @@ import com.csc340.Swap_A_Bookaroo.repository.*;
 @Service
 public class CustomerProfileService {
 
+    private final SwapRequestRepository swapRequestRepository;
     private final CustomerProfileRepository customerProfileRepository;
     private final AccountRepository accountRepository;
     private final TagRepository tagRepository;
@@ -17,15 +18,17 @@ public class CustomerProfileService {
     private final BookListingRepository bookListingRepository;
 
     public CustomerProfileService(CustomerProfileRepository customerProfileRepository,
-                                  AccountRepository accountRepository,
-                                  TagRepository tagRepository,
-                                  CustomerPreferenceRepository customerPreferenceRepository,
-                                  BookListingRepository bookListingRepository) {
+                                AccountRepository accountRepository,
+                                TagRepository tagRepository,
+                                CustomerPreferenceRepository customerPreferenceRepository,
+                                BookListingRepository bookListingRepository,
+                                SwapRequestRepository swapRequestRepository) {
         this.customerProfileRepository = customerProfileRepository;
         this.accountRepository = accountRepository;
         this.tagRepository = tagRepository;
         this.customerPreferenceRepository = customerPreferenceRepository;
         this.bookListingRepository = bookListingRepository;
+        this.swapRequestRepository = swapRequestRepository;
     }
 
     @Transactional
@@ -64,6 +67,11 @@ public class CustomerProfileService {
     public boolean deleteCustomerProfile(Long id) {
         CustomerProfile profile = customerProfileRepository.findById(id).orElse(null);
         if (profile == null) return false;
+        
+        List<SwapRequest> customerSwaps = swapRequestRepository.findByCustomerProfile_CustomerProfileIdAndStatus(id, SwapRequestStatus.PENDING);
+        if (customerSwaps != null && !customerSwaps.isEmpty()) {
+            swapRequestRepository.deleteAll(customerSwaps);
+        }
         
         Long accountId = profile.getAccount().getAccountId();
         customerProfileRepository.deleteById(id);
