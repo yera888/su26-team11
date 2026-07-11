@@ -970,10 +970,10 @@ The API endpoints support the following SRS user stories and acceptance flows de
 
 | SRS use case | Related Endpoints |
 | ------------ | ----------------- |
-| US-1 Register and manage customer profile | 
-| US-2 Find books based on preferences | 
-| US-3 Request a book swap | 
-| US-4 View pending book swaps | 
+| US-1 Register and manage customer profile | `POST /api/customer-profiles`, `GET /api/customer-profiles`, `GET /api/customer-profiles/{customerProfileId}`, `GET /api/customer-profiles/account/{accountId}`, `PUT /api/customer-profiles/{customerProfileId}`, `DELETE /api/customer-profiles/{customerProfileId}` | 
+| US-2 Find books based on preferences | `POST /api/customer-profiles/{customerProfileId}/preferences`, `GET /api/customer-profiles/{customerProfileId}/preferences`, `DELETE /api/customer-profiles/{customerProfileId}/preferences/{tagId}`, `GET /api/customer-profiles/{customerProfileId}/feed`|
+| US-3 Request a book swap | `POST /api/swap-requests`|
+| US-4 View pending book swaps | `/api/swap-requests/customer/{customerProfileId}/pending`|
 
 ### Provider use cases
 
