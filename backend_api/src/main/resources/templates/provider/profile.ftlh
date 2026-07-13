@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Book Lister Profile — Swap-A-Bookaroo</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/nav.css" />
+  <link rel="stylesheet" href="css/profile.css" />
+</head>
+<body>
+  <nav class="topnav">
+    <a class="brand-link" href="profile.html">Swap-A-Bookaroo</a>
+    <div class="nav-links">
+      <a href="myFeed.html">My Feed</a>
+      <a href="profile.html">Profile</a>
+      <a href="addListing.html">Add Book</a>
+      <button type="button" id="logoutBtn">Log out</button>
+    </div>
+  </nav>
+
+  <main class="profile-wrap">
+    <h1 class="page-title">My Profile</h1>
+
+    <section class="profile-section">
+      <div class="section-head">
+        <h3>Book Lister Profile</h3>
+      </div>
+      <div class="summary-grid">
+        <div class="summary-card">
+          <h4>Full Name</h4>
+          <p>Jordan Rivera</p>
+        </div>
+        <div class="summary-card">
+          <h4>Username</h4>
+          <p>jrivera</p>
+        </div>
+        <div class="summary-card swap-credit-card">
+          <h4 class="swap-credit-label">SWAP CREDIT</h4>
+          <p class="swap-credit-value"> 3</p>
+        </div>
+        
+      </div>
+    </section>
+
+    <section class="profile-section">
+      <div class="section-head">
+        <h3>My Listings</h3>
+        <a class="btn-secondary" href="addListing.html">+ Add Book</a>
+      </div>
+
+      <div class="listing-grid">
+        <article class="listing-card">
+          <div class="listing-media">
+            <span class="media-text">The Night Circus</span>
+          </div>
+          <div class="listing-body">
+            <span class="title">The Night Circus</span>
+            <span class="author">by Erin Morgenstern</span>
+            <span class="isbn">ISBN: 978-0-385-53463-5</span>
+            <span class="status-badge">Available</span>
+            <div class="listing-tags">
+              <span class="pill pill-fantasy">Fantasy</span>
+              <span class="pill pill-romance">Romance</span>
+              <span class="pill pill-magical-realism">Magical Realism</span>
+            </div>
+          </div>
+          <div class="listing-card-actions">
+            <a class="btn-small" href="addListing.html">Edit</a>
+            <button class="btn-small danger" type="button" onclick="this.closest('.listing-card').remove()">Remove</button>
+          </div>
+        </article>
+
+        <article class="listing-card">
+          <div class="listing-media">
+            <span class="media-text">Dune</span>
+          </div>
+          <div class="listing-body">
+            <span class="title">Dune</span>
+            <span class="author">by Frank Herbert</span>
+            <span class="isbn">ISBN: 978-0-441-17271-9</span>
+            <span class="status-badge requested">Requested</span>
+            <div class="listing-tags">
+              <span class="pill pill-sci-fi">Sci-Fi</span>
+              <span class="pill pill-adventure">Adventure</span>
+              <span class="pill pill-classics">Classics</span>
+            </div>
+          </div>
+          <div class="listing-card-actions">
+            <a class="btn-small" href="addListing.html">Edit</a>
+            <button class="btn-small danger" type="button" onclick="this.closest('.listing-card').remove()">Remove</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="profile-section">
+      <div class="section-head">
+        <h3>Requests & History</h3>
+      </div>
+
+      <div class="listing-grid">
+        <article class="listing-card">
+          <div class="listing-body">
+            <span class="title">Pending Request</span>
+            <span class="author">Maya requested The Night Circus</span>
+            <span class="isbn">Status: waiting for approval</span>
+          </div>
+          <div class="listing-card-actions">
+            <button class="btn-request" type="button">Approve</button>
+          </div>
+        </article>
+
+        <article class="listing-card">
+          <div class="listing-body">
+            <span class="title">Recent Swap</span>
+            <span class="author">Completed with Aiden</span>
+            <span class="isbn">Status: finished</span>
+          </div>
+          <div class="listing-card-actions">
+            <button class="btn-selected" type="button">Completed</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="account-actions">
+      <a class="btn-account" href="../customer-prototype/profile.html">Edit Preferences</a>
+      <button class="btn-account danger" id="deleteAccountBtn" type="button">Delete Account</button>
+    </section>
+  </main>
+
+  <script src="js/storage.js"></script>
+  <script>
+    requireLogin();
+
+    document.getElementById("deleteAccountBtn").addEventListener("click", function () {
+      if (confirm("Delete your member account? This will log you out.")) {
+        localStorage.clear();
+        window.location.href = "loginPage.html";
+      }
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", function () {
+      logout();
+      window.location.href = "loginPage.html";
+    });
+  </script>
+</body>
+</html>
+

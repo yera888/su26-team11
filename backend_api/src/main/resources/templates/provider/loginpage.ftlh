@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login — Swap-A-Bookaroo</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/loginPage.css" />
+</head>
+<body>
+  <div class="logincontainer">
+    <div class="loginbox">
+      <h1 class="brand">Swap-A-Bookaroo</h1>
+      <p class="subhead">Welcome back, Member</p>
+
+      <form class="form" id="loginForm">
+        <label class="label" for="username">Username</label>
+        <input class="input" id="username" name="username" type="text" placeholder="username" required />
+
+        <label class="label" for="password">Password</label>
+        <input class="input" id="password" name="password" type="password" placeholder="password" required />
+
+        <p class="error-message" id="loginError"></p>
+
+        <div class="actions">
+          <button class="btn" type="submit">Continue</button>
+        </div>
+      </form>
+
+      <p class="hint-credentials">Demo login — username: <strong>username</strong>, password: <strong>password</strong></p>
+
+      <div class="switch">
+        Don't have an account?
+        <a href="signup.html" id="signupLink">Sign up</a>
+      </div>
+
+      <footer class="small">By continuing you agree to our Terms &amp; Privacy.</footer>
+      <footer class="small">You can <strong>NOT</strong> list or swap books unless you have a Member account.</footer>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script>
+    const redirect = new URLSearchParams(window.location.search).get("redirect");
+    if (redirect) {
+      document.getElementById("signupLink").href = "signup.html?redirect=" + redirect;
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value;
+      const errorEl = document.getElementById("loginError");
+
+      if (username === "username" && password === "password") {
+        login();
+        window.location.href = redirect === "customer" ? "../customer-prototype/profile.html" : "profile.html";
+      } else {
+        errorEl.textContent = "Invalid username or password.";
+      }
+    });
+  </script>
+</body>
+</html>

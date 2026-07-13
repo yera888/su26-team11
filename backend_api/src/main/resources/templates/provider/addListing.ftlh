@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Add Book — Swap-A-Bookaroo</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/nav.css" />
+  <link rel="stylesheet" href="css/loginPage.css" />
+  <link rel="stylesheet" href="css/listingForm.css" />
+</head>
+<body>
+  <nav class="topnav">
+    <a class="brand-link" href="profile.html">Swap-A-Bookaroo</a>
+    <div class="nav-links">
+      <a href="myFeed.html">Book Feed</a>
+      <a href="profile.html">Profile</a>
+      <a href="addListing.html">Add Book</a>
+      <button type="button" id="logoutBtn">Log out</button>
+    </div>
+  </nav>
+
+  <main class="form-wrap">
+    <h1>Add a Book</h1>
+    <p class="form-subhead">List a book by pasting its cover image link and filling out the details below.</p>
+
+    <form class="form-card" id="listingForm">
+      <div>
+        <label class="label" for="title">Title</label>
+        <input class="input" id="title" type="text" placeholder="Book title" required />
+      </div>
+
+      <div>
+        <label class="label" for="author">Author</label>
+        <input class="input" id="author" type="text" placeholder="Author name" required />
+      </div>
+
+      <div>
+        <label class="label" for="isbn">ISBN</label>
+        <input class="input" id="isbn" type="text" placeholder="978-3-16-148410-0" required />
+      </div>
+
+      <div>
+        <label class="label" for="img">Cover Image Link</label>
+        <input class="input" id="img" type="url" placeholder="https://example.com/cover.jpg" />
+      </div>
+
+      <div>
+        <label class="label" for="tags">Tags (Book Genres)</label>
+        <input class="input" id="tags" list="tagOptions" type="text" placeholder="Fantasy, Sci-Fi, Romance" required />
+        <p class="tag-hint">Must Enter at least 3 tags.</p>
+        <datalist id="tagOptions">
+          <option value="Sci-Fi"></option>
+          <option value="Fantasy"></option>
+          <option value="Romance"></option>
+          <option value="Mystery"></option>
+          <option value="Thriller"></option>
+          <option value="Horror"></option>
+          <option value="Non-Fiction"></option>
+          <option value="Biography"></option>
+          <option value="Young Adult"></option>
+          <option value="Classics"></option>
+          <option value="Poetry"></option>
+          <option value="Self-Help"></option>
+        </datalist>
+      </div>
+
+      <p class="form-error" id="formError"></p>
+
+      <div class="form-actions">
+        <button class="btn" type="submit">Add Listing</button>
+        <button class="btn-secondary" type="button" onclick="location.href='profile.html'">Cancel</button>
+      </div>
+    </form>
+
+    <p class="hint-credentials" id="successMessage" style="display:none;">
+      Book added!
+    </p>
+  </main>
+
+  <script src="js/storage.js"></script>
+  <script>
+    requireLogin();
+
+    document.getElementById("listingForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const tags = document.getElementById("tags").value
+        .split(",")
+        .map((t) => t.trim())
+        .filter((t) => t.length > 0);
+
+      if (tags.length < 3) {
+        document.getElementById("formError").textContent = "Please enter at least 3 tags.";
+        return;
+      }
+
+      document.getElementById("formError").textContent = "";
+      document.getElementById("successMessage").style.display = "block";
+      document.getElementById("listingForm").reset();
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", function () {
+      logout();
+      window.location.href = "loginPage.html";
+    });
+  </script>
+</body>
+</html>
+
+

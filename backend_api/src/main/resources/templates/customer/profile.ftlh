@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Book Seeker Profile — Swap-A-Bookaroo</title>
+  <link rel="stylesheet" href="../provider-prototype/css/base.css" />
+  <link rel="stylesheet" href="../provider-prototype/css/nav.css" />
+  <link rel="stylesheet" href="../provider-prototype/css/profile.css" />
+  <link rel="stylesheet" href="css/tagSelect.css" />
+</head>
+<body>
+  <nav class="topnav">
+    <a class="brand-link" href="profile.html">Swap-A-Bookaroo</a>
+    <div class="nav-links">
+      <a href="myFeed.html">My Feed</a>
+      <a href="swapRequests.html">Swap Requests</a>
+      <a href="profile.html">Profile</a>
+      <button type="button" id="logoutBtn">Log out</button>
+    </div>
+  </nav>
+
+  <main class="profile-wrap">
+    <h1 class="page-title">My Profile</h1>
+    <p class="page-subtitle">Manage your book seeker interests, preferences, and swap requests.</p>
+
+    <section class="profile-section">
+      <div class="section-head">
+        <h3>Book Seeker Summary</h3>
+      </div>
+      <div class="summary-grid">
+        <div class="summary-card">
+          <h4>Book Seeker Name</h4>
+          <p>Maya Chen</p>
+        </div>
+        <div class="summary-card">
+          <h4>Username</h4>
+          <p>mchen</p>
+        </div>
+        <div class="summary-card">
+          <h4>Preferred Tags</h4>
+          <p id="preferredTagsValue">Fantasy, Romance, Classics</p>
+        </div>
+        <div class="summary-card">
+          <h4>Next Match</h4>
+          <p>2 books available</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="profile-section">
+      <div class="section-head">
+        <h3>Book Preferences</h3>
+      </div>
+      <div class="tag-grid" id="tagGrid">
+        <button type="button" class="tag-chip" data-tag="Sci-Fi">Sci-Fi</button>
+        <button type="button" class="tag-chip" data-tag="Fantasy">Fantasy</button>
+        <button type="button" class="tag-chip" data-tag="Romance">Romance</button>
+        <button type="button" class="tag-chip" data-tag="Mystery">Mystery</button>
+        <button type="button" class="tag-chip" data-tag="Thriller">Thriller</button>
+        <button type="button" class="tag-chip" data-tag="Horror">Horror</button>
+        <button type="button" class="tag-chip" data-tag="Non-Fiction">Non-Fiction</button>
+        <button type="button" class="tag-chip" data-tag="Biography">Biography</button>
+        <button type="button" class="tag-chip" data-tag="Young Adult">Young Adult</button>
+        <button type="button" class="tag-chip" data-tag="Classics">Classics</button>
+        <button type="button" class="tag-chip" data-tag="Poetry">Poetry</button>
+        <button type="button" class="tag-chip" data-tag="Self-Help">Self-Help</button>
+      </div>
+      <p class="save-hint">Tap a genre to update your interests. Your matched feed reflects these choices.</p>
+    </section>
+
+    <section class="profile-section">
+      <div class="section-head">
+        <h3>Swap Requests</h3>
+        <a class="btn-secondary" href="swapRequests.html">View All</a>
+      </div>
+      <div class="listing-grid">
+        <article class="listing-card">
+          <div class="listing-body">
+            <span class="title">Requested</span>
+            <span class="author">Dune requested from Jordan</span>
+            <span class="isbn">Status: pending</span>
+          </div>
+          <div class="listing-card-actions">
+            <a class="btn-request" href="swapRequests.html">View</a>
+          </div>
+        </article>
+        <article class="listing-card">
+          <div class="listing-body">
+            <span class="title">Completed</span>
+            <span class="author">The Hobbit swapped successfully</span>
+            <span class="isbn">Status: finished</span>
+          </div>
+          <div class="listing-card-actions">
+            <button class="btn-selected" type="button">Done</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="account-actions">
+      <a class="btn-account" href="../provider-prototype/profile.html">Open Book Lister Profile</a>
+      <button class="btn-account danger" id="deleteAccountBtn" type="button">Delete Account</button>
+    </section>
+  </main>
+
+  <script src="../provider-prototype/js/storage.js"></script>
+  <script>
+    requireLogin("../provider-prototype/loginPage.html?redirect=customer");
+
+    const PREFERENCES_KEY = "swab_customer_preferences";
+
+    function getPreferences() {
+      return JSON.parse(localStorage.getItem(PREFERENCES_KEY) || "[]");
+    }
+
+    function savePreferences(tags) {
+      localStorage.setItem(PREFERENCES_KEY, JSON.stringify(tags));
+    }
+
+    const selected = new Set(getPreferences());
+    const tagGrid = document.getElementById("tagGrid");
+    const preferredTagsValue = document.getElementById("preferredTagsValue");
+
+    function updatePreferredTagsDisplay() {
+      const tags = Array.from(selected);
+      preferredTagsValue.textContent = tags.length ? tags.join(", ") : "No preferences selected";
+    }
+
+    document.querySelectorAll(".tag-chip").forEach((chip) => {
+      if (selected.has(chip.dataset.tag)) {
+        chip.classList.add("selected");
+      }
+    });
+
+    updatePreferredTagsDisplay();
+
+    tagGrid.addEventListener("click", function (e) {
+      const chip = e.target.closest(".tag-chip");
+      if (!chip) return;
+
+      const tag = chip.dataset.tag;
+      if (selected.has(tag)) {
+        selected.delete(tag);
+        chip.classList.remove("selected");
+      } else {
+        selected.add(tag);
+        chip.classList.add("selected");
+      }
+      savePreferences([...selected]);
+      updatePreferredTagsDisplay();
+    });
+
+    document.getElementById("deleteAccountBtn").addEventListener("click", function () {
+      if (confirm("Delete your member account? This will log you out.")) {
+        localStorage.clear();
+        window.location.href = "../provider-prototype/loginPage.html?redirect=customer";
+      }
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", function () {
+      logout();
+      window.location.href = "../provider-prototype/loginPage.html?redirect=customer";
+    });
+  </script>
+</body>
+</html>

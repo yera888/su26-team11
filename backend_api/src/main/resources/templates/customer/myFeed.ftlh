@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Feed — Swap-A-Bookaroo</title>
+  <link rel="stylesheet" href="../provider-prototype/css/base.css" />
+  <link rel="stylesheet" href="../provider-prototype/css/nav.css" />
+  <link rel="stylesheet" href="../provider-prototype/css/profile.css" />
+  <link rel="stylesheet" href="css/requestOverlay.css?v=2" />
+</head>
+<body>
+  <nav class="topnav">
+    <a class="brand-link" href="profile.html">Swap-A-Bookaroo</a>
+    <div class="nav-links">
+      <a href="myFeed.html">My Feed</a>
+      <a href="swapRequests.html">Swap Requests</a>
+      <a href="profile.html">Profile</a>
+      <button type="button" id="logoutBtn">Log out</button>
+    </div>
+  </nav>
+
+  <main class="profile-wrap">
+    <div class="feed-banner">
+      <img class="feed-banner-img" src="../provider-prototype/images/books.jpg" alt="Feed banner" />
+    </div>
+
+    <h1 class="page-title">My Feed</h1>
+    <p class="page-subtitle">Books matched to the genres in your book seeker profile.</p>
+
+    <div class="listing-grid">
+      <article class="listing-card">
+        <div class="listing-media"><span class="media-text">Circe</span></div>
+        <div class="listing-body">
+          <span class="title">Circe</span>
+          <span class="author">by Madeline Miller</span>
+          <div class="listing-tags">
+            <span class="pill pill-fantasy">Fantasy</span>
+            <span class="pill pill-mythology">Mythology</span>
+            <span class="pill pill-classics">Classics</span>
+          </div>
+        </div>
+        <div class="listing-card-actions">
+          <a class="btn-request request-trigger" href="#" data-title="Circe" data-author="by Madeline Miller" data-tags="Fantasy • Mythology • Classics" data-owner="Available from Jordan Rivera" data-cover="C">Request Swap</a>
+        </div>
+      </article>
+
+      <article class="listing-card">
+        <div class="listing-media"><span class="media-text">The Martian</span></div>
+        <div class="listing-body">
+          <span class="title">The Martian</span>
+          <span class="author">by Andy Weir</span>
+          <div class="listing-tags">
+            <span class="pill pill-sci-fi">Sci-Fi</span>
+            <span class="pill pill-adventure">Adventure</span>
+            <span class="pill pill-humor">Humor</span>
+          </div>
+        </div>
+        <div class="listing-card-actions">
+          <a class="btn-request request-trigger" href="#" data-title="The Martian" data-author="by Andy Weir" data-tags="Sci-Fi • Adventure • Humor" data-owner="Available from Aiden Brooks" data-cover="T">Request Swap</a>
+        </div>
+      </article>
+
+      <article class="listing-card">
+        <div class="listing-media"><span class="media-text">Beloved</span></div>
+        <div class="listing-body">
+          <span class="title">Beloved</span>
+          <span class="author">by Toni Morrison</span>
+          <div class="listing-tags">
+            <span class="pill pill-classics">Classics</span>
+            <span class="pill pill-historical-fiction">Historical Fiction</span>
+            <span class="pill pill-drama">Drama</span>
+          </div>
+        </div>
+        <div class="listing-card-actions">
+          <a class="btn-request request-trigger" href="#" data-title="Beloved" data-author="by Toni Morrison" data-tags="Classics • Historical Fiction • Drama" data-owner="Available from Nia Carter" data-cover="B">Request Swap</a>
+        </div>
+      </article>
+
+      <article class="listing-card">
+        <div class="listing-media"><span class="media-text">Mexican Gothic</span></div>
+        <div class="listing-body">
+          <span class="title">Mexican Gothic</span>
+          <span class="author">by Silvia Moreno-Garcia</span>
+          <div class="listing-tags">
+            <span class="pill pill-horror">Horror</span>
+            <span class="pill pill-mystery">Mystery</span>
+            <span class="pill pill-gothic">Gothic</span>
+          </div>
+        </div>
+        <div class="listing-card-actions">
+          <a class="btn-request request-trigger" href="#" data-title="Mexican Gothic" data-author="by Silvia Moreno-Garcia" data-tags="Horror • Mystery • Gothic" data-owner="Available from Lena Ortiz" data-cover="M">Request Swap</a>
+        </div>
+      </article>
+
+      <article class="listing-card">
+        <div class="listing-media"><span class="media-text">Red, White &amp; Royal Blue</span></div>
+        <div class="listing-body">
+          <span class="title">Red, White &amp; Royal Blue</span>
+          <span class="author">by Casey McQuiston</span>
+          <div class="listing-tags">
+            <span class="pill pill-romance">Romance</span>
+            <span class="pill pill-young-adult">Young Adult</span>
+            <span class="pill pill-comedy">Comedy</span>
+          </div>
+        </div>
+        <div class="listing-card-actions">
+          <a class="btn-request request-trigger" href="#" data-title="Red, White &amp; Royal Blue" data-author="by Casey McQuiston" data-tags="Romance • Young Adult • Comedy" data-owner="Available from Marisol Vega" data-cover="R">Request Swap</a>
+        </div>
+      </article>
+
+      <article class="listing-card">
+        <div class="listing-media"><span class="media-text">Sapiens</span></div>
+        <div class="listing-body">
+          <span class="title">Sapiens</span>
+          <span class="author">by Yuval Noah Harari</span>
+          <div class="listing-tags">
+            <span class="pill pill-non-fiction">Non-Fiction</span>
+            <span class="pill pill-history">History</span>
+            <span class="pill pill-science">Science</span>
+          </div>
+        </div>
+        <div class="listing-card-actions">
+          <a class="btn-request request-trigger" href="#" data-title="Sapiens" data-author="by Yuval Noah Harari" data-tags="Non-Fiction • History • Science" data-owner="Available from Owen Price" data-cover="S">Request Swap</a>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <div class="request-overlay" id="requestOverlay" aria-hidden="true">
+    <div class="request-modal" role="dialog" aria-modal="true" aria-labelledby="requestModalTitle">
+      <div class="modal-header">
+        <h1 id="requestModalTitle">Request Swap</h1>
+        <button class="modal-close" type="button" id="closeRequestOverlay">Close</button>
+      </div>
+
+      <div class="request-content">
+        <div class="request-panel">
+          <h2>Selected Book</h2>
+          <div class="book-card">
+            <div class="book-cover" id="requestBookCover">C</div>
+            <div class="book-details">
+              <h3 id="requestBookTitle">Circe</h3>
+              <p id="requestBookAuthor">by Madeline Miller</p>
+              <p id="requestBookMeta">Fantasy • Mythology • Classics</p>
+              <p id="requestBookOwner">Available from Jordan Rivera</p>
+            </div>
+          </div>
+          <p class="prompt">Are you sure you want to request this book?</p>
+          <div class="request-actions">
+            <button class="btn" type="button" id="confirmRequestBtn">Yes</button>
+            <button class="btn-secondary" type="button" id="keepLookingBtn">Keep Looking</button>
+          </div>
+          <p class="status-message" id="requestStatus"></p>
+        </div>
+
+        <div class="arrow" aria-hidden="true">→</div>
+
+        <div class="request-panel">
+          <div class="mystery-card">
+            <img class="mystery-cover" src="../provider-prototype/images/question.jpg" alt="Mystery book placeholder" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../provider-prototype/js/storage.js"></script>
+  <script>
+    requireLogin("../provider-prototype/loginPage.html?redirect=customer");
+
+    const requestOverlay = document.getElementById("requestOverlay");
+    const closeRequestOverlay = document.getElementById("closeRequestOverlay");
+    const confirmRequestBtn = document.getElementById("confirmRequestBtn");
+    const keepLookingBtn = document.getElementById("keepLookingBtn");
+    const requestStatus = document.getElementById("requestStatus");
+    const requestBookCover = document.getElementById("requestBookCover");
+    const requestBookTitle = document.getElementById("requestBookTitle");
+    const requestBookAuthor = document.getElementById("requestBookAuthor");
+    const requestBookMeta = document.getElementById("requestBookMeta");
+    const requestBookOwner = document.getElementById("requestBookOwner");
+
+    function openRequestOverlay(book) {
+      requestBookCover.textContent = book.cover || "?";
+      requestBookTitle.textContent = book.title || "Untitled";
+      requestBookAuthor.textContent = book.author || "";
+      requestBookMeta.textContent = book.tags || "";
+      requestBookOwner.textContent = book.owner || "";
+      requestStatus.textContent = "";
+      requestOverlay.classList.add("visible");
+      requestOverlay.setAttribute("aria-hidden", "false");
+      document.body.classList.add("overlay-open");
+    }
+
+    function closeRequestOverlayModal() {
+      requestOverlay.classList.remove("visible");
+      requestOverlay.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("overlay-open");
+    }
+
+    document.querySelectorAll(".request-trigger").forEach((trigger) => {
+      trigger.addEventListener("click", function (e) {
+        e.preventDefault();
+        openRequestOverlay({
+          cover: trigger.dataset.cover || "?",
+          title: trigger.dataset.title || "Book",
+          author: trigger.dataset.author || "",
+          tags: trigger.dataset.tags || "",
+          owner: trigger.dataset.owner || ""
+        });
+      });
+    });
+
+    closeRequestOverlay.addEventListener("click", closeRequestOverlayModal);
+    requestOverlay.addEventListener("click", function (e) {
+      if (e.target === requestOverlay) {
+        closeRequestOverlayModal();
+      }
+    });
+    keepLookingBtn.addEventListener("click", closeRequestOverlayModal);
+    confirmRequestBtn.addEventListener("click", function () {
+      requestStatus.textContent = "Request sent!";
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", function () {
+      logout();
+      window.location.href = "../provider-prototype/loginPage.html?redirect=customer";
+    });
+  </script>
+</body>
+</html>
