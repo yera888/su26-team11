@@ -6,7 +6,7 @@
 **Base URL:**
 
 - local: http://localhost:8080
-- production: https://su26-team11-api.onrender.com
+- production: https://su26-team11.onrender.com 
 
 ## Table of Contents
 
