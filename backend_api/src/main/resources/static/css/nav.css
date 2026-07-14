@@ -1,0 +1,40 @@
+
+
+.topnav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  padding: 1.6rem 3rem;
+  background: #fff;
+  border-bottom: 1px solid #111;
+}
+
+.topnav .brand-link {
+  font-family: "Vilaka Modern Serif", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  font-weight: 700;
+  font-size: 3.2rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.topnav .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-family: "Vilaka Modern Serif", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+}
+
+.topnav .nav-links button {
+  background: none;
+  border: none;
+  font: inherit;
+  color: #111;
+  cursor: pointer;
+  padding: 0;
+  font-family: "Vilaka Modern Serif", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+}
+.topnav .nav-links button:hover { text-decoration: underline; }
