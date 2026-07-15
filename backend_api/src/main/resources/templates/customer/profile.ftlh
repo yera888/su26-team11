@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Book Seeker Profile — Swap-A-Bookaroo</title>
-  <link rel="stylesheet" href="../provider-prototype/css/base.css" />
-  <link rel="stylesheet" href="../provider-prototype/css/nav.css" />
-  <link rel="stylesheet" href="../provider-prototype/css/profile.css" />
-  <link rel="stylesheet" href="css/tagSelect.css" />
+  <link rel="stylesheet" href="../../static/css/base.css" />
+  <link rel="stylesheet" href="../../static/css/nav.css" />
+  <link rel="stylesheet" href="../../static/css/profile.css" />
+  <link rel="stylesheet" href="../../static/css/tagSelect.css" />
 </head>
 <body>
   <nav class="topnav">

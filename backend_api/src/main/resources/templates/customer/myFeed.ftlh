@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>My Feed — Swap-A-Bookaroo</title>
-  <link rel="stylesheet" href="../provider-prototype/css/base.css" />
-  <link rel="stylesheet" href="../provider-prototype/css/nav.css" />
-  <link rel="stylesheet" href="../provider-prototype/css/profile.css" />
-  <link rel="stylesheet" href="css/requestOverlay.css?v=2" />
+  <link rel="stylesheet" href="../../static/css/base.css" />
+  <link rel="stylesheet" href="../../static/css/nav.css" />
+  <link rel="stylesheet" href="../../static/css/profile.css" />
+  <link rel="stylesheet" href="../../static/css/requestOverlayCustomer.css" />
 </head>
 <body>
   <nav class="topnav">
@@ -22,7 +22,7 @@
 
   <main class="profile-wrap">
     <div class="feed-banner">
-      <img class="feed-banner-img" src="../provider-prototype/images/books.jpg" alt="Feed banner" />
+      <img class="feed-banner-img" src="../../static/images/books.jpg" alt="Feed banner" />
     </div>
 
     <h1 class="page-title">My Feed</h1>
@@ -158,16 +158,16 @@
 
         <div class="request-panel">
           <div class="mystery-card">
-            <img class="mystery-cover" src="../provider-prototype/images/question.jpg" alt="Mystery book placeholder" />
+            <img class="mystery-cover" src="../../../../static//images/question.jpg" alt="Mystery book placeholder" />
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <script src="../provider-prototype/js/storage.js"></script>
+  <script src="../../static/js/storage.js"></script>
   <script>
-    requireLogin("../provider-prototype/loginPage.html?redirect=customer");
+    requireLogin("../../static/html/loginPage.html?redirect=customer");
 
     const requestOverlay = document.getElementById("requestOverlay");
     const closeRequestOverlay = document.getElementById("closeRequestOverlay");
@@ -224,7 +224,7 @@
 
     document.getElementById("logoutBtn").addEventListener("click", function () {
       logout();
-      window.location.href = "../provider-prototype/loginPage.html?redirect=customer";
+      window.location.href = "../../static/loginPage.html?redirect=customer";
     });
   </script>
 </body>
