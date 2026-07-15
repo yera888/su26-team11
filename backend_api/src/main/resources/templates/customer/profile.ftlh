@@ -31,15 +31,15 @@
       <div class="summary-grid">
         <div class="summary-card">
           <h4>Book Seeker Name</h4>
-          <p>Maya Chen</p>
+          <p>${account.firstName} ${account.lastName}</p>
         </div>
         <div class="summary-card">
           <h4>Username</h4>
-          <p>mchen</p>
+          <p>${account.username}</p>
         </div>
         <div class="summary-card">
           <h4>Preferred Tags</h4>
-          <p id="preferredTagsValue">Fantasy, Romance, Classics</p>
+          <p ${customerProfile.preferences}</p>
         </div>
         <div class="summary-card">
           <h4>Next Match</h4>
