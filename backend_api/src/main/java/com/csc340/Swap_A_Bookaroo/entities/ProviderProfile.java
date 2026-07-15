@@ -8,17 +8,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "customer_profiles")
+@Table(name = "provider_profiles")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerProfile {
+public class ProviderProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long customerProfileId;
+    private Long providerProfileId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "account_id", nullable = false)
     @JsonIgnoreProperties({ "password", "role" })
     private Account account;
@@ -26,7 +26,9 @@ public class CustomerProfile {
     @Column(columnDefinition = "TEXT")
     private String bio;
 
-    @OneToMany(mappedBy = "customerProfile", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties({"customerProfile"})
-    private List<CustomerPreference> preferences;
+    private int swapCreditBalance;
+
+    @OneToMany(mappedBy = "providerProfile", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({ "providerProfile" })
+    private List<BookListing> bookListings;
 }
