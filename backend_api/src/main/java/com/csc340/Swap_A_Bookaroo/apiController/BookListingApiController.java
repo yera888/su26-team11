@@ -1,6 +1,7 @@
 package com.csc340.Swap_A_Bookaroo.apiController;
 
 import org.springframework.http.ResponseEntity;
+<<<<<<< HEAD
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+=======
+import org.springframework.web.bind.annotation.*;
+>>>>>>> origin/main
 import com.csc340.Swap_A_Bookaroo.entities.BookListing;
 import com.csc340.Swap_A_Bookaroo.service.BookListingService;
 
@@ -26,6 +30,7 @@ public class BookListingApiController {
     @GetMapping("/{listingId}")
     public ResponseEntity<BookListing> getListingById(@PathVariable Long listingId) {
         BookListing listing = bookListingService.getListingById(listingId);
+<<<<<<< HEAD
         if (listing != null) {
             return ResponseEntity.ok(listing);
         }
@@ -50,10 +55,26 @@ public class BookListingApiController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(updated);
+=======
+        return listing != null ? ResponseEntity.ok(listing) : ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/provider/{providerProfileId}")
+    public ResponseEntity<BookListing> createListing(@PathVariable Long providerProfileId, @RequestBody BookListing listing) {
+        BookListing created = bookListingService.createListing(providerProfileId, listing);
+        return created != null ? ResponseEntity.ok(created) : ResponseEntity.badRequest().build();
+    }
+
+    @PutMapping("/{listingId}")
+    public ResponseEntity<BookListing> updateListing(@PathVariable Long listingId, @RequestBody BookListing updatedListing) {
+        BookListing updated = bookListingService.updateListing(listingId, updatedListing);
+        return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
+>>>>>>> origin/main
     }
 
     @DeleteMapping("/{listingId}")
     public ResponseEntity<Void> removeListing(@PathVariable Long listingId) {
+<<<<<<< HEAD
         boolean removed = bookListingService.removeListing(listingId);
         if (removed) {
             return ResponseEntity.noContent().build();
@@ -62,3 +83,8 @@ public class BookListingApiController {
     }
 
 }
+=======
+        return bookListingService.removeListing(listingId) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    }
+}
+>>>>>>> origin/main

@@ -1,7 +1,10 @@
 package com.csc340.Swap_A_Bookaroo.service;
 
 import org.springframework.stereotype.Service;
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/main
 import com.csc340.Swap_A_Bookaroo.entities.Account;
 import com.csc340.Swap_A_Bookaroo.repository.AccountRepository;
 
@@ -26,9 +29,13 @@ public class AccountService {
 
     public Account updateAccount(Long accountId, Account updatedAccount) {
         Account existingAccount = accountRepository.findById(accountId).orElse(null);
+<<<<<<< HEAD
         if (existingAccount == null) {
             return null;
         }
+=======
+        if (existingAccount == null) return null;
+>>>>>>> origin/main
         existingAccount.setFirstName(updatedAccount.getFirstName());
         existingAccount.setLastName(updatedAccount.getLastName());
         existingAccount.setUsername(updatedAccount.getUsername());
@@ -43,5 +50,9 @@ public class AccountService {
         }
         return false;
     }
+<<<<<<< HEAD
 
 }
+=======
+}
+>>>>>>> origin/main

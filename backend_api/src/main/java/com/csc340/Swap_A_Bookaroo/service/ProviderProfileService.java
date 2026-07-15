@@ -2,6 +2,7 @@ package com.csc340.Swap_A_Bookaroo.service;
 
 import java.util.Arrays;
 import java.util.List;
+<<<<<<< HEAD
 
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,11 @@ import com.csc340.Swap_A_Bookaroo.repository.AccountRepository;
 import com.csc340.Swap_A_Bookaroo.repository.BookListingRepository;
 import com.csc340.Swap_A_Bookaroo.repository.ProviderProfileRepository;
 import com.csc340.Swap_A_Bookaroo.repository.SwapRequestRepository;
+=======
+import org.springframework.stereotype.Service;
+import com.csc340.Swap_A_Bookaroo.entities.*;
+import com.csc340.Swap_A_Bookaroo.repository.*;
+>>>>>>> origin/main
 
 @Service
 public class ProviderProfileService {
@@ -25,9 +31,15 @@ public class ProviderProfileService {
     private final SwapRequestRepository swapRequestRepository;
 
     public ProviderProfileService(ProviderProfileRepository providerProfileRepository,
+<<<<<<< HEAD
             AccountRepository accountRepository,
             BookListingRepository bookListingRepository,
             SwapRequestRepository swapRequestRepository) {
+=======
+                                  AccountRepository accountRepository,
+                                  BookListingRepository bookListingRepository,
+                                  SwapRequestRepository swapRequestRepository) {
+>>>>>>> origin/main
         this.providerProfileRepository = providerProfileRepository;
         this.accountRepository = accountRepository;
         this.bookListingRepository = bookListingRepository;
@@ -57,11 +69,26 @@ public class ProviderProfileService {
         return providerProfileRepository.save(providerProfile);
     }
 
+<<<<<<< HEAD
     public boolean deleteProviderProfile(Long providerProfileId) {
         ProviderProfile providerProfile = providerProfileRepository.findById(providerProfileId).orElse(null);
         if (providerProfile == null) {
             return false;
         }
+=======
+    public ProviderProfile updateProviderProfile(Long providerProfileId, ProviderProfile updatedProviderProfile) {
+        ProviderProfile existingProfile = providerProfileRepository.findById(providerProfileId).orElse(null);
+        if (existingProfile != null) {
+            existingProfile.setBio(updatedProviderProfile.getBio());
+            return providerProfileRepository.save(existingProfile);
+        }
+        return null;
+    }
+
+    public boolean deleteProviderProfile(Long providerProfileId) {
+        ProviderProfile providerProfile = providerProfileRepository.findById(providerProfileId).orElse(null);
+        if (providerProfile == null) return false;
+>>>>>>> origin/main
         Long accountId = providerProfile.getAccount().getAccountId();
         providerProfileRepository.deleteById(providerProfileId);
         accountRepository.deleteById(accountId);
@@ -79,8 +106,15 @@ public class ProviderProfileService {
     }
 
     public List<SwapRequest> getSwapHistory(Long providerProfileId) {
+<<<<<<< HEAD
         return swapRequestRepository.findByBookListing_ProviderProfile_ProviderProfileIdAndStatus(providerProfileId,
                 SwapRequestStatus.COMPLETED);
     }
 
 }
+=======
+        return swapRequestRepository.findByBookListing_ProviderProfile_ProviderProfileIdAndStatusIn(providerProfileId,
+                Arrays.asList(SwapRequestStatus.COMPLETED, SwapRequestStatus.REJECTED, SwapRequestStatus.CANCELLED));
+    }
+}
+>>>>>>> origin/main

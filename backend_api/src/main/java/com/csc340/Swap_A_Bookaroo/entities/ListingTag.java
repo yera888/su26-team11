@@ -1,6 +1,7 @@
 package com.csc340.Swap_A_Bookaroo.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+<<<<<<< HEAD
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +10,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+=======
+import jakarta.persistence.*;
+>>>>>>> origin/main
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,6 +37,7 @@ public class ListingTag {
     @JoinColumn(name = "tag_id", nullable = false)
     private Tag tag;
 
+<<<<<<< HEAD
     public void addTag(Tag tag) {
         this.tag = tag;
     }
@@ -42,3 +47,8 @@ public class ListingTag {
     }
 
 }
+=======
+    public void addTag(Tag tag) { this.tag = tag; }
+    public void removeTag() { this.tag = null; }
+}
+>>>>>>> origin/main
