@@ -1,22 +1,8 @@
 package com.csc340.Swap_A_Bookaroo.entities;
 
 import java.util.List;
-<<<<<<< HEAD
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-=======
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
->>>>>>> origin/main
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,24 +20,6 @@ public class ProviderProfile {
 
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false)
-<<<<<<< HEAD
-    @JsonIgnoreProperties({ "password", "description" })
-    private Account account;
-
-    private int swapCreditBalance;
-
-    @OneToMany(mappedBy = "providerProfile")
-    @JsonIgnoreProperties({ "providerProfile" })
-    private List<BookListing> bookListings;
-
-    public ProviderProfile(Account account) {
-        this.account = account;
-        this.swapCreditBalance = 0;
-    }
-
-}
-
-=======
     @JsonIgnoreProperties({ "password", "role" })
     private Account account;
 
@@ -64,4 +32,3 @@ public class ProviderProfile {
     @JsonIgnoreProperties({ "providerProfile" })
     private List<BookListing> bookListings;
 }
->>>>>>> origin/main
