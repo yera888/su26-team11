@@ -1,0 +1,59 @@
+html { font-size: 62.5%; }
+
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #faf7f2;
+  color: #111;
+  font-family: "Vilaka Modern Serif", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  font-size: 1.6rem;
+}
+
+a { color: #111; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+button, input, textarea, select {
+  font-family: inherit;
+}
+
+.pill {
+  display: inline-block;
+  padding: .5rem 1rem;
+  border-radius: 0;
+  font-size: 1.3rem;
+  line-height: 1;
+  font-weight: 600;
+  border: 1px solid transparent;
+  background: #555;
+  color: #fff;
+  font-family: "Vilaka Modern Serif", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid #111;
+  border-radius: 0;
+  padding: 1.1rem 1.2rem;
+  background: #111;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: "Vilaka Modern Serif", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+}
+.btn:hover { opacity: .92; }
+
+.btn-secondary {
+  appearance: none;
+  border: 1px solid #111;
+  border-radius: 0;
+  padding: 1.1rem 1.2rem;
+  background: #fff;
+  color: #111;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: "Vilaka Modern Serif", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+}
+.btn-secondary:hover { opacity: .8; }
+

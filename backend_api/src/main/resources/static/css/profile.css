@@ -1,0 +1,277 @@
+.profile-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.page-title {
+  font-size: 4.4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  margin: 0 0 .6rem;
+  border-bottom: .4rem solid #3f5c3f;
+  display: inline-block;
+  padding-bottom: .4rem;
+}
+
+.page-subtitle {
+  margin: 1.6rem 0 2.4rem;
+  color: #444;
+  font-size: 1.5rem;
+}
+
+.profile-section { margin-top: 3.2rem; }
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.2rem;
+}
+
+.summary-card {
+  border: 1px solid #111;
+  background: #fff;
+  padding: 1.2rem;
+  display: grid;
+  gap: .4rem;
+}
+
+.summary-card h4 {
+  margin: 0;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.summary-card p {
+  margin: 0;
+  color: #444;
+  font-size: 1.4rem;
+}
+
+.swap-credit-card {
+  border-color: #3f5c3f;
+  background: #f7fbf7;
+}
+
+.summary-card.swap-credit-card h4 {
+  color: #3f5c3f !important;
+  font-size: 1.6rem !important;
+  font-weight: 800 !important;
+  letter-spacing: .08em !important;
+}
+
+.summary-card.swap-credit-card p {
+  color: #6b5637 !important;
+  font-size: 2.6rem !important;
+  font-weight: 900 !important;
+  line-height: 1.1 !important;
+}
+
+.profile-section .section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: .6rem;
+  margin-bottom: 1.6rem;
+}
+
+.profile-section h3 { margin: 0; font-size: 1.8rem; text-transform: uppercase; letter-spacing: .02em; }
+
+.empty-state { color: #444; font-size: 1.4rem; }
+
+.listing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.6rem;
+}
+
+.listing-card {
+  border: 1px solid #111;
+  border-radius: 0;
+  overflow: hidden;
+  background: #fff;
+}
+
+.listing-media {
+  aspect-ratio: 1 / 1;
+  background: #f7f7f7;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.listing-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.listing-media .media-text {
+  text-align: center;
+  padding: 0 1rem;
+  font-size: 1.5rem;
+  color: #111;
+}
+
+.listing-media.blurred { filter: blur(3px); }
+
+.listing-body { padding: 1rem; display: grid; gap: .3rem; }
+.listing-body .title { font-weight: 700; font-size: 1.9rem; }
+.listing-body .author,
+.listing-body .isbn { font-size: 1.3rem; color: #444; }
+
+.listing-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .4rem; }
+
+.status-badge {
+  display: inline-block;
+  padding: .3rem .8rem;
+  border-radius: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  background: #2e9e5b;
+  color: #fff;
+}
+.status-badge.requested { background: #6b6b6b; }
+
+.listing-card-actions {
+  display: flex;
+  gap: .8rem;
+  padding: 0 1rem 1rem;
+}
+
+.btn-small {
+  appearance: none;
+  border: 1px solid #111;
+  border-radius: 0;
+  padding: .6rem 1rem;
+  background: #fff;
+  color: #111;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+.btn-small:hover { opacity: .8; }
+.btn-small.danger { border-color: #c0392b; color: #c0392b; }
+
+.btn-selected {
+  appearance: none;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  padding: .6rem 1rem;
+  background: #eee;
+  color: #777;
+  font-size: 1.3rem;
+  cursor: default;
+}
+
+.btn-request {
+  appearance: none;
+  border: 1px solid #111;
+  border-radius: 0;
+  padding: .6rem 1rem;
+  background: #111;
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+}
+.btn-request:hover { opacity: .9; }
+.btn-request:disabled {
+  background: #eee;
+  color: #777;
+  border-color: #ccc;
+  cursor: default;
+  opacity: 1;
+}
+
+.account-actions {
+  display: grid;
+  gap: 1.2rem;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 4rem;
+  align-items: stretch;
+}
+
+.account-actions > * {
+  width: 100%;
+  display: block;
+}
+
+.section-head .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 170px;
+  padding-left: 1.8rem;
+  padding-right: 1.8rem;
+  white-space: nowrap;
+}
+
+.btn-account {
+  appearance: none;
+  width: 100%;
+  border: 1px solid #111;
+  border-radius: 0;
+  padding: 1.4rem 1.6rem;
+  background: #fff;
+  color: #111;
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+}
+.btn-account:hover { opacity: .8; }
+.btn-account.danger { border-color: #c0392b; color: #c0392b; }
+
+.feed-banner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 1;
+  border: 1px solid #111;
+  overflow: hidden;
+  margin-bottom: 3.2rem;
+  background: #f2ede4;
+}
+
+.feed-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.feed-banner-placeholder {
+  position: absolute;
+  inset: .8rem;
+  display: grid;
+  place-items: center;
+  border: .2rem dashed #6b5637;
+  color: #6b5637;
+  font-size: 1.6rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.feed-banner-placeholder:hover { background: #ece4d4; }
+
+/* Genre tag colors: muted, gothic library palette, one shade per genre */
+.pill-sci-fi { background: #5c4a63; color: #fff; }
+.pill-fantasy { background: #4b3f72; color: #fff; }
+.pill-magical-realism { background: #6a4f7a; color: #fff; }
+.pill-mystery { background: #34495e; color: #fff; }
+.pill-thriller { background: #6e2c2c; color: #fff; }
+.pill-horror { background: #2b1a1e; color: #fff; }
+.pill-gothic { background: #241b2e; color: #fff; }
+.pill-romance { background: #8a3b52; color: #fff; }
+.pill-drama { background: #6b2d40; color: #fff; }
+.pill-classics { background: #3f5c3f; color: #fff; }
+.pill-historical-fiction { background: #59462f; color: #fff; }
+.pill-biography { background: #6b5637; color: #fff; }
+.pill-non-fiction { background: #3c5c56; color: #fff; }
+.pill-science { background: #33586b; color: #fff; }
+.pill-young-adult { background: #3f6b5c; color: #fff; }
+.pill-history { background: #5c6b3f; color: #fff; }
+.pill-mythology { background: #7a5f24; color: #fff; }
+.pill-comedy { background: #b17c3a; color: #fff; }
+.pill-humor { background: #8a8a3f; color: #fff; }
+.pill-adventure { background: #8a5230; color: #fff; }
+.pill-self-help { background: #734631; color: #fff; }
+.pill-poetry { background: #5f4f6e; color: #fff; }
+
