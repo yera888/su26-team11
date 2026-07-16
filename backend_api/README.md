@@ -272,11 +272,10 @@ Example response:
 [
 	{
 		"listingId": 1,
-		"providerProfile": {
-			"providerProfileId": 1,
-			"bio": "Local textbook distributor and independent bookstore owner.",
-			"swapCreditBalance": 10
-		},
+    "providerProfile": {
+      "providerProfileId": 1,
+      "swapCreditBalance": 10
+  },
 		"isbn": "978-0143111597",
 		"title": "Dune",
 		"author": "Frank Herbert",
@@ -979,7 +978,7 @@ The API endpoints support the following SRS user stories and acceptance flows de
 
 | SRS use case | Related Endpoints |
 | ------------ | ----------------- |
-| US-5 Create and manage provider profile | `POST /api/provider-profiles`, `GET /api/provider-profiles`, `GET /api/provider-profiles/{providerProfileId}`, `GET /api/provider-profiles/account/{accountId}`, `PUT /api/provider-profiles/{providerProfileId}`, `DELETE /api/provider-profiles/{providerProfileId}`, `POST /api/accounts/login`, `GET /api/accounts/{accountId}`, `PUT /api/accounts/{accountId}`, `DELETE /api/accounts/{accountId}` |
+| US-5 Create and manage provider profile | `POST /api/provider-profiles`, `GET /api/provider-profiles`, `GET /api/provider-profiles/{providerProfileId}`, `GET /api/provider-profiles/account/{accountId}`, `DELETE /api/provider-profiles/{providerProfileId}`, `POST /api/accounts/login`, `GET /api/accounts/{accountId}`, `PUT /api/accounts/{accountId}`, `DELETE /api/accounts/{accountId}` |
 | US-6 Create book listings | `POST /api/book-listings/provider/{providerProfileId}` |
 | US-7 Manage book listings | `GET /api/provider-profiles/{providerProfileId}/listings`, `GET /api/book-listings/{listingId}`, `PUT /api/book-listings/{listingId}`, `DELETE /api/book-listings/{listingId}` |
 | US-8 Record listing history and manage requests | `GET /api/provider-profiles/{providerProfileId}/swap-requests/pending`, `GET /api/provider-profiles/{providerProfileId}/swap-history`, `GET /api/swap-requests/{requestId}`, `PUT /api/swap-requests/{requestId}/approve`, `PUT /api/swap-requests/{requestId}/reject`, `PUT /api/swap-requests/{requestId}/complete` |
