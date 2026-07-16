@@ -2,33 +2,10 @@ package com.csc340.Swap_A_Bookaroo.entities;
 
 import java.util.Date;
 import java.util.List;
-<<<<<<< HEAD
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import jakarta.persistence.Transient;
-=======
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
->>>>>>> origin/main
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -58,10 +35,7 @@ public class BookListing {
     @Column(nullable = false)
     private String author;
 
-<<<<<<< HEAD
-=======
     @JsonProperty("IMG")
->>>>>>> origin/main
     private String imageLink;
 
     @Enumerated(EnumType.STRING)
@@ -86,28 +60,8 @@ public class BookListing {
         }
     }
 
-<<<<<<< HEAD
-    public void markRequested() {
-        this.status = ListingStatus.REQUESTED;
-    }
-
-    public void markAvailable() {
-        this.status = ListingStatus.AVAILABLE;
-    }
-
-    public void markSwapped() {
-        this.status = ListingStatus.SWAPPED;
-    }
-
-    public void markRemoved() {
-        this.status = ListingStatus.REMOVED;
-    }
-
-}
-=======
     public void markRequested() { this.status = ListingStatus.REQUESTED; }
     public void markAvailable() { this.status = ListingStatus.AVAILABLE; }
     public void markSwapped() { this.status = ListingStatus.SWAPPED; }
     public void markRemoved() { this.status = ListingStatus.REMOVED; }
 }
->>>>>>> origin/main
