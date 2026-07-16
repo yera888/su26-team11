@@ -31,9 +31,7 @@
         </div>
       </form>
 
-      <div class="switch">
-        <a href="/providers">View all providers</a>
-      </div>
+    
     </div>
   </div>
 </body>

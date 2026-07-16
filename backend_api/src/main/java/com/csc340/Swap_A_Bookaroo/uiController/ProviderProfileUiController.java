@@ -16,33 +16,34 @@ public class ProviderProfileUiController {
         this.providerProfileService = providerProfileService;
     }
 
-    @GetMapping                              // list all providers
-    public String listProviders(Model model) {
-        model.addAttribute("providers", providerProfileService.getAllProviderProfiles());
-        return "provider-list";
-    }
-
-    @GetMapping("/new")                       // show signup form
+    // US-5: show the signup form
+    @GetMapping("/new")
     public String signupForm(Model model) {
         model.addAttribute("providerProfile", new ProviderProfile());
         return "provider-signup";
     }
 
-    @PostMapping("/save")                      // handle signup (no @RequestBody, like HxH)
+    // US-5: handle signup, then go straight to the new provider's own profile
+    @PostMapping("/save")
     public String createProvider(ProviderProfile providerProfile) {
-        providerProfileService.createProviderProfile(providerProfile);
-        return "redirect:/providers";
+        ProviderProfile created = providerProfileService.createProviderProfile(providerProfile);
+        if (created == null) {
+            return "redirect:/providers/new?error=true";   // username already taken
+        }
+        return "redirect:/providers/" + created.getProviderProfileId();
     }
 
-    @GetMapping("/{id}")                        // view one provider
+    // US-5: view one provider's own profile
+    @GetMapping("/{id}")
     public String viewProvider(@PathVariable Long id, Model model) {
         model.addAttribute("provider", providerProfileService.getProviderProfileById(id));
         return "provider-profile";
     }
 
-    @GetMapping("/{id}/delete")                 // delete (GET, like HxH)
+    // US-5: delete a provider
+    @GetMapping("/{id}/delete")
     public String deleteProvider(@PathVariable Long id) {
         providerProfileService.deleteProviderProfile(id);
-        return "redirect:/providers";
+        return "redirect:/providers/new";
     }
 }
