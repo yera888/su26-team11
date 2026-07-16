@@ -26,7 +26,7 @@
       <p><strong>Status:</strong> ${listing.status!''}</p>
       <p><strong>Tags:</strong>
         <#if listing.listingTags??>
-          <#list listing.listingTags as lt>${lt.tag.tagName}<#sep>, </#sep></#list>
+          <#list listing.listingTags as bookTag>${bookTag.tag.tagName}<#sep>, </#sep></#list>
         </#if>
       </p>
     </div>

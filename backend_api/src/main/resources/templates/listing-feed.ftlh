@@ -41,8 +41,8 @@
             <span class="author">by ${book.author}</span>
             <div class="listing-tags">
               <#if book.listingTags??>
-                <#list book.listingTags as lt>
-                  <span class="pill">${lt.tag.tagName}</span>
+                <#list book.listingTags as bookTag>
+                  <#if bookTag.tag??><soan class="pill">${bookTag.tag.tagName}</soan></#if>
                 </#list>
               </#if>
             </div>
