@@ -126,20 +126,13 @@ public class CustomerProfileService {
 
         if (prefs == null || prefs.isEmpty()) return allAvailable;
 
-        List<String> preferredNames = prefs.stream()
-                .filter(tag -> tag != null && tag.getTagName() != null)
-                .map(tag -> {
-                    String name = tag.getTagName();
-                    return name != null ? name.toLowerCase() : "";
-                })
-                .filter(name -> !name.isEmpty())
-                .toList();
+        List<String> preferredNames = prefs.stream().filter(tag -> tag != null && tag.getTagName() != null)
+                                                    .map(tag -> tag.getTagName().toLowerCase())
+                                                    .filter(name -> !name.isEmpty()).toList();
 
-        return allAvailable.stream()
-                .filter(b -> b.getListingTags().stream()
-                        .anyMatch(lt -> lt.getTag() != null 
-                                     && lt.getTag().getTagName() != null 
-                                     && preferredNames.contains(lt.getTag().getTagName().toLowerCase())))
+        return allAvailable.stream().filter(b -> b.getTags() != null && b.getTags().stream().anyMatch(tag -> tag != null 
+                                     && tag.getTagName() != null 
+                                     && preferredNames.contains(tag.getTagName().toLowerCase())))
                 .toList();
     }
 }

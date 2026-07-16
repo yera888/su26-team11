@@ -1,5 +1,6 @@
 package com.csc340.Swap_A_Bookaroo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,16 +14,13 @@ public class BookListingService {
     private final BookListingRepository bookListingRepository;
     private final ProviderProfileRepository providerProfileRepository;
     private final TagRepository tagRepository;
-    private final ListingTagRepository listingTagRepository;
 
     public BookListingService(BookListingRepository bookListingRepository,
                               ProviderProfileRepository providerProfileRepository,
-                              TagRepository tagRepository,
-                              ListingTagRepository listingTagRepository) {
+                              TagRepository tagRepository) {
         this.bookListingRepository = bookListingRepository;
         this.providerProfileRepository = providerProfileRepository;
         this.tagRepository = tagRepository;
-        this.listingTagRepository = listingTagRepository;
     }
 
     public BookListing getListingById(Long listingId) {
@@ -37,10 +35,11 @@ public class BookListingService {
         }
 
         listing.setProviderProfile(providerProfile);
-        BookListing savedListing = bookListingRepository.save(listing);
-        attachTags(savedListing, listing.getTagNames());
-
-        return bookListingRepository.findById(savedListing.getListingId()).orElse(savedListing);
+        
+        // Attach the managed tags list directly to the entity before saving
+        attachTags(listing, listing.getTagNames());
+        
+        return bookListingRepository.save(listing);
     }
 
     @Transactional
@@ -55,7 +54,7 @@ public class BookListingService {
 
         if (updatedListing.getTagNames() != null) {
             if (!hasEnoughTags(updatedListing.getTagNames())) return null;
-            listingTagRepository.deleteByBookListing_ListingId(listingId);
+            
             attachTags(existingListing, updatedListing.getTagNames());
         }
 
@@ -75,16 +74,17 @@ public class BookListingService {
     }
 
     private void attachTags(BookListing listing, List<String> tagNames) {
+        List<Tag> tagList = new ArrayList<>();
+        
         for (String tagName : tagNames) {
             Tag tag = tagRepository.findByTagName(tagName).orElseGet(() -> {
                 Tag newTag = new Tag();
-                newTag.createTag(tagName);
+                newTag.setTagName(tagName); 
                 return tagRepository.save(newTag);
             });
-            ListingTag listingTag = new ListingTag();
-            listingTag.setBookListing(listing);
-            listingTag.addTag(tag);
-            listingTagRepository.save(listingTag);
+            tagList.add(tag);
         }
+        
+        listing.setTags(tagList);
     }
 }

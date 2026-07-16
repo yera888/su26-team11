@@ -31,101 +31,67 @@
     <p class="page-subtitle">Books matched to the genres in your book seeker profile.</p>
 
     <div class="listing-grid">
-      <article class="listing-card">
-        <div class="listing-media"><span class="media-text">Circe</span></div>
-        <div class="listing-body">
-          <span class="title">Circe</span>
-          <span class="author">by Madeline Miller</span>
-          <div class="listing-tags">
-            <span class="pill pill-fantasy">Fantasy</span>
-            <span class="pill pill-mythology">Mythology</span>
-            <span class="pill pill-classics">Classics</span>
-          </div>
-        </div>
-        <div class="listing-card-actions">
-          <a class="btn-request request-trigger" href="#" data-title="Circe" data-author="by Madeline Miller" data-tags="Fantasy • Mythology • Classics" data-owner="Available from Jordan Rivera" data-cover="C">Request Swap</a>
-        </div>
-      </article>
+      <#if matchedBooks?? && (matchedBooks?size > 0)>
+        <#list matchedBooks as listing>
+          <article class="listing-card">
+            <#if listing.imageLink?? && listing.imageLink != "">
+              <div class="listing-media-img" style="height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #eee;">
+                <img src="${listing.imageLink}" alt="${listing.title}" style="width: 100%; height: 100%; object-fit: cover;" />
+              </div>
+            <#else>
+              <div class="listing-media">
+                <span class="media-text">${listing.title[0]}</span>
+              </div>
+            </#if>
 
-      <article class="listing-card">
-        <div class="listing-media"><span class="media-text">The Martian</span></div>
-        <div class="listing-body">
-          <span class="title">The Martian</span>
-          <span class="author">by Andy Weir</span>
-          <div class="listing-tags">
-            <span class="pill pill-sci-fi">Sci-Fi</span>
-            <span class="pill pill-adventure">Adventure</span>
-            <span class="pill pill-humor">Humor</span>
-          </div>
-        </div>
-        <div class="listing-card-actions">
-          <a class="btn-request request-trigger" href="#" data-title="The Martian" data-author="by Andy Weir" data-tags="Sci-Fi • Adventure • Humor" data-owner="Available from Aiden Brooks" data-cover="T">Request Swap</a>
-        </div>
-      </article>
+            <div class="listing-body">
+              <span class="title">${listing.title}</span>
+              <span class="author">by ${listing.author}</span>
+              
+              <div class="listing-tags">
+                <#if listing.listingTags??>
+                  <#list listing.listingTags as listingTag>
+                    <#if listingTag.tag?? && listingTag.tag.tagName??>
+                      <span class="pill pill-generic">${listingTag.tag.tagName}</span>
+                    </#if>
+                  </#list>
+                </#if>
+              </div>
+            </div>
 
-      <article class="listing-card">
-        <div class="listing-media"><span class="media-text">Beloved</span></div>
-        <div class="listing-body">
-          <span class="title">Beloved</span>
-          <span class="author">by Toni Morrison</span>
-          <div class="listing-tags">
-            <span class="pill pill-classics">Classics</span>
-            <span class="pill pill-historical-fiction">Historical Fiction</span>
-            <span class="pill pill-drama">Drama</span>
-          </div>
-        </div>
-        <div class="listing-card-actions">
-          <a class="btn-request request-trigger" href="#" data-title="Beloved" data-author="by Toni Morrison" data-tags="Classics • Historical Fiction • Drama" data-owner="Available from Nia Carter" data-cover="B">Request Swap</a>
-        </div>
-      </article>
+            <#assign tagNamesList = []>
+            <#if listing.listingTags??>
+              <#list listing.listingTags as listingTag>
+                <#if listingTag.tag?? && listingTag.tag.tagName??>
+                  <#assign tagNamesList = tagNamesList + [listingTag.tag.tagName]>
+                </#if>
+              </#list>
+            </#if>
+            <#assign tagString = tagNamesList?join(" • ")>
 
-      <article class="listing-card">
-        <div class="listing-media"><span class="media-text">Mexican Gothic</span></div>
-        <div class="listing-body">
-          <span class="title">Mexican Gothic</span>
-          <span class="author">by Silvia Moreno-Garcia</span>
-          <div class="listing-tags">
-            <span class="pill pill-horror">Horror</span>
-            <span class="pill pill-mystery">Mystery</span>
-            <span class="pill pill-gothic">Gothic</span>
-          </div>
-        </div>
-        <div class="listing-card-actions">
-          <a class="btn-request request-trigger" href="#" data-title="Mexican Gothic" data-author="by Silvia Moreno-Garcia" data-tags="Horror • Mystery • Gothic" data-owner="Available from Lena Ortiz" data-cover="M">Request Swap</a>
-        </div>
-      </article>
+            <#assign ownerName = "Bookaroo User">
+            <#if listing.providerProfile?? && listing.providerProfile.account??>
+              <#assign ownerName = listing.providerProfile.account.username>
+            </#if>
 
-      <article class="listing-card">
-        <div class="listing-media"><span class="media-text">Red, White &amp; Royal Blue</span></div>
-        <div class="listing-body">
-          <span class="title">Red, White &amp; Royal Blue</span>
-          <span class="author">by Casey McQuiston</span>
-          <div class="listing-tags">
-            <span class="pill pill-romance">Romance</span>
-            <span class="pill pill-young-adult">Young Adult</span>
-            <span class="pill pill-comedy">Comedy</span>
-          </div>
+            <div class="listing-card-actions">
+              <a class="btn-request request-trigger" href="#" 
+                 data-title="${listing.title}" 
+                 data-author="by ${listing.author}" 
+                 data-tags="${tagString}" 
+                 data-owner="Available from ${ownerName}" 
+                 data-cover="${listing.title[0]}">
+                Request Swap
+              </a>
+            </div>
+          </article>
+        </#list>
+      <#else>
+        <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+          <h3>No books match your profile preferences yet!</h3>
+          <p>Go to your <a href="/customer/profile">Profile</a> to customize your preferences.</p>
         </div>
-        <div class="listing-card-actions">
-          <a class="btn-request request-trigger" href="#" data-title="Red, White &amp; Royal Blue" data-author="by Casey McQuiston" data-tags="Romance • Young Adult • Comedy" data-owner="Available from Marisol Vega" data-cover="R">Request Swap</a>
-        </div>
-      </article>
-
-      <article class="listing-card">
-        <div class="listing-media"><span class="media-text">Sapiens</span></div>
-        <div class="listing-body">
-          <span class="title">Sapiens</span>
-          <span class="author">by Yuval Noah Harari</span>
-          <div class="listing-tags">
-            <span class="pill pill-non-fiction">Non-Fiction</span>
-            <span class="pill pill-history">History</span>
-            <span class="pill pill-science">Science</span>
-          </div>
-        </div>
-        <div class="listing-card-actions">
-          <a class="btn-request request-trigger" href="#" data-title="Sapiens" data-author="by Yuval Noah Harari" data-tags="Non-Fiction • History • Science" data-owner="Available from Owen Price" data-cover="S">Request Swap</a>
-        </div>
-      </article>
+      </#if>
     </div>
   </main>
 

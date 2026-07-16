@@ -124,7 +124,7 @@ public class CustomerUiController {
             model.addAttribute("matchedBooks", matchedBooks);
             model.addAttribute("customerProfile", profile);
         }
-        return "customer/feed";
+        return "customer/myFeed";
     }
 
 }
