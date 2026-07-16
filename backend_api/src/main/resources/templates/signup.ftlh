@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sign Up — Swap-A-Bookaroo</title>
-  <link rel="stylesheet" href="css/base.css" />
-  <link rel="stylesheet" href="css/loginPage.css" />
+  <link rel="stylesheet" href="../static/css/base.css" />
+  <link rel="stylesheet" href="../static/css/loginPage.css" />
 </head>
 <body>
   <div class="logincontainer">

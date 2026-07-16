@@ -58,7 +58,7 @@ public class AccountUiController {
         if(account != null){
             // If username and password is right, 
             session.setAttribute("user", account);
-            return "redirect:/profile";
+            return "redirect:/customer/profile";
         }else {
             // If username or password is wrong, send a error message and keep them on login
             model.addAttribute("errorMessage","Invalid username or password.");

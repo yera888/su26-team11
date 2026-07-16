@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login — Swap-A-Bookaroo</title>
-  <link rel="stylesheet" href="css/base.css" />
-  <link rel="stylesheet" href="css/loginPage.css" />
+  <link rel="stylesheet" href="../static/css/base.css" />
+  <link rel="stylesheet" href="../static/css/loginPage.css" />
 </head>
 <body>
   <div class="logincontainer">
@@ -13,7 +13,7 @@
       <h1 class="brand">Swap-A-Bookaroo</h1>
       <p class="subhead">Welcome back, Member</p>
 
-      <form class="form" id="loginForm">
+      <form class="form" id="loginForm" action="/account/login" method="post">
         <label class="label" for="username">Username</label>
         <input class="input" id="username" name="username" type="text" placeholder="username" required />
 
@@ -22,7 +22,7 @@
 
         <p class="error-message" id="loginError"></p>
         <#if errorMessage??>
-          <p class="error-message" id="loginError" ${errorMessage}</p>
+          <p class="error-message" id="loginError" >${errorMessage}</p>
         <#else>
           <p class="error-message" id="loginError"></p>
         </#if>
@@ -45,25 +45,12 @@
   </div>
 
   <script src="js/storage.js"></script>
- <!-- <script>
+  <script>
     const redirect = new URLSearchParams(window.location.search).get("redirect");
     if (redirect) {
       document.getElementById("signupLink").href = "signup.html?redirect=" + redirect;
     }
 
-    document.getElementById("loginForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value;
-      const errorEl = document.getElementById("loginError");
-
-      if (username === "username" && password === "password") {
-        login();
-        window.location.href = redirect === "customer" ? "../customer-prototype/profile.html" : "profile.html";
-      } else {
-        errorEl.textContent = "Invalid username or password.";
-      }
-    });
-  </script> -->
+  </script>
 </body>
 </html>
