@@ -23,9 +23,6 @@ public class ProviderProfile {
     @JsonIgnoreProperties({ "password", "role" })
     private Account account;
 
-    @Column(columnDefinition = "TEXT")
-    private String bio;
-
     private int swapCreditBalance;
 
     @OneToMany(mappedBy = "providerProfile", cascade = CascadeType.ALL)
