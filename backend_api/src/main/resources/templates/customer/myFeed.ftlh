@@ -4,25 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>My Feed — Swap-A-Bookaroo</title>
-  <link rel="stylesheet" href="../../static/css/base.css" />
-  <link rel="stylesheet" href="../../static/css/nav.css" />
-  <link rel="stylesheet" href="../../static/css/profile.css" />
-  <link rel="stylesheet" href="../../static/css/requestOverlayCustomer.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/nav.css" />
+  <link rel="stylesheet" href="../css/profile.css" />
+  <link rel="stylesheet" href="../css/requestOverlayCustomer.css" />
 </head>
 <body>
-  <nav class="topnav">
-    <a class="brand-link" href="profile.html">Swap-A-Bookaroo</a>
+ <nav class="topnav">
+    <a class="brand-link" href="/customer/profile">Swap-A-Bookaroo</a>
     <div class="nav-links">
-      <a href="myFeed.html">My Feed</a>
+      <a href="/customer/feed">My Feed</a>
       <a href="swapRequests.html">Swap Requests</a>
-      <a href="profile.html">Profile</a>
+      <a href="/customer/profile">Profile</a>
+      <a href="/account/logout" style="text-decoration: none;">
       <button type="button" id="logoutBtn">Log out</button>
+      </a>
     </div>
   </nav>
 
   <main class="profile-wrap">
     <div class="feed-banner">
-      <img class="feed-banner-img" src="../../static/images/books.jpg" alt="Feed banner" />
+      <img class="feed-banner-img" src="../images/books.jpg" alt="Feed banner" />
     </div>
 
     <h1 class="page-title">My Feed</h1>

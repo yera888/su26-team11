@@ -2,6 +2,8 @@ package com.csc340.Swap_A_Bookaroo.service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.csc340.Swap_A_Bookaroo.entities.*;
@@ -80,40 +82,39 @@ public class CustomerProfileService {
     }
 
     @Transactional
-    public List<CustomerPreference> addPreferenceTag(Long customerProfileId, Tag tagData) {
+    public Set<Tag> addPreferenceTag(Long customerProfileId, Tag tagData) {
         CustomerProfile profile = getCustomerById(customerProfileId);
         if (profile == null) return null;
 
-        Tag tag = tagRepository.findByTagName(tagData.getTagName())
-                .orElseGet(() -> {
+        // Find the master tag by name. If it doesn't exist, create it once.
+        Tag tag = tagRepository.findByTagName(tagData.getTagName()).orElseGet(() -> {
                     Tag newTag = new Tag();
-                    newTag.createTag(tagData.getTagName());
+                    newTag.setTagName(tagData.getTagName());
                     return tagRepository.save(newTag);
                 });
 
-        boolean matches = profile.getPreferences().stream()
-                .anyMatch(pref -> pref.getTagName().equalsIgnoreCase(tag.getTagName()));
-
-        if (!matches) {
-            CustomerPreference preference = new CustomerPreference();
-            preference.setTagName(tag.getTagName());
-            preference.setCustomerProfile(profile);
-            customerPreferenceRepository.save(preference);
-        }
-        return getCustomerById(customerProfileId).getPreferences();
+        // Add the master tag directly to this user's preference set
+        profile.getPreferences().add(tag);
+        customerProfileRepository.save(profile);
+        
+        return profile.getPreferences();
     }
 
-    public List<CustomerPreference> getCustomerPreferences(Long customerProfileId) {
+    public Set<Tag> getCustomerPreferences(Long customerProfileId) {
         CustomerProfile profile = getCustomerById(customerProfileId);
         return profile != null ? profile.getPreferences() : null;
     }
 
     @Transactional
-    public List<CustomerPreference> removePreferenceTag(Long customerProfileId, Long tagId) {
+    public Set<Tag> removePreferenceTag(Long customerProfileId, Long tagId) {
         CustomerProfile profile = getCustomerById(customerProfileId);
         if (profile == null) return null;
-        customerPreferenceRepository.deleteById(tagId);
-        return getCustomerById(customerProfileId).getPreferences();
+
+        // Remove the association from the set (this deletes the row in the join table, NOT the master tag)
+        profile.getPreferences().removeIf(tag -> tag.getTagId().equals(tagId));
+        customerProfileRepository.save(profile);
+
+        return profile.getPreferences();
     }
 
     public List<BookListing> getMatchedBookFeed(Long customerProfileId) {
@@ -121,15 +122,24 @@ public class CustomerProfileService {
         if (customer == null) return Collections.emptyList();
 
         List<BookListing> allAvailable = bookListingRepository.findByStatus(ListingStatus.AVAILABLE);
-        List<CustomerPreference> prefs = customer.getPreferences();
+        Set<Tag> prefs = customer.getPreferences();
 
         if (prefs == null || prefs.isEmpty()) return allAvailable;
 
-        List<String> preferredNames = prefs.stream().map(Tag::getTagName).map(String::toLowerCase).toList();
+        List<String> preferredNames = prefs.stream()
+                .filter(tag -> tag != null && tag.getTagName() != null)
+                .map(tag -> {
+                    String name = tag.getTagName();
+                    return name != null ? name.toLowerCase() : "";
+                })
+                .filter(name -> !name.isEmpty())
+                .toList();
 
         return allAvailable.stream()
                 .filter(b -> b.getListingTags().stream()
-                        .anyMatch(lt -> lt.getTag() != null && preferredNames.contains(lt.getTag().getTagName().toLowerCase())))
+                        .anyMatch(lt -> lt.getTag() != null 
+                                     && lt.getTag().getTagName() != null 
+                                     && preferredNames.contains(lt.getTag().getTagName().toLowerCase())))
                 .toList();
     }
 }

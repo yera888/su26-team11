@@ -1,6 +1,9 @@
 package com.csc340.Swap_A_Bookaroo.entities;
 
+import java.util.Set;
+import java.util.HashSet;
 import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,7 +29,16 @@ public class CustomerProfile {
     @Column(columnDefinition = "TEXT")
     private String bio;
 
+    // This defines the join table that connects Customers directly to Master Tags
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+        name = "customer_tags",
+        joinColumns = @JoinColumn(name = "customer_profile_id"),
+        inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> preferences = new HashSet<>();
+
     @OneToMany(mappedBy = "customerProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties({"customerProfile"})
-    private List<CustomerPreference> preferences;
+    private List<CustomerPreference> preferences1;
 }

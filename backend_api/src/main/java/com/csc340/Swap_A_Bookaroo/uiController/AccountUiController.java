@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -100,5 +101,17 @@ public class AccountUiController {
         }
     }
 
+    @GetMapping("/delete")
+    public String deleteAccount(HttpSession session) {
+        Account account = (Account) session.getAttribute("user");
+        if (account == null) {
+        return "redirect:/account/login";
+        }
+        
+        Long accountId = account.getAccountId();
+        accountService.deleteAccount(accountId);
+        session.invalidate();
+        return "redirect:/account/login";
+    }
 
 }

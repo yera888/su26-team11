@@ -4,19 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Book Seeker Profile — Swap-A-Bookaroo</title>
-  <link rel="stylesheet" href="../../static/css/base.css" />
-  <link rel="stylesheet" href="../../static/css/nav.css" />
-  <link rel="stylesheet" href="../../static/css/profile.css" />
-  <link rel="stylesheet" href="../../static/css/tagSelect.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/nav.css" />
+  <link rel="stylesheet" href="../css/profile.css" />
+  <link rel="stylesheet" href="../css/tagSelect.css" />
 </head>
 <body>
   <nav class="topnav">
-    <a class="brand-link" href="profile.html">Swap-A-Bookaroo</a>
+    <a class="brand-link" href="/customer/profile">Swap-A-Bookaroo</a>
     <div class="nav-links">
-      <a href="myFeed.html">My Feed</a>
+      <a href="/customer/feed">My Feed</a>
       <a href="swapRequests.html">Swap Requests</a>
-      <a href="profile.html">Profile</a>
+      <a href="/customer/profile">Profile</a>
+      <a href="/account/logout" style="text-decoration: none;">
       <button type="button" id="logoutBtn">Log out</button>
+      </a>
     </div>
   </nav>
 
@@ -39,7 +41,13 @@
         </div>
         <div class="summary-card">
           <h4>Preferred Tags</h4>
-          <p ${customerProfile.preferences}</p>
+          <p id="preferredTagsValue">
+            <#if preferences?? && preferences?has_content>
+              <#list preferences as pref>${pref.tagName}<#if pref_has_next>, </#if></#list>
+            <#else>
+              No preferences selected
+            </#if>
+          </p>
         </div>
         <div class="summary-card">
           <h4>Next Match</h4>
@@ -52,20 +60,68 @@
       <div class="section-head">
         <h3>Book Preferences</h3>
       </div>
-      <div class="tag-grid" id="tagGrid">
-        <button type="button" class="tag-chip" data-tag="Sci-Fi">Sci-Fi</button>
-        <button type="button" class="tag-chip" data-tag="Fantasy">Fantasy</button>
-        <button type="button" class="tag-chip" data-tag="Romance">Romance</button>
-        <button type="button" class="tag-chip" data-tag="Mystery">Mystery</button>
-        <button type="button" class="tag-chip" data-tag="Thriller">Thriller</button>
-        <button type="button" class="tag-chip" data-tag="Horror">Horror</button>
-        <button type="button" class="tag-chip" data-tag="Non-Fiction">Non-Fiction</button>
-        <button type="button" class="tag-chip" data-tag="Biography">Biography</button>
-        <button type="button" class="tag-chip" data-tag="Young Adult">Young Adult</button>
-        <button type="button" class="tag-chip" data-tag="Classics">Classics</button>
-        <button type="button" class="tag-chip" data-tag="Poetry">Poetry</button>
-        <button type="button" class="tag-chip" data-tag="Self-Help">Self-Help</button>
-      </div>
+        <div class="tag-grid" id="tagGrid">
+          <a href="/customer/preferences?tagName=Sci-Fi">
+            <button type="button" class="tag-chip <#if preferences?? && preferences?filter(p -> p.tagName == 'Sci-Fi')?has_content>selected</#if>">
+              Sci-Fi
+            </button>
+          </a>
+          <a href="/customer/preferences?tagName=Fantasy">
+            <button type="button" class="tag-chip <#if preferences?? && preferences?filter(p -> p.tagName == 'Fantasy')?has_content>selected</#if>">
+              Fantasy
+            </button>
+          </a>
+          <a href="/customer/preferences?tagName=Romance">
+            <button type="button" class="tag-chip <#if preferences?? && preferences?filter(p -> p.tagName == 'Romance')?has_content>selected</#if>">
+              Romance
+            </button>
+          </a>
+          <a href="/customer/preferences?tagName=Mystery">
+            <button type="button" class="tag-chip <#if preferences?? && preferences?filter(p -> p.tagName == 'Mystery')?has_content>selected</#if>">
+              Mystery
+            </button>
+          </a>
+          <a href="/customer/preferences?tagName=Thriller">
+            <button type="button" class="tag-chip <#if preferences?? && preferences?filter(p -> p.tagName == 'Thriller')?has_content>selected</#if>">
+              Thriller
+            </button>
+          </a>
+          <a href="/customer/preferences?tagName=Horror">
+            <button type="button" class="tag-chip <#if preferences?? && preferences?filter(p -> p.tagName == 'Horror')?has_content>selected</#if>">
+              Horror
+            </button>
+          </a>
+          <a href="/customer/preferences?tagName=Non-Fiction">
+            <button type="button" class="tag-chip <#if preferences?? && preferences?filter(p -> p.tagName == 'Non-Fiction')?has_content>selected</#if>">
+              Non-Fiction
+            </button>
+          </a>
+          <a href="/customer/preferences?tagName=Biography">
+            <button type="button" class="tag-chip <#if preferences?? && preferences?filter(p -> p.tagName == 'Biography')?has_content>selected</#if>">
+              Biography
+            </button>
+          </a>
+          <a href="/customer/preferences?tagName=Young Adult">
+            <button type="button" class="tag-chip <#if preferences?? && preferences?filter(p -> p.tagName == 'Young Adult')?has_content>selected</#if>">
+              Young Adult
+            </button>
+          </a>
+          <a href="/customer/preferences?tagName=Classics">
+            <button type="button" class="tag-chip <#if preferences?? && preferences?filter(p -> p.tagName == 'Classics')?has_content>selected</#if>">
+              Classics
+            </button>
+          </a>
+          <a href="/customer/preferences?tagName=Poetry">
+            <button type="button" class="tag-chip <#if preferences?? && preferences?filter(p -> p.tagName == 'Poetry')?has_content>selected</#if>">
+              Poetry
+            </button>
+          </a>
+          <a href="/customer/preferences?tagName=Self-Help">
+            <button type="button" class="tag-chip <#if preferences?? && preferences?filter(p -> p.tagName == 'Self-Help')?has_content>selected</#if>">
+              Self-Help
+            </button>
+          </a>
+        </div>
       <p class="save-hint">Tap a genre to update your interests. Your matched feed reflects these choices.</p>
     </section>
 
@@ -100,68 +156,15 @@
 
     <section class="account-actions">
       <a class="btn-account" href="../provider-prototype/profile.html">Open Book Lister Profile</a>
-      <button class="btn-account danger" id="deleteAccountBtn" type="button">Delete Account</button>
+      <a href="/customer/delete" onclick="return confirm('Are you sure you want to delete your account? This cannot be undone.');">
+        <button class="btn-account danger" type="button" class="btn-danger">Delete Account</button>
+      </a>
     </section>
   </main>
 
   <script src="../provider-prototype/js/storage.js"></script>
   <script>
     requireLogin("../provider-prototype/loginPage.html?redirect=customer");
-
-    const PREFERENCES_KEY = "swab_customer_preferences";
-
-    function getPreferences() {
-      return JSON.parse(localStorage.getItem(PREFERENCES_KEY) || "[]");
-    }
-
-    function savePreferences(tags) {
-      localStorage.setItem(PREFERENCES_KEY, JSON.stringify(tags));
-    }
-
-    const selected = new Set(getPreferences());
-    const tagGrid = document.getElementById("tagGrid");
-    const preferredTagsValue = document.getElementById("preferredTagsValue");
-
-    function updatePreferredTagsDisplay() {
-      const tags = Array.from(selected);
-      preferredTagsValue.textContent = tags.length ? tags.join(", ") : "No preferences selected";
-    }
-
-    document.querySelectorAll(".tag-chip").forEach((chip) => {
-      if (selected.has(chip.dataset.tag)) {
-        chip.classList.add("selected");
-      }
-    });
-
-    updatePreferredTagsDisplay();
-
-    tagGrid.addEventListener("click", function (e) {
-      const chip = e.target.closest(".tag-chip");
-      if (!chip) return;
-
-      const tag = chip.dataset.tag;
-      if (selected.has(tag)) {
-        selected.delete(tag);
-        chip.classList.remove("selected");
-      } else {
-        selected.add(tag);
-        chip.classList.add("selected");
-      }
-      savePreferences([...selected]);
-      updatePreferredTagsDisplay();
-    });
-
-    document.getElementById("deleteAccountBtn").addEventListener("click", function () {
-      if (confirm("Delete your member account? This will log you out.")) {
-        localStorage.clear();
-        window.location.href = "../provider-prototype/loginPage.html?redirect=customer";
-      }
-    });
-
-    document.getElementById("logoutBtn").addEventListener("click", function () {
-      logout();
-      window.location.href = "../provider-prototype/loginPage.html?redirect=customer";
-    });
   </script>
 </body>
 </html>
