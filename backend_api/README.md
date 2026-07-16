@@ -50,9 +50,6 @@ Request body:
 
 ```json
 {
-<<<<<<< HEAD
-
-=======
   "account": {
     "firstName": "Jacob",
     "lastName": "McGinniss",
@@ -60,7 +57,6 @@ Request body:
     "password": "securePassword123"
   },
   "bio": "Avid reader focusing on high-fantasy and sci-fi classics."
->>>>>>> origin/main
 }
 ```
 
@@ -68,9 +64,6 @@ Example response:
 
 ```json
 {
-<<<<<<< HEAD
-
-=======
 	"customerProfileId": 1,
 	"account": {
 		"accountId": 1,
@@ -80,7 +73,6 @@ Example response:
 	},
 	"bio": "Avid reader focusing on high-fantasy and sci-fi classics.",
 	"preferences": null
->>>>>>> origin/main
 }
 ```
 
@@ -90,8 +82,6 @@ Example response:
  GET /api/customer-profiles
 ```
 
-<<<<<<< HEAD
-=======
 Example response:
 
 ```json
@@ -110,15 +100,12 @@ Example response:
 ]
 ```
 
->>>>>>> origin/main
 #### Get a customer by id
 
 ```http
  GET /api/customer-profiles/{customerProfileId}
 ```
 
-<<<<<<< HEAD
-=======
 Example response:
 
 ```json
@@ -137,15 +124,12 @@ Example response:
 ]
 ```
 
->>>>>>> origin/main
 #### Get a customer by account id
 
 ```http
  GET /api/customer-profiles/account/{accountId}
 ```
 
-<<<<<<< HEAD
-=======
 Example response:
 
 ```json
@@ -164,7 +148,6 @@ Example response:
 ]
 ```
 
->>>>>>> origin/main
 #### Update a customer profile
 
 ```http
@@ -175,9 +158,6 @@ Example request body:
 
 ```json
 {
-<<<<<<< HEAD
-
-=======
   "bio": "Updated bio: Big fan of classic sci-fi, cyberpunk world-building, and high-fantasy series like Lord of the Rings."
 }
 ```
@@ -204,7 +184,6 @@ Example response:
 			"tagName": "Classic"
 		}
 	]
->>>>>>> origin/main
 }
 ```
 
@@ -224,12 +203,6 @@ Example request body:
 
 ```json
 {
-<<<<<<< HEAD
-
-}
-```
-
-=======
   "tagName": "Sci-Fi"
 }
 ```
@@ -249,15 +222,12 @@ Example response:
 ]
 ```
 
->>>>>>> origin/main
 #### Get customer preference tags
 
 ```http
  GET /api/customer-profiles/{customerProfileId}/preferences
 ```
 
-<<<<<<< HEAD
-=======
 Example response:
 
 ```json
@@ -273,15 +243,12 @@ Example response:
 ]
 ```
 
->>>>>>> origin/main
 #### Remove a customer preference tag
 
 ```http
  DELETE /api/customer-profiles/{customerProfileId}/preferences/{tagId}
 ```
 
-<<<<<<< HEAD
-=======
 ```json
 [
 	{
@@ -295,15 +262,12 @@ Example response:
 ]
 ```
 
->>>>>>> origin/main
 #### Get matched book feed for a customer
 
 ```http
  GET /api/customer-profiles/{customerProfileId}/feed
 ```
 
-<<<<<<< HEAD
-=======
 ```json
 [
 	{
@@ -347,7 +311,6 @@ Example response:
 ]
 ```
 
->>>>>>> origin/main
 #### Create a swap request
 
 ```http
@@ -358,16 +321,12 @@ Request body:
 
 ```json
 {
-<<<<<<< HEAD
-
-=======
   "customerProfile": {
     "customerProfileId": 1
   },
   "bookListing": {
     "listingId": 1
   }
->>>>>>> origin/main
 }
 ```
 
@@ -375,9 +334,6 @@ Example response:
 
 ```json
 {
-<<<<<<< HEAD
-
-=======
 	"requestId": 1,
 	"customerProfile": {
 		"customerProfileId": 1,
@@ -426,7 +382,6 @@ Example response:
 	"requestDate": "2026-07-11 03:53",
 	"responseDate": null,
 	"completedDate": null
->>>>>>> origin/main
 }
 ```
 
@@ -436,8 +391,6 @@ Example response:
  GET /api/swap-requests/customer/{customerProfileId}/pending
 ```
 
-<<<<<<< HEAD
-=======
 Example response:
 
 ```json
@@ -493,7 +446,6 @@ Example response:
 }
 ```
 
->>>>>>> origin/main
 ---
 
 ### 3.2 Account Endpoints
@@ -1018,17 +970,10 @@ The API endpoints support the following SRS user stories and acceptance flows de
 
 | SRS use case | Related Endpoints |
 | ------------ | ----------------- |
-<<<<<<< HEAD
-| US-1 Register and manage customer profile | 
-| US-2 Find books based on preferences | 
-| US-3 Request a book swap | 
-| US-4 View pending book swaps | 
-=======
 | US-1 Register and manage customer profile | `POST /api/customer-profiles`, `GET /api/customer-profiles`, `GET /api/customer-profiles/{customerProfileId}`, `GET /api/customer-profiles/account/{accountId}`, `PUT /api/customer-profiles/{customerProfileId}`, `DELETE /api/customer-profiles/{customerProfileId}` | 
 | US-2 Find books based on preferences | `POST /api/customer-profiles/{customerProfileId}/preferences`, `GET /api/customer-profiles/{customerProfileId}/preferences`, `DELETE /api/customer-profiles/{customerProfileId}/preferences/{tagId}`, `GET /api/customer-profiles/{customerProfileId}/feed`|
 | US-3 Request a book swap | `POST /api/swap-requests`|
 | US-4 View pending book swaps | `/api/swap-requests/customer/{customerProfileId}/pending`|
->>>>>>> origin/main
 
 ### Provider use cases
 
@@ -1037,8 +982,4 @@ The API endpoints support the following SRS user stories and acceptance flows de
 | US-5 Create and manage provider profile | `POST /api/provider-profiles`, `GET /api/provider-profiles`, `GET /api/provider-profiles/{providerProfileId}`, `GET /api/provider-profiles/account/{accountId}`, `PUT /api/provider-profiles/{providerProfileId}`, `DELETE /api/provider-profiles/{providerProfileId}`, `POST /api/accounts/login`, `GET /api/accounts/{accountId}`, `PUT /api/accounts/{accountId}`, `DELETE /api/accounts/{accountId}` |
 | US-6 Create book listings | `POST /api/book-listings/provider/{providerProfileId}` |
 | US-7 Manage book listings | `GET /api/provider-profiles/{providerProfileId}/listings`, `GET /api/book-listings/{listingId}`, `PUT /api/book-listings/{listingId}`, `DELETE /api/book-listings/{listingId}` |
-<<<<<<< HEAD
 | US-8 Record listing history and manage requests | `GET /api/provider-profiles/{providerProfileId}/swap-requests/pending`, `GET /api/provider-profiles/{providerProfileId}/swap-history`, `GET /api/swap-requests/{requestId}`, `PUT /api/swap-requests/{requestId}/approve`, `PUT /api/swap-requests/{requestId}/reject`, `PUT /api/swap-requests/{requestId}/complete` |
-=======
-| US-8 Record listing history and manage requests | `GET /api/provider-profiles/{providerProfileId}/swap-requests/pending`, `GET /api/provider-profiles/{providerProfileId}/swap-history`, `GET /api/swap-requests/{requestId}`, `PUT /api/swap-requests/{requestId}/approve`, `PUT /api/swap-requests/{requestId}/reject`, `PUT /api/swap-requests/{requestId}/complete` |
->>>>>>> origin/main
