@@ -18,8 +18,8 @@ public class CustomerProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customerProfileId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "accountId", nullable = false)
     @JsonIgnoreProperties({ "password", "role" })
     private Account account;
 

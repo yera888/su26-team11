@@ -49,7 +49,7 @@ public class AccountUiController {
     // Methods
     @GetMapping("/login")
     public String login() {
-        return "login";
+        return "loginPage";
     }
 
     @PostMapping("/login")
@@ -62,7 +62,7 @@ public class AccountUiController {
         }else {
             // If username or password is wrong, send a error message and keep them on login
             model.addAttribute("errorMessage","Invalid username or password.");
-            return "login";
+            return "loginPage";
         }
     }
 

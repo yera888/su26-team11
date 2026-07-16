@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login — Swap-A-Bookaroo</title>
-  <link rel="stylesheet" href="../static/css/base.css" />
-  <link rel="stylesheet" href="../static/css/loginPage.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/loginPage.css" />
 </head>
 <body>
   <div class="logincontainer">
@@ -32,11 +32,9 @@
         </div>
       </form>
 
-      <p class="hint-credentials">Demo login — username: <strong>username</strong>, password: <strong>password</strong></p>
-
       <div class="switch">
         Don't have an account?
-        <a href="/signup" id="signupLink">Sign up</a>
+        <a href="/account/signup" id="signupLink">Sign up</a>
       </div>
 
       <footer class="small">By continuing you agree to our Terms &amp; Privacy.</footer>
