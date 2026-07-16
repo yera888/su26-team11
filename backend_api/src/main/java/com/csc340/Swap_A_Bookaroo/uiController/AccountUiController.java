@@ -56,11 +56,11 @@ public class AccountUiController {
     public String login(@ModelAttribute Account loginRequest, Model model, HttpSession session) {
         Account account = accountService.login(loginRequest.getUsername(), loginRequest.getPassword());
         if(account != null){
-            // If username and password is right, 
+            // If username and password is right, create session and send to customer profile page
             session.setAttribute("user", account);
             return "redirect:/customer/profile";
         }else {
-            // If username or password is wrong, send a error message and keep them on login
+            // If username or password is wrong, send a error message and keep them on login page
             model.addAttribute("errorMessage","Invalid username or password.");
             return "loginPage";
         }
@@ -82,6 +82,7 @@ public class AccountUiController {
     public String registerCustomer(@ModelAttribute Account account, Model model, HttpSession session) {
         Account createdAccount = accountService.registerDualAccount(account);
         if(createdAccount != null){
+            // If account is created, create session and create customer account and provider account
             session.setAttribute("customerId", createdAccount);
 
             CustomerProfile customerProfile = customerProfileService.getCustomerByAccountId(createdAccount.getAccountId());
@@ -92,7 +93,7 @@ public class AccountUiController {
 
             return "redirect:/customer/profile";
         } else{
-            // Username already exists
+            // Username already exists/account is not created
             model.addAttribute("errorMessage", "Username is already taken. Please try another one.");
             model.addAttribute("account", account); 
             return "signup";
