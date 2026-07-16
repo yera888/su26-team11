@@ -1,28 +1,9 @@
 package com.csc340.Swap_A_Bookaroo.entities;
 
 import java.util.Date;
-<<<<<<< HEAD
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-=======
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
->>>>>>> origin/main
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,11 +21,7 @@ public class SwapRequest {
 
     @ManyToOne
     @JoinColumn(name = "customer_profile_id", nullable = false)
-<<<<<<< HEAD
-    @JsonIgnoreProperties({ "password", "description", "preferences" })
-=======
     @JsonIgnoreProperties({ "preferences" })
->>>>>>> origin/main
     private CustomerProfile customerProfile;
 
     @ManyToOne
@@ -85,21 +62,9 @@ public class SwapRequest {
         this.responseDate = new Date();
     }
 
-<<<<<<< HEAD
-    public void cancelRequest() {
-        this.status = SwapRequestStatus.CANCELLED;
-    }
-
-=======
     public void cancelRequest() { this.status = SwapRequestStatus.CANCELLED; }
->>>>>>> origin/main
     public void completeSwap() {
         this.status = SwapRequestStatus.COMPLETED;
         this.completedDate = new Date();
     }
-<<<<<<< HEAD
-
 }
-=======
-}
->>>>>>> origin/main
