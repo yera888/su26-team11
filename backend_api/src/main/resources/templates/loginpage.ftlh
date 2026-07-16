@@ -21,6 +21,11 @@
         <input class="input" id="password" name="password" type="password" placeholder="password" required />
 
         <p class="error-message" id="loginError"></p>
+        <#if errorMessage??>
+          <p class="error-message" id="loginError" ${errorMessage}</p>
+        <#else>
+          <p class="error-message" id="loginError"></p>
+        </#if>
 
         <div class="actions">
           <button class="btn" type="submit">Continue</button>
@@ -31,7 +36,7 @@
 
       <div class="switch">
         Don't have an account?
-        <a href="signup.html" id="signupLink">Sign up</a>
+        <a href="/signup" id="signupLink">Sign up</a>
       </div>
 
       <footer class="small">By continuing you agree to our Terms &amp; Privacy.</footer>
@@ -40,7 +45,7 @@
   </div>
 
   <script src="js/storage.js"></script>
-  <script>
+ <!-- <script>
     const redirect = new URLSearchParams(window.location.search).get("redirect");
     if (redirect) {
       document.getElementById("signupLink").href = "signup.html?redirect=" + redirect;
@@ -59,6 +64,6 @@
         errorEl.textContent = "Invalid username or password.";
       }
     });
-  </script>
+  </script> -->
 </body>
 </html>

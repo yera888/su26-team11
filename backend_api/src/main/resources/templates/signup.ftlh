@@ -13,18 +13,24 @@
       <h1 class="brand">Swap-A-Bookaroo</h1>
       <p class="subhead">Create your Member account</p>
 
-      <form class="form" id="signupForm">
+      <form class="form" action="/account/signup" method="post">
         <label class="label" for="first-name">First name</label>
-        <input class="input" id="first-name" name="first_name" type="text" placeholder="First name" required />
+        <input class="input" id="first-name" name="firstName" type="text" placeholder="First name" required />
 
         <label class="label" for="last-name">Last name</label>
-        <input class="input" id="last-name" name="last_name" type="text" placeholder="Last name" required />
+        <input class="input" id="last-name" name="lastName" type="text" placeholder="Last name" required />
 
         <label class="label" for="signup-username">Username</label>
         <input class="input" id="signup-username" name="username" type="text" placeholder="Choose a username" required />
 
         <label class="label" for="signup-password">Password</label>
         <input class="input" id="signup-password" name="password" type="password" placeholder="Choose a password" required />
+
+        <#if errorMessage??>
+          <p class="error-message" id="signupError">
+            ${errorMessage}
+          </p>
+        </#if>
 
         <div class="actions">
           <button class="btn" type="submit">Create account</button>
@@ -50,12 +56,6 @@
     if (redirect) {
       document.getElementById("loginLink").href = "loginPage.html?redirect=" + redirect;
     }
-
-    document.getElementById("signupForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      document.getElementById("signupMessage").style.display = "block";
-      document.getElementById("signupForm").reset();
-    });
   </script>
 </body>
 </html>
