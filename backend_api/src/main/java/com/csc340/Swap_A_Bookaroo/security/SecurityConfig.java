@@ -29,35 +29,79 @@ public class SecurityConfig {
         requestCache.setMatchingRequestParameterName(null);
 
         http
-                // This matches the course demo and keeps the existing API/forms easy to test.
-                // For production, re-enable CSRF and add CSRF tokens to every modifying form.
+                // This follows the course demo. A production deployment should
+                // re-enable CSRF and include CSRF tokens in modifying forms.
                 .csrf(AbstractHttpConfigurer::disable)
                 .userDetailsService(userDetailsService)
                 .authorizeHttpRequests(authorize -> authorize
-                        .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
-                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers("/css/**", "/images/**", "/*.jpg", "/*.png", "/*.gif").permitAll()
-                        .requestMatchers("/", "/login", "/403", "/error").permitAll()
+                        .dispatcherTypeMatchers(
+                                DispatcherType.FORWARD,
+                                DispatcherType.ERROR)
+                        .permitAll()
+                        .requestMatchers(
+                                PathRequest.toStaticResources()
+                                        .atCommonLocations())
+                        .permitAll()
+                        .requestMatchers(
+                                "/css/**",
+                                "/images/**",
+                                "/*.jpg",
+                                "/*.png",
+                                "/*.gif")
+                        .permitAll()
+                        .requestMatchers(
+                                "/",
+                                "/login",
+                                "/403",
+                                "/error")
+                        .permitAll()
 
-                        // Public registration endpoints
-                        .requestMatchers("/providers/new", "/providers/save").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/provider-profiles").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/customer-profiles").permitAll()
+                        // Public registration routes.
+                        .requestMatchers(
+                                "/providers/new",
+                                "/providers/save")
+                        .permitAll()
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/provider-profiles",
+                                "/api/customer-profiles")
+                        .permitAll()
 
-                        // Provider MVC
-                        .requestMatchers("/providers/**", "/listings/**").hasAuthority("ROLE_PROVIDER")
+                        // Provider browser pages.
+                        .requestMatchers(
+                                "/providers/**",
+                                "/listings/**")
+                        .hasRole("PROVIDER")
 
-                        // Provider APIs
-                        .requestMatchers("/api/provider-profiles/**").hasAuthority("ROLE_PROVIDER")
-                        .requestMatchers(HttpMethod.POST, "/api/book-listings/**").hasAuthority("ROLE_PROVIDER")
-                        .requestMatchers(HttpMethod.PUT, "/api/book-listings/**").hasAuthority("ROLE_PROVIDER")
-                        .requestMatchers(HttpMethod.DELETE, "/api/book-listings/**").hasAuthority("ROLE_PROVIDER")
-                        .requestMatchers(HttpMethod.PUT, "/api/swap-requests/**").hasAuthority("ROLE_PROVIDER")
+                        // Provider REST resources.
+                        .requestMatchers("/api/provider-profiles/**")
+                        .hasRole("PROVIDER")
+                        .requestMatchers("/api/book-listings/**")
+                        .hasRole("PROVIDER")
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/swap-requests/provider/**")
+                        .hasRole("PROVIDER")
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/api/swap-requests/**")
+                        .hasRole("PROVIDER")
 
-                        // Customer actions
-                        .requestMatchers(HttpMethod.POST, "/api/swap-requests/listing/**")
-                        .hasAuthority("ROLE_CUSTOMER")
-                        .requestMatchers("/api/customer-profiles/**").hasAuthority("ROLE_CUSTOMER")
+                        // Customer REST resources.
+                        .requestMatchers("/api/customer-profiles/**")
+                        .hasRole("CUSTOMER")
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/swap-requests/listing/**")
+                        .hasRole("CUSTOMER")
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/swap-requests/customer/**")
+                        .hasRole("CUSTOMER")
+
+                        // Account /me is available to either authenticated role.
+                        .requestMatchers("/api/accounts/me")
+                        .authenticated()
 
                         .anyRequest().authenticated())
                 .formLogin(form -> form
@@ -65,16 +109,23 @@ public class SecurityConfig {
                         .loginProcessingUrl("/login")
                         .failureUrl("/login?error=true")
                         .successHandler((request, response, authentication) -> {
-                            boolean isProvider = authentication.getAuthorities().stream()
-                                    .anyMatch(authority -> authority.getAuthority().equals("ROLE_PROVIDER"));
-                            response.sendRedirect(isProvider ? "/providers/me" : "/");
+                            boolean provider = authentication.getAuthorities()
+                                    .stream()
+                                    .anyMatch(authority ->
+                                            authority.getAuthority()
+                                                    .equals("ROLE_PROVIDER"));
+
+                            response.sendRedirect(
+                                    provider ? "/providers/me" : "/");
                         })
                         .permitAll())
-                .exceptionHandling(exception -> exception.accessDeniedPage("/403"))
+                .exceptionHandling(exception ->
+                        exception.accessDeniedPage("/403"))
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login?logout=true")
                         .permitAll())
-                .requestCache(cache -> cache.requestCache(requestCache));
+                .requestCache(cache ->
+                        cache.requestCache(requestCache));
 
         return http.build();
     }

@@ -1,8 +1,15 @@
 package com.csc340.Swap_A_Bookaroo.uicontroller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ResponseStatusException;
+
 import com.csc340.Swap_A_Bookaroo.entities.ProviderProfile;
 import com.csc340.Swap_A_Bookaroo.service.ProviderProfileService;
 
@@ -12,38 +19,57 @@ public class ProviderProfileUiController {
 
     private final ProviderProfileService providerProfileService;
 
-    public ProviderProfileUiController(ProviderProfileService providerProfileService) {
+    public ProviderProfileUiController(
+            ProviderProfileService providerProfileService) {
         this.providerProfileService = providerProfileService;
     }
 
-    // US-5: show the signup form
     @GetMapping("/new")
     public String signupForm(Model model) {
         model.addAttribute("providerProfile", new ProviderProfile());
         return "provider-signup";
     }
 
-    // US-5: handle signup, then go straight to the new provider's own profile
     @PostMapping("/save")
     public String createProvider(ProviderProfile providerProfile) {
-        ProviderProfile created = providerProfileService.createProviderProfile(providerProfile);
-        if (created == null) {
-            return "redirect:/providers/new?error=true";   // username already taken
-        }
-        return "redirect:/providers/" + created.getProviderProfileId();
+        ProviderProfile created =
+                providerProfileService.createProviderProfile(providerProfile);
+
+        return created == null
+                ? "redirect:/providers/new?error=true"
+                : "redirect:/login?registered=true";
     }
 
-    // US-5: view one provider's own profile
-    @GetMapping("/{id}")
-    public String viewProvider(@PathVariable Long id, Model model) {
-        model.addAttribute("provider", providerProfileService.getProviderProfileById(id));
+    @GetMapping("/me")
+    public String viewCurrentProvider(
+            Authentication authentication,
+            Model model) {
+        ProviderProfile provider = providerProfileService
+                .getProviderProfileByUsername(authentication.getName());
+
+        if (provider == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        model.addAttribute("provider", provider);
         return "provider-profile";
     }
 
-    // US-5: delete a provider
-    @GetMapping("/{id}/delete")
-    public String deleteProvider(@PathVariable Long id) {
-        providerProfileService.deleteProviderProfile(id);
-        return "redirect:/providers/new";
+    // Retains compatibility with the existing profile links while ensuring
+    // that a provider can only open their own profile ID.
+    @GetMapping("/{id}")
+    public String viewProvider(
+            @PathVariable Long id,
+            Authentication authentication,
+            Model model) {
+        ProviderProfile provider = providerProfileService
+                .getProviderProfileByUsername(authentication.getName());
+
+        if (provider == null || !provider.getProviderProfileId().equals(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        model.addAttribute("provider", provider);
+        return "provider-profile";
     }
 }
