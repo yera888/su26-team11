@@ -25,9 +25,6 @@ public class CustomerProfile {
     @JsonIgnoreProperties({ "password", "role" })
     private Account account;
 
-    @Column(columnDefinition = "TEXT")
-    private String bio;
-
     // This defines the join table that connects Customers directly to Master Tags
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(

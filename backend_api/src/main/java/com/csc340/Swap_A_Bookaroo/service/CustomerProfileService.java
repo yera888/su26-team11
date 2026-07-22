@@ -58,7 +58,6 @@ public class CustomerProfileService {
     public CustomerProfile updateCustomerProfile(Long id, CustomerProfile updatedProfile) {
         CustomerProfile existing = getCustomerById(id);
         if (existing == null) return null;
-        existing.setBio(updatedProfile.getBio());
         return customerProfileRepository.save(existing);
     }
 

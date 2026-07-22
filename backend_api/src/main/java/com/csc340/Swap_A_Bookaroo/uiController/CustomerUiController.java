@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.csc340.Swap_A_Bookaroo.entities.Account;
 import com.csc340.Swap_A_Bookaroo.entities.BookListing;
 import com.csc340.Swap_A_Bookaroo.entities.CustomerProfile;
+import com.csc340.Swap_A_Bookaroo.entities.ProviderProfile;
 import com.csc340.Swap_A_Bookaroo.entities.Tag;
 import com.csc340.Swap_A_Bookaroo.service.AccountService;
 import com.csc340.Swap_A_Bookaroo.service.BookListingService;
@@ -70,6 +71,12 @@ public class CustomerUiController {
         model.addAttribute("account", account);
         model.addAttribute("customerProfile", customerProfile);
         model.addAttribute("preferences", preferences);
+
+        if(account.getRole().equals("USER") || account.getRole().equals("PROVIDER")){
+            ProviderProfile providerProfile = providerProfileService.getProviderProfileByAccountId(id);
+            Long providerId = providerProfile.getProviderProfileId();
+            model.addAttribute("providerId", providerId);
+        }
         // Name of file location
         return "customer/profile";
     }
