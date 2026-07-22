@@ -38,7 +38,9 @@ public class CustomerProfile {
     )
     private Set<Tag> preferences = new HashSet<>();
 
-    @OneToMany(mappedBy = "customerProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    // old method for when there was a CustomerPreference class
+    // The customerProfile now connects directly to the tag as a many to many
+    /*@OneToMany(mappedBy = "customerProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties({"customerProfile"})
-    private List<CustomerPreference> preferences1;
+    private List<CustomerPreference> preferences1; */
 }
