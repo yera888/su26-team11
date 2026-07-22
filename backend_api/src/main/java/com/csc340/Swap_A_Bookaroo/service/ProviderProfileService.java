@@ -47,15 +47,6 @@ public class ProviderProfileService {
         return providerProfileRepository.save(providerProfile);
     }
 
-    public ProviderProfile updateProviderProfile(Long providerProfileId, ProviderProfile updatedProviderProfile) {
-        ProviderProfile existingProfile = providerProfileRepository.findById(providerProfileId).orElse(null);
-        if (existingProfile != null) {
-            existingProfile.setBio(updatedProviderProfile.getBio());
-            return providerProfileRepository.save(existingProfile);
-        }
-        return null;
-    }
-
     public boolean deleteProviderProfile(Long providerProfileId) {
         ProviderProfile providerProfile = providerProfileRepository.findById(providerProfileId).orElse(null);
         if (providerProfile == null) return false;

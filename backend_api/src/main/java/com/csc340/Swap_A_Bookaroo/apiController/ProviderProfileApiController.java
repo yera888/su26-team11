@@ -43,12 +43,6 @@ public class ProviderProfileApiController {
         return providerProfile != null ? ResponseEntity.ok(providerProfile) : ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/{providerProfileId}")
-    public ResponseEntity<ProviderProfile> updateProviderProfile(@PathVariable Long providerProfileId, @RequestBody ProviderProfile updatedProviderProfile) {
-        ProviderProfile providerProfile = providerProfileService.updateProviderProfile(providerProfileId, updatedProviderProfile);
-        return providerProfile != null ? ResponseEntity.ok(providerProfile) : ResponseEntity.notFound().build();
-    }
-
     @DeleteMapping("/{providerProfileId}")
     public ResponseEntity<Void> deleteProviderProfile(@PathVariable Long providerProfileId) {
         return providerProfileService.deleteProviderProfile(providerProfileId) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
