@@ -1,4 +1,4 @@
-**Project Name:**   
+**Project Name: Swap-a-Bookaroo**   
 **Version:** 
 **Date:**  
 **Purpose:** 
@@ -6,7 +6,6 @@
 ## Actors
 - Provider P:
 - Customer C:
-- Service S:
 
 ## Use Cases
 #### 1. Customer: US‑CUST‑001 — Register & manage profile
@@ -14,15 +13,31 @@
 2. C1 edits their profile to add preferences.
 3. C1 exits.
 
-#### 2. 
+#### 2. Customer: US‑CUST‑002 — Find books based on preferences
 1.
 2. 
 
-#### 6. Provider: 
+#### 3. Customer: US‑CUST‑003 — Request a book swap
+1.
+2. 
+
+#### 4. Customer: US‑CUST‑004 — View pending book swaps
+1.
+2. 
+
+#### 5. Provider: US‑PROV‑005 — Create and manage provider profile
 1.
 2.
 
-#### 7. Provider: 
+#### 6. Provider: US‑PROV‑006 — Create book listings
+1.
+2.
+
+#### 7. Provider: US‑PROV‑007 — Manage book listings
+1.
+2.
+
+#### 8. Provider: US‑PROV‑008 — Record listing history and manage requests
 1.
 2.
 
