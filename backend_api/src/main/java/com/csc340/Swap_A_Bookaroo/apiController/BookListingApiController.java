@@ -1,6 +1,7 @@
 package com.csc340.Swap_A_Bookaroo.apiController;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import com.csc340.Swap_A_Bookaroo.entities.BookListing;
 import com.csc340.Swap_A_Bookaroo.service.BookListingService;
@@ -16,25 +17,54 @@ public class BookListingApiController {
     }
 
     @GetMapping("/{listingId}")
-    public ResponseEntity<BookListing> getListingById(@PathVariable Long listingId) {
-        BookListing listing = bookListingService.getListingById(listingId);
-        return listing != null ? ResponseEntity.ok(listing) : ResponseEntity.notFound().build();
+    public ResponseEntity<BookListing> getOwnedListing(
+            @PathVariable Long listingId,
+            Authentication authentication) {
+        BookListing listing = bookListingService.getListingForProvider(
+                listingId,
+                authentication.getName());
+
+        return listing != null
+                ? ResponseEntity.ok(listing)
+                : ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/provider/{providerProfileId}")
-    public ResponseEntity<BookListing> createListing(@PathVariable Long providerProfileId, @RequestBody BookListing listing) {
-        BookListing created = bookListingService.createListing(providerProfileId, listing);
-        return created != null ? ResponseEntity.ok(created) : ResponseEntity.badRequest().build();
+    @PostMapping
+    public ResponseEntity<BookListing> createListing(
+            Authentication authentication,
+            @RequestBody BookListing listing) {
+        BookListing created = bookListingService.createListingForProvider(
+                authentication.getName(),
+                listing);
+
+        return created != null
+                ? ResponseEntity.ok(created)
+                : ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/{listingId}")
-    public ResponseEntity<BookListing> updateListing(@PathVariable Long listingId, @RequestBody BookListing updatedListing) {
-        BookListing updated = bookListingService.updateListing(listingId, updatedListing);
-        return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
+    public ResponseEntity<BookListing> updateListing(
+            @PathVariable Long listingId,
+            Authentication authentication,
+            @RequestBody BookListing updatedListing) {
+        BookListing updated = bookListingService.updateListingForProvider(
+                authentication.getName(),
+                listingId,
+                updatedListing);
+
+        return updated != null
+                ? ResponseEntity.ok(updated)
+                : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{listingId}")
-    public ResponseEntity<Void> removeListing(@PathVariable Long listingId) {
-        return bookListingService.removeListing(listingId) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    public ResponseEntity<Void> removeListing(
+            @PathVariable Long listingId,
+            Authentication authentication) {
+        return bookListingService.removeListingForProvider(
+                authentication.getName(),
+                listingId)
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
     }
 }
