@@ -155,7 +155,7 @@
     </section>
 
     <section class="account-actions">
-      <a class="btn-account" href="/providers/{providerId}">Open Book Lister Profile</a>
+      <a class="btn-account" href="/providers/${providerId}">Open Book Lister Profile</a>
       <a href="/customer/delete" onclick="return confirm('Are you sure you want to delete your account? This cannot be undone.');">
         <button class="btn-account danger" type="button" class="btn-danger">Delete Account</button>
       </a>

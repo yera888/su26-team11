@@ -33,7 +33,13 @@
 }
 
 /* Selected styling */
+/*
 .tag-checkbox:checked + .tag-chip { 
+  background: #111; 
+  color: #fff; 
+}
+*/
+.tag-chip.selected { 
   background: #111; 
   color: #fff; 
 }

@@ -76,12 +76,14 @@
 
             <div class="listing-card-actions">
               <a class="btn-request request-trigger" href="#" 
-                 data-title="${listing.title}" 
-                 data-author="by ${listing.author}" 
-                 data-tags="${tagString}" 
-                 data-owner="Available from ${ownerName}" 
-                 data-cover="${listing.title[0]}">
-                Request Swap
+                data-id="${listing.id!''}"
+                data-title="${listing.title!''}" 
+                data-author="by ${listing.author!''}" 
+                data-tags="${tagString!''}" 
+                data-owner="Available from ${ownerName!''}" 
+                data-cover="${listing.imageLink!''}"
+                data-initial="${listing.title[0]!'?'}">
+               Request Swap
               </a>
             </div>
           </article>
@@ -190,10 +192,6 @@
       requestStatus.textContent = "Request sent!";
     });
 
-    document.getElementById("logoutBtn").addEventListener("click", function () {
-      logout();
-      window.location.href = "../../static/loginPage.html?redirect=customer";
-    });
   </script>
 </body>
 </html>

@@ -72,13 +72,14 @@ public class CustomerUiController {
         model.addAttribute("customerProfile", customerProfile);
         model.addAttribute("preferences", preferences);
 
-        /* doesnt work becuase of the path var most likely
-        if(account.getRole().equals("USER") || account.getRole().equals("PROVIDER")){
+        /* doesnt work becuase of the path var most likely */
+        //if(account.getRole().equals("USER") || account.getRole().equals("PROVIDER")){
             ProviderProfile providerProfile = providerProfileService.getProviderProfileByAccountId(id);
             Long providerId = providerProfile.getProviderProfileId();
             model.addAttribute("providerId", providerId);
-        */}
+        //}
         
+
         // Name of file location
         return "customer/profile";
     }
@@ -132,6 +133,15 @@ public class CustomerUiController {
             model.addAttribute("customerProfile", profile);
         }
         return "customer/myFeed";
+    }
+
+    @PostMapping("/request-swap")
+    public String requestSwap(Model model, HttpSession session) {
+        Account account = (Account) session.getAttribute("user");
+        if (account == null) {
+            return "redirect:/account/login";
+        }
+        return "redirect:/customer/feed";
     }
 
 }
