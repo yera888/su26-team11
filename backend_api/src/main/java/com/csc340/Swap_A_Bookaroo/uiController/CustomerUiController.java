@@ -1,6 +1,5 @@
 package com.csc340.Swap_A_Bookaroo.uiController;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.csc340.Swap_A_Bookaroo.entities.Account;
 import com.csc340.Swap_A_Bookaroo.entities.BookListing;
-import com.csc340.Swap_A_Bookaroo.entities.CustomerPreference;
 import com.csc340.Swap_A_Bookaroo.entities.CustomerProfile;
 import com.csc340.Swap_A_Bookaroo.entities.Tag;
 import com.csc340.Swap_A_Bookaroo.service.AccountService;

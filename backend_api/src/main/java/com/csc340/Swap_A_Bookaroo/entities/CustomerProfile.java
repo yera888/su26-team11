@@ -2,7 +2,6 @@ package com.csc340.Swap_A_Bookaroo.entities;
 
 import java.util.Set;
 import java.util.HashSet;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;

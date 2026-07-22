@@ -16,19 +16,16 @@ public class CustomerProfileService {
     private final CustomerProfileRepository customerProfileRepository;
     private final AccountRepository accountRepository;
     private final TagRepository tagRepository;
-    private final CustomerPreferenceRepository customerPreferenceRepository;
     private final BookListingRepository bookListingRepository;
 
     public CustomerProfileService(CustomerProfileRepository customerProfileRepository,
                                 AccountRepository accountRepository,
                                 TagRepository tagRepository,
-                                CustomerPreferenceRepository customerPreferenceRepository,
                                 BookListingRepository bookListingRepository,
                                 SwapRequestRepository swapRequestRepository) {
         this.customerProfileRepository = customerProfileRepository;
         this.accountRepository = accountRepository;
         this.tagRepository = tagRepository;
-        this.customerPreferenceRepository = customerPreferenceRepository;
         this.bookListingRepository = bookListingRepository;
         this.swapRequestRepository = swapRequestRepository;
     }
