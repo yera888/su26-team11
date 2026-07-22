@@ -72,11 +72,13 @@ public class CustomerUiController {
         model.addAttribute("customerProfile", customerProfile);
         model.addAttribute("preferences", preferences);
 
+        /* doesnt work becuase of the path var most likely
         if(account.getRole().equals("USER") || account.getRole().equals("PROVIDER")){
             ProviderProfile providerProfile = providerProfileService.getProviderProfileByAccountId(id);
             Long providerId = providerProfile.getProviderProfileId();
             model.addAttribute("providerId", providerId);
-        }
+        */}
+        
         // Name of file location
         return "customer/profile";
     }
