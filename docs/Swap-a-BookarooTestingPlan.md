@@ -26,10 +26,6 @@
 1. Customer C1 navigates to the pending swaps page (/swap/customer/pending).
 2. C1 is able to see active swap requests and their current status (PENDING, APPROVED, or REJECTED).
 
-#### 5. Provider: US‑PROV‑005 — Create and manage provider profile
-1. Provider P1 logs in for the first time and creates a profile.
-2. P1 views their provider dashboard (/providers/me) to manage profile details and inspect their swap credit balance.
-
 
 #### 5. Provider: US-PROV-005: Register & Manage Provider Profile 
 
@@ -53,7 +49,6 @@
 
 1. On the profile page P1 click on delete account.
 2. P1 deletes the provider profile.
-
 
 
 #### 6. Provider: US-PROV-006: Create Book Listings
@@ -100,12 +95,13 @@
 1. P1 rejects an approved request.
 2. Service S changes the request to REJECTED and returns the listing to AVAILABLE.
 
+
 ## CROSS-CUTTING TEST SCENARIOS (Non-Functional Requirements)
 
 ### Performance Requirements
 
 **Scenario P1: Provider dashboard response time is less than 1.5 seconds**
-- **Setup:** Run Service S with the Neon PostgreSQL database connected. Then create at least 5 provider accounts, 10 active listings, and several pending, approved, completed, and rejected swap requests.
+- **Setup: Run Service S with the Neon PostgreSQL database connected. Then create at least 5 provider accounts, 10 active listings, and several pending, approved, completed, and rejected swap requests.**
 - **Steps:**
  1. Log in as Provider P1.
 
@@ -117,9 +113,9 @@
 - **Expected Outcome:** 95% of requests complete within 1.5 seconds
 
 **Scenario P2: Listing pages respond in less than 1.5 seconds**
-- **Setup: Log in as Provider P1 and create at least 10 active listings with at least three tags each.** 
+- **Setup: Log in as Provider P1 and create at least 10 active listings with at least three tags each.**
 - **Steps:**
- 1. Measure the response time for /listings.
+1. Measure the response time for /listings.
 
 2. Measure the response time for one listing-details page.
 
@@ -147,7 +143,7 @@
 
 - **Expected Outcome: Unauthenticated users are redirected to /login. The customer receives an access-denied response or is directed to the 403.ftlh page.** 
 
-**Scenario S2:Provider ownership and passwords remain protected**
+**Scenario S2: Provider ownership and passwords remain protected**
 - **Setup: Create Provider P1 and Provider P2. Create at least one listing for each provider.** 
 - **Steps:**
 1. Inspect the password values stored in the accounts table.
@@ -183,10 +179,10 @@
 
 8. Stop the timer when the listing appears in /listings.
 
-- **Expected Outcome:The provider completes registration, login, and listing creation within five minutes.The newly created listing appears with the status AVAILABLE.** 
+- **Expected Outcome: The provider completes registration, login, and listing creation within five minutes.The newly created listing appears with the status AVAILABLE.** 
 
 **Scenario U2:Provider processes a swap request and views its history**
-- **Setup:Create Provider P1 with an available listing.Create Customer C1 and submit a pending request for P1’s listing.** 
+- **Setup: Create Provider P1 with an available listing.Create Customer C1 and submit a pending request for P1’s listing.** 
 - **Steps:**
 1. Start a timer.
 
@@ -206,5 +202,4 @@
 
 9. Stop the timer.
 
-
-- **Expected Outcome:P1 can locate, approve, and complete the request. The request moves from PENDING to APPROVED and then to COMPLETED.The listing moves from AVAILABLE to REQUESTED and then to SWAPPED.The completed-swap count increases.** 
+- **Expected Outcome: P1 can locate, approve, and complete the request. The request moves from PENDING to APPROVED and then to COMPLETED. The listing moves from AVAILABLE to REQUESTED and then to SWAPPED. The completed-swap count increases.** 

@@ -22,14 +22,15 @@ i. Create/Modify/Remove Customer Profile
 - They can delete their account
 
 ii. View available services
-- Search Local Inventory by ISBN through search bar and it will check if that book exists in the database
+- Matchs the customer with a list of book listings based on the preferences the customer selects.
 
 iii. Subscribe to available services
 - Customer can request a Book Swap
 - Customer can like a book and it will save in their "Interested Books" linked to their profile
 
-iv. Browse through Matched Books
-- View a personalized feed of books from the database that were at least one book tag that matches the preferences in customers profile
+IV. Swap Request History
+- The customer can view pending swap requests and their approved swap requests.
+- Completed, rejected, or cancelled request history.
 
 2. Provider (Yeraldine Tamayo):
 i. Create/Modify/Remove book listings
