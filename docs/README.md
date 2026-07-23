@@ -2,7 +2,7 @@
 
 Provider Side: 
 
-US-PROV-005 — Register and Manage Provider Profile
+# US-PROV-005 — Register and Manage Provider Profile
 Use Case: A provider can register, log in, view their profile dashboard, update account information, and remove their provider profile.
 
 Model
@@ -155,7 +155,7 @@ Provider
 → BookListingService
 → BookListingRepository, ListingTagRepository, and SwapRequestRepository
 → Neon PostgreSQL
-US-PROV-008 — Manage Ongoing Transactions and Swap History
+# US-PROV-008 — Manage Ongoing Transactions and Swap History
 Use Case: A provider can view pending and approved requests, approve or reject requests, complete approved swaps, view transaction history, and see the completed-swap count.
 
 Model
