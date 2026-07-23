@@ -7,82 +7,183 @@
   <link rel="stylesheet" href="/css/base.css" />
   <link rel="stylesheet" href="/css/nav.css" />
   <link rel="stylesheet" href="/css/profile.css" />
+  <link rel="stylesheet" href="/css/security-provider.css" />
 </head>
 <body>
   <nav class="topnav">
-    <a class="brand-link" href="/providers/${provider.providerProfileId?c}">Swap-A-Bookaroo</a>
+    <a class="brand-link" href="/providers/me">Swap-A-Bookaroo</a>
     <div class="nav-links">
-      <a href="/listings?providerId=${provider.providerProfileId?c}">My Feed</a>
-      <a href="/providers/${provider.providerProfileId?c}">Profile</a>
-      <a href="/listings/new?providerId=${provider.providerProfileId?c}">Add Book</a>
+      <a href="/listings">My Listings</a>
+      <a href="/providers/me">Profile</a>
+      <a href="/listings/new">Add Book</a>
+      <form class="nav-form" action="/logout" method="post">
+        <button class="nav-button" type="submit">Log Out</button>
+      </form>
     </div>
   </nav>
 
   <main class="profile-wrap">
     <h1 class="page-title">My Profile</h1>
 
+    <#if RequestParameters.actionError??>
+      <p class="form-message error">
+        That request could not be updated. Refresh the page and try again.
+      </p>
+    </#if>
+
     <section class="profile-section">
       <div class="section-head">
-        <h3>Book Lister Profile</h3>
+        <h3>Provider Profile</h3>
       </div>
+
       <div class="summary-grid">
         <div class="summary-card">
           <h4>Full Name</h4>
           <p>${provider.account.firstName} ${provider.account.lastName}</p>
         </div>
+
         <div class="summary-card">
           <h4>Username</h4>
           <p>${provider.account.username}</p>
         </div>
+
         <div class="summary-card swap-credit-card">
-          <h4 class="swap-credit-label">SWAP CREDIT</h4>
-          <p class="swap-credit-value">${provider.swapCreditBalance?c}</p>
+          <h4>Swap Credit</h4>
+          <p>${provider.swapCreditBalance?c}</p>
+        </div>
+
+        <div class="summary-card">
+          <h4>Completed Swaps</h4>
+          <p>${completedSwapCount?c}</p>
         </div>
       </div>
     </section>
 
     <section class="profile-section">
       <div class="section-head">
-        <h3>My Listings</h3>
-        <a class="btn-secondary" href="/listings/new?providerId=${provider.providerProfileId?c}">+ Add Book</a>
+        <h3>My Active Listings</h3>
+        <a class="btn-secondary" href="/listings/new">+ Add Book</a>
       </div>
 
       <div class="listing-grid">
-        <#list provider.bookListings as book>
+        <#list activeListings as book>
           <article class="listing-card">
             <div class="listing-media">
-              <#if (book.imageLink)?? && book.imageLink != "">
-                <img src="${book.imageLink}" alt="${book.title}" style="width:100%;height:200px;object-fit:cover;display:block;" />
+              <#if book.imageLink?? && book.imageLink != "">
+                <img src="${book.imageLink}" alt="${book.title}" />
               <#else>
                 <span class="media-text">${book.title}</span>
               </#if>
             </div>
+
             <div class="listing-body">
               <span class="title">${book.title}</span>
               <span class="author">by ${book.author}</span>
               <span class="isbn">ISBN: ${book.isbn}</span>
-              <span class="status-badge">${(book.status)!'Available'}</span>
-              <div class="listing-tags">
-                <#if book.listingTags??>
-                  <#list book.listingTags as bookTag>
-                    <#if bookTag.tag??><span class="pill">${bookTag.tag.tagName}</span></#if>
-                  </#list>
-                </#if>
-              </div>
+              <span class="status-badge">${book.status}</span>
             </div>
+
             <div class="listing-card-actions">
               <a class="btn-small" href="/listings/${book.listingId?c}">View</a>
-              <a class="btn-small danger" href="/listings/${book.listingId?c}/delete?providerId=${provider.providerProfileId?c}">Remove</a>
+              <a class="btn-small" href="/listings/${book.listingId?c}/edit">Edit</a>
+              <form class="inline-form" action="/listings/${book.listingId?c}" method="post">
+                <input type="hidden" name="_method" value="delete" />
+                <button class="btn-small danger" type="submit">Remove</button>
+              </form>
             </div>
           </article>
         <#else>
-          <p class="empty-state">No listings yet. <a href="/listings/new?providerId=${provider.providerProfileId?c}">Add your first book</a>.</p>
+          <p class="empty-state">No active listings.</p>
+        </#list>
+      </div>
+    </section>
+
+    <section class="profile-section">
+      <div class="section-head">
+        <h3>Requests &amp; History</h3>
+      </div>
+
+      <h4 class="subsection-title">Pending Requests</h4>
+      <div class="request-list">
+        <#list pendingRequests as request>
+          <article class="request-card">
+            <div>
+              <strong>${request.bookListing.title}</strong>
+              <p>
+                Requested by
+                ${request.customerProfile.account.firstName}
+                ${request.customerProfile.account.lastName}
+                (@${request.customerProfile.account.username})
+              </p>
+              <p class="request-date">
+                ${request.requestDate?string("MMM d, yyyy h:mm a")}
+              </p>
+            </div>
+
+            <div class="request-actions">
+              <form class="inline-form" action="/providers/requests/${request.requestId?c}/approve" method="post">
+                <input type="hidden" name="_method" value="put" />
+                <button class="btn-small" type="submit">Approve</button>
+              </form>
+
+              <form class="inline-form" action="/providers/requests/${request.requestId?c}/reject" method="post">
+                <input type="hidden" name="_method" value="put" />
+                <button class="btn-small danger" type="submit">Reject</button>
+              </form>
+            </div>
+          </article>
+        <#else>
+          <p class="empty-state">No pending requests.</p>
+        </#list>
+      </div>
+
+      <h4 class="subsection-title">Approved — Awaiting Completion</h4>
+      <div class="request-list">
+        <#list approvedRequests as request>
+          <article class="request-card">
+            <div>
+              <strong>${request.bookListing.title}</strong>
+              <p>Approved for @${request.customerProfile.account.username}</p>
+            </div>
+
+            <div class="request-actions">
+              <form class="inline-form" action="/providers/requests/${request.requestId?c}/complete" method="post">
+                <input type="hidden" name="_method" value="put" />
+                <button class="btn-small" type="submit">Mark Completed</button>
+              </form>
+
+              <form class="inline-form" action="/providers/requests/${request.requestId?c}/reject" method="post">
+                <input type="hidden" name="_method" value="put" />
+                <button class="btn-small danger" type="submit">Cancel Swap</button>
+              </form>
+            </div>
+          </article>
+        <#else>
+          <p class="empty-state">No approved swaps awaiting completion.</p>
+        </#list>
+      </div>
+
+      <h4 class="subsection-title">Previous Requests</h4>
+      <div class="request-list">
+        <#list swapHistory as request>
+          <article class="request-card">
+            <div>
+              <strong>${request.bookListing.title}</strong>
+              <p>Customer: @${request.customerProfile.account.username}</p>
+            </div>
+            <span class="history-status">${request.status}</span>
+          </article>
+        <#else>
+          <p class="empty-state">No finished requests yet.</p>
         </#list>
       </div>
     </section>
 
     <section class="account-actions">
-      <a class="btn-account danger" href="/providers/${provider.providerProfileId?c}/delete">Delete Account</a>
+      <form action="/providers/me" method="post">
+        <input type="hidden" name="_method" value="delete" />
+        <button class="btn-account danger" type="submit">Delete Account</button>
+      </form>
     </section>
   </main>
 </body>

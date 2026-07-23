@@ -63,3 +63,4 @@ build/
 # Built-in Crash Diagnostics
 .crash/
 .DS_Store
+.env

@@ -1,0 +1,103 @@
+.inline-form,
+.nav-form {
+  display: inline;
+  margin: 0;
+}
+
+.nav-button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+
+.form-message {
+  padding: .9rem 1rem;
+  border: 1px solid #111;
+  margin: 1rem 0;
+}
+
+.form-message.error {
+  border-color: #c0392b;
+  color: #8e2b20;
+  background: #fff5f3;
+}
+
+.form-message.success {
+  border-color: #3f5c3f;
+  color: #2f4b2f;
+  background: #f4faf4;
+}
+
+.subsection-title {
+  margin: 2rem 0 .8rem;
+  font-size: 1.35rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.request-list {
+  display: grid;
+  gap: .8rem;
+}
+
+.request-card {
+  border: 1px solid #111;
+  background: #fff;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.request-card p {
+  margin: .25rem 0 0;
+}
+
+.request-date {
+  color: #666;
+  font-size: .9rem;
+}
+
+.request-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  justify-content: flex-end;
+}
+
+.history-status {
+  border: 1px solid #111;
+  padding: .4rem .7rem;
+  font-weight: 700;
+}
+
+.details-cover {
+  max-width: 260px;
+  max-height: 380px;
+  object-fit: cover;
+  border: 1px solid #111;
+  margin-bottom: 1rem;
+}
+
+.details-card {
+  margin-bottom: 1rem;
+}
+
+.details-actions {
+  padding-left: 0;
+}
+
+@media (max-width: 700px) {
+  .request-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .request-actions {
+    justify-content: flex-start;
+  }
+}

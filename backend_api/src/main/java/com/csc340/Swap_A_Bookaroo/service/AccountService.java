@@ -1,8 +1,8 @@
 package com.csc340.Swap_A_Bookaroo.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.csc340.Swap_A_Bookaroo.entities.Account;
 import com.csc340.Swap_A_Bookaroo.entities.CustomerProfile;
 import com.csc340.Swap_A_Bookaroo.entities.ProviderProfile;
@@ -14,63 +14,94 @@ import com.csc340.Swap_A_Bookaroo.repository.ProviderProfileRepository;
 public class AccountService {
 
     private final AccountRepository accountRepository;
-    private final CustomerProfileRepository customerProfileRepository;
-    private final ProviderProfileRepository providerProfileRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AccountService(AccountRepository accountRepository, 
-                          CustomerProfileRepository customerProfileRepository,
-                          ProviderProfileRepository providerProfileRepository) {
+    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
         this.accountRepository = accountRepository;
-        this.customerProfileRepository = customerProfileRepository;
-        this.providerProfileRepository = providerProfileRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Account getAccountById(Long accountId) {
         return accountRepository.findById(accountId).orElse(null);
     }
 
-    public Account login(String username, String password) {
-        return accountRepository.findByUsername(username)
-                .filter(account -> account.getPassword().equals(password))
-                .orElse(null);
-    }
-
-    public Account updateAccount(Long accountId, Account updatedAccount) {
-        Account existingAccount = accountRepository.findById(accountId).orElse(null);
-        if (existingAccount == null) return null;
-        existingAccount.setFirstName(updatedAccount.getFirstName());
-        existingAccount.setLastName(updatedAccount.getLastName());
-        existingAccount.setUsername(updatedAccount.getUsername());
-        existingAccount.setPassword(updatedAccount.getPassword());
-        return accountRepository.save(existingAccount);
-    }
-
-    public boolean deleteAccount(Long accountId) {
-        if (accountRepository.existsById(accountId)) {
-            accountRepository.deleteById(accountId);
-            return true;
-        }
-        return false;
+    public Account getAccountByUsername(String username) {
+        return accountRepository.findByUsername(username).orElse(null);
     }
 
     @Transactional
-    public Account registerDualAccount(Account account){
-        // Check if username is in use
-        if (accountRepository.findByUsername(account.getUsername()).isPresent()) {
+    public Account registerAccount(Account account, String role) {
+        if (account == null
+                || account.getUsername() == null
+                || account.getPassword() == null
+                || role == null) {
             return null;
         }
-        // Assign role
-        account.setRole("USER");
-        Account savedAccount = accountRepository.save(account);
-        // Create Customer Profile
-        CustomerProfile customerProfile = new CustomerProfile();
-        customerProfile.setAccount(savedAccount);
-        customerProfileRepository.save(customerProfile);
-        // Create Provider Profile
-        ProviderProfile providerProfile = new ProviderProfile();
-        providerProfile.setAccount(savedAccount);
-        providerProfileRepository.save(providerProfile);
 
-        return savedAccount;
+        String normalizedUsername = account.getUsername().trim();
+        if (normalizedUsername.isBlank()
+                || account.getPassword().isBlank()
+                || accountRepository.existsByUsername(normalizedUsername)) {
+            return null;
+        }
+
+        account.setUsername(normalizedUsername);
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
+        account.setRole(role.toUpperCase());
+        return accountRepository.save(account);
+    }
+
+    @Transactional
+    public Account updateAccount(Long accountId, Account updatedAccount) {
+        Account existingAccount = accountRepository.findById(accountId).orElse(null);
+        if (existingAccount == null || updatedAccount == null) {
+            return null;
+        }
+
+        applyUpdates(existingAccount, updatedAccount);
+        return accountRepository.save(existingAccount);
+    }
+
+    @Transactional
+    public Account updateAccountForUsername(String username, Account updatedAccount) {
+        Account existingAccount = accountRepository.findByUsername(username).orElse(null);
+        if (existingAccount == null || updatedAccount == null) {
+            return null;
+        }
+
+        applyUpdates(existingAccount, updatedAccount);
+        return accountRepository.save(existingAccount);
+    }
+
+    @Transactional
+    public boolean deleteAccount(Long accountId) {
+        if (!accountRepository.existsById(accountId)) {
+            return false;
+        }
+        accountRepository.deleteById(accountId);
+        return true;
+    }
+
+    private void applyUpdates(Account existingAccount, Account updatedAccount) {
+        if (updatedAccount.getFirstName() != null && !updatedAccount.getFirstName().isBlank()) {
+            existingAccount.setFirstName(updatedAccount.getFirstName().trim());
+        }
+
+        if (updatedAccount.getLastName() != null && !updatedAccount.getLastName().isBlank()) {
+            existingAccount.setLastName(updatedAccount.getLastName().trim());
+        }
+
+        if (updatedAccount.getUsername() != null
+                && !updatedAccount.getUsername().isBlank()
+                && !updatedAccount.getUsername().equals(existingAccount.getUsername())) {
+            String requestedUsername = updatedAccount.getUsername().trim();
+            if (!accountRepository.existsByUsername(requestedUsername)) {
+                existingAccount.setUsername(requestedUsername);
+            }
+        }
+
+        if (updatedAccount.getPassword() != null && !updatedAccount.getPassword().isBlank()) {
+            existingAccount.setPassword(passwordEncoder.encode(updatedAccount.getPassword()));
+        }
     }
 }
