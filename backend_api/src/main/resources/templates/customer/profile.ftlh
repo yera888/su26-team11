@@ -83,7 +83,7 @@
     <section class="profile-section">
       <div class="section-head">
         <h3>Requests &amp; History</h3>
-        <a class="btn-secondary" href="/swap/customer/pending">View All</a>
+        <a class="btn-secondary" href="/swap/customer/pending">View All Pending</a>
       </div>
 
       <h4 class="subsection-title">Pending Requests</h4>
