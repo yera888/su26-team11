@@ -18,7 +18,6 @@
 1. Customer C1 navigates to their personalized book feed (/customer/feed).
 2. C1 views available book listings filtered and matched by their saved preferences.
 
-<<<<<<< HEAD
 #### 3. Customer: US‑CUST‑003 — Request a book swap
 1. Customer C1 selects an available book listing from the feed and views the request confirmation page.
 2. C1 clicks "Yes, Request Swap" to submit a swap request to the book provider.
@@ -32,8 +31,6 @@
 2. P1 views their provider dashboard (/providers/me) to manage profile details and inspect their swap credit balance.
 
 
-=======
->>>>>>> e2a9b8cc15d826fdf19bad58848906e463163bfc
 #### 5. Provider: US-PROV-005: Register & Manage Provider Profile 
 
 ##### Create the profile
@@ -102,35 +99,6 @@
 
 1. P1 rejects an approved request.
 2. Service S changes the request to REJECTED and returns the listing to AVAILABLE.
-
-
-<<<<<<< HEAD
-=======
-#### 3. Customer: US‑CUST‑003 — Request a book swap
-1. Customer C1 selects an available book listing from the feed and views the request confirmation page.
-2. C1 clicks "Yes, Request Swap" to submit a swap request to the book provider.
-
-#### 4. Customer: US‑CUST‑004 — View pending book swaps
-1. Customer C1 navigates to the pending swaps page (/swap/customer/pending).
-2. C1 is able to see active swap requests and their current status (PENDING, APPROVED, or REJECTED).
-
-#### 5. Provider: US‑PROV‑005 — Create and manage provider profile
-1. Provider P1 logs in for the first time and creates a profile.
-2. P1 views their provider dashboard (/providers/me) to manage profile details and inspect their swap credit balance.
-
-
-#### 6. Provider: US‑PROV‑006 — Create book listings
-1. Provider P1 opens the new listing form (/listings/new).
-2. P1 enters book details (Title, Author, Genre, Tag), and submits the listing.
-
-#### 7. Provider: US‑PROV‑007 — Manage book listings
-1. Provider P1 views their active listings at /listings/my-listings.
-2. P1 updates listing details or removes an existing book listing from available inventory.
-
-#### 8. Provider: US‑PROV‑008 — Record listing history and manage requests
-1. Provider P1 navigates to incoming swap requests (/swap/provider/pending) and chooses to approve or reject a request.
-2. Upon completing the exchange, P1 marks the swap as completed (COMPLETED), which updates the book status to SWAPPED and logs the transaction in the provider swap history.
->>>>>>> e2a9b8cc15d826fdf19bad58848906e463163bfc
 
 ## CROSS-CUTTING TEST SCENARIOS (Non-Functional Requirements)
 
@@ -239,8 +207,4 @@
 9. Stop the timer.
 
 
-<<<<<<< HEAD
 - **Expected Outcome:P1 can locate, approve, and complete the request. The request moves from PENDING to APPROVED and then to COMPLETED.The listing moves from AVAILABLE to REQUESTED and then to SWAPPED.The completed-swap count increases.** 
-=======
-- **Expected Outcome:P1 can locate, approve, and complete the request. The request moves from PENDING to APPROVED and then to COMPLETED.The listing moves from AVAILABLE to REQUESTED and then to SWAPPED.The completed-swap count increases.** 
->>>>>>> e2a9b8cc15d826fdf19bad58848906e463163bfc
