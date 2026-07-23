@@ -1,6 +1,5 @@
 package com.csc340.Swap_A_Bookaroo.entities;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -37,7 +36,6 @@ public class BookListing {
     private String author;
 
     @JsonProperty("IMG")
-    @Column(name = "img")
     private String imageLink;
 
     @Enumerated(EnumType.STRING)
@@ -47,14 +45,9 @@ public class BookListing {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date datePosted;
 
-    // Direct Many-to-Many relationship with Tag
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(
-        name = "listing_tags",
-        joinColumns = @JoinColumn(name = "listing_id"),
-        inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
-    private List<Tag> tags = new ArrayList<>();
+    @OneToMany(mappedBy = "bookListing", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({ "bookListing" })
+    private List<ListingTag> listingTags;
 
     @Transient
     private List<String> tagNames;

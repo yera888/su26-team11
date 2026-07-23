@@ -4,11 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.csc340.Swap_A_Bookaroo.entities.Account;
-import com.csc340.Swap_A_Bookaroo.entities.CustomerProfile;
-import com.csc340.Swap_A_Bookaroo.entities.ProviderProfile;
 import com.csc340.Swap_A_Bookaroo.repository.AccountRepository;
-import com.csc340.Swap_A_Bookaroo.repository.CustomerProfileRepository;
-import com.csc340.Swap_A_Bookaroo.repository.ProviderProfileRepository;
 
 @Service
 public class AccountService {

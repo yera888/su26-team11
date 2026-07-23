@@ -2,8 +2,6 @@ package com.csc340.Swap_A_Bookaroo.service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.csc340.Swap_A_Bookaroo.entities.*;
@@ -17,6 +15,7 @@ public class CustomerProfileService {
     private final AccountRepository accountRepository;
     private final AccountService accountService;
     private final TagRepository tagRepository;
+    private final CustomerPreferenceRepository customerPreferenceRepository;
     private final BookListingRepository bookListingRepository;
 
     public CustomerProfileService(
@@ -31,6 +30,7 @@ public class CustomerProfileService {
         this.accountRepository = accountRepository;
         this.accountService = accountService;
         this.tagRepository = tagRepository;
+        this.customerPreferenceRepository = customerPreferenceRepository;
         this.bookListingRepository = bookListingRepository;
         this.swapRequestRepository = swapRequestRepository;
     }

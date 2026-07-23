@@ -182,8 +182,6 @@ public class BookListingService {
     }
 
     private void attachTags(BookListing listing, List<String> tagNames) {
-        List<Tag> tagList = new ArrayList<>();
-        
         for (String tagName : tagNames) {
             Tag tag = tagRepository.findByTagName(tagName)
                     .orElseGet(() -> {
@@ -197,7 +195,5 @@ public class BookListingService {
             listingTag.addTag(tag);
             listingTagRepository.save(listingTag);
         }
-        
-        listing.setTags(tagList);
     }
 }

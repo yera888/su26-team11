@@ -117,4 +117,4 @@ public class CustomerProfileApiController {
                 customerProfileService.getMatchedBookFeedForUsername(
                         authentication.getName()));
     }
- }
+}
