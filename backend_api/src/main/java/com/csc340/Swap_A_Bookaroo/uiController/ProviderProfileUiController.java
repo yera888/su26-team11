@@ -1,4 +1,4 @@
-package com.csc340.Swap_A_Bookaroo.uiController;
+package com.csc340.Swap_A_Bookaroo.uicontroller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
