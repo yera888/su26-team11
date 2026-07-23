@@ -69,11 +69,15 @@ public class SecurityConfig {
                                 "/api/customer-profiles")
                         .permitAll()
 
+                        // Bridge endpoints: allow existing accounts to switch or enable secondary profiles
+                        .requestMatchers("/providers/enable-provider", "/customer/enable-customer")
+                        .hasAnyRole("CUSTOMER", "PROVIDER")
+
                         // Customer browser pages
                         .requestMatchers("/customer/**")
                         .hasRole("CUSTOMER")
 
-                        // Provider browser pages
+                        // Provider browser pages (all other provider endpoints require PROVIDER role)
                         .requestMatchers(
                                 "/providers/**",
                                 "/listings/**")
@@ -100,13 +104,20 @@ public class SecurityConfig {
                         .loginProcessingUrl("/login")
                         .failureUrl("/account/provider-login?error=true")
                         .successHandler((request, response, authentication) -> {
-                            boolean provider = authentication.getAuthorities()
-                                    .stream()
-                                    .anyMatch(authority ->
-                                            authority.getAuthority().equals("ROLE_PROVIDER"));
+                            String loginType = request.getParameter("loginType");
+                            String referer = request.getHeader("Referer");
 
-                            // Redirect providers to /providers/me, customers to /customer/profile
-                            response.sendRedirect(provider ? "/providers/me" : "/customer/profile");
+                            // Redirect according to explicit form parameter or referrer
+                            if ("customer".equalsIgnoreCase(loginType) || (referer != null && referer.contains("customer-login"))) {
+                                response.sendRedirect("/customer/profile");
+                            } else if ("provider".equalsIgnoreCase(loginType) || (referer != null && referer.contains("provider-login"))) {
+                                response.sendRedirect("/providers/me");
+                            } else {
+                                // Fallback role check
+                                boolean isProvider = authentication.getAuthorities().stream()
+                                        .anyMatch(auth -> auth.getAuthority().equals("ROLE_PROVIDER"));
+                                response.sendRedirect(isProvider ? "/providers/me" : "/customer/profile");
+                            }
                         })
                         .permitAll())
                 .exceptionHandling(exception ->

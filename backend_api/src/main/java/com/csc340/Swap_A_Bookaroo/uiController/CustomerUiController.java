@@ -4,13 +4,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.csc340.Swap_A_Bookaroo.entities.*;
+import com.csc340.Swap_A_Bookaroo.security.CustomAccountDetailsService;
 import com.csc340.Swap_A_Bookaroo.service.*;
 
 import jakarta.servlet.ServletException;
@@ -24,25 +28,28 @@ public class CustomerUiController {
     private final ProviderProfileService providerProfileService;
     private final SwapRequestService swapRequestService;
     private final AccountService accountService;
-    private final BookListingService bookListingService; // Added service dependency
+    private final BookListingService bookListingService;
+    private final CustomAccountDetailsService customAccountDetailsService;
 
     @Autowired
     public CustomerUiController(CustomerProfileService customerProfileService,
                                 ProviderProfileService providerProfileService,
                                 SwapRequestService swapRequestService,
                                 AccountService accountService,
-                                BookListingService bookListingService) {
+                                BookListingService bookListingService,
+                                CustomAccountDetailsService customAccountDetailsService) {
         this.customerProfileService = customerProfileService;
         this.providerProfileService = providerProfileService;
         this.swapRequestService = swapRequestService;
         this.accountService = accountService;
         this.bookListingService = bookListingService;
+        this.customAccountDetailsService = customAccountDetailsService;
     }
 
     @GetMapping("/signup")
     public String signupForm(Model model) {
         CustomerProfile profile = new CustomerProfile();
-        profile.setAccount(new Account()); // Pre-initializes nested Account
+        profile.setAccount(new Account());
         model.addAttribute("customerProfile", profile);
         return "signup";
     }
@@ -65,14 +72,12 @@ public class CustomerUiController {
         String username = authentication.getName();
         CustomerProfile customerProfile = customerProfileService.getCustomerByUsername(username);
 
-        // Fetch fresh preferences directly from repository
         List<CustomerPreference> preferences = customerProfileService.getCustomerPreferencesForUsername(username);
-
         ProviderProfile providerProfile = providerProfileService.getProviderProfileByUsername(username);
 
         model.addAttribute("account", customerProfile != null ? customerProfile.getAccount() : null);
         model.addAttribute("customerProfile", customerProfile);
-        model.addAttribute("preferences", preferences); // Pass fresh list to template
+        model.addAttribute("preferences", preferences);
 
         if (providerProfile != null) {
             model.addAttribute("providerId", providerProfile.getProviderProfileId());
@@ -81,7 +86,46 @@ public class CustomerUiController {
         return "customer/profile";
     }
 
-    @PostMapping("/delete")
+    @GetMapping("/enable-customer")
+    public String enableCustomerAccount(Authentication authentication) {
+        String username = authentication.getName();
+        CustomerProfile existing = customerProfileService.getCustomerByUsername(username);
+
+        if (existing == null) {
+            ProviderProfile provider = providerProfileService.getProviderProfileByUsername(username);
+            if (provider != null) {
+                Account account = provider.getAccount();
+                
+                // Append CUSTOMER role to existing roles if not present
+                String currentRole = account.getRole();
+                if (currentRole == null || currentRole.isBlank()) {
+                    account.setRole("CUSTOMER");
+                } else if (!currentRole.contains("CUSTOMER")) {
+                    account.setRole(currentRole + ",CUSTOMER");
+                }
+                
+                CustomerProfile newCustomer = new CustomerProfile();
+                newCustomer.setAccount(account);
+                customerProfileService.createCustomerProfile(newCustomer);
+
+                // Reload user security details with new authorities
+                UserDetails updatedDetails = customAccountDetailsService.loadUserByUsername(username);
+
+                Authentication newAuth = new UsernamePasswordAuthenticationToken(
+                        updatedDetails,
+                        authentication.getCredentials(),
+                        updatedDetails.getAuthorities()
+                );
+
+                SecurityContextHolder.getContext().setAuthentication(newAuth);
+            }
+        }
+
+        return "redirect:/customer/profile";
+    }
+
+    // Handles Customer deletion via POST and DELETE
+    @RequestMapping(value = {"/delete", "/me"}, method = {RequestMethod.POST, RequestMethod.DELETE})
     public String deleteCurrentCustomer(
             Authentication authentication,
             HttpServletRequest request) throws ServletException {
@@ -127,7 +171,6 @@ public class CustomerUiController {
         return "customer/myFeed";
     }
 
-    // Displays the confirmation page for requesting a swap
     @GetMapping("/request-swap")
     public String showRequestSwapPage(@RequestParam("listingId") Long listingId, Model model) {
         BookListing listing = bookListingService.getListingById(listingId);
@@ -137,14 +180,12 @@ public class CustomerUiController {
         }
 
         model.addAttribute("listing", listing);
-        return "customer/requestSwap"; // renders templates/customer/requestSwap.ftlh
+        return "customer/requestSwap";
     }
 
-    // Handles form submission from requestSwap.ftlh when "Yes, Request Swap" is clicked
     @PostMapping("/request-swap")
     public String requestSwap(@RequestParam("listingId") Long listingId, Authentication authentication) {
         swapRequestService.createSwapRequestForCustomer(authentication.getName(), listingId);
         return "redirect:/customer/feed?requested=true";
     }
-
 }

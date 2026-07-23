@@ -180,7 +180,13 @@
     </section>
 
     <section class="account-actions">
-      <form action="/providers/me" method="post">
+      <#if customerId??>
+        <a class="btn-account" href="/customer/profile">Switch to Book Seeker Profile</a>
+      <#else>
+        <a class="btn-account" href="/customer/enable-customer">Become a Book Seeker</a>
+      </#if>
+
+      <form action="/providers/me" method="post" onsubmit="return confirm('Are you sure you want to delete your entire account?');">
         <input type="hidden" name="_method" value="delete" />
         <button class="btn-account danger" type="submit">Delete Account</button>
       </form>

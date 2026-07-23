@@ -43,10 +43,18 @@ public class CustomerProfileService {
             return null;
         }
 
-        Account savedAccount = accountService.registerAccount(
-                profile.getAccount(),
-                "CUSTOMER");
+        String username = profile.getAccount().getUsername();
+        Account existingAccount = accountRepository.findByUsername(username).orElse(null);
 
+        if (existingAccount != null) {
+            // Account already exists (e.g. as Provider). Attach profile & append role
+            profile.setAccount(existingAccount);
+            accountService.addRoleToAccount(existingAccount, "CUSTOMER");
+            return customerProfileRepository.save(profile);
+        }
+
+        // New account flow
+        Account savedAccount = accountService.registerAccount(profile.getAccount(), "CUSTOMER");
         if (savedAccount == null) {
             return null;
         }
@@ -76,17 +84,13 @@ public class CustomerProfileService {
     }
 
     @Transactional
-    public CustomerProfile updateCustomerProfile(
-            Long id,
-            CustomerProfile updatedProfile) {
+    public CustomerProfile updateCustomerProfile(Long id, CustomerProfile updatedProfile) {
         CustomerProfile existing = getCustomerById(id);
         return updateExistingProfile(existing, updatedProfile);
     }
 
     @Transactional
-    public CustomerProfile updateCustomerProfileForUsername(
-            String username,
-            CustomerProfile updatedProfile) {
+    public CustomerProfile updateCustomerProfileForUsername(String username, CustomerProfile updatedProfile) {
         CustomerProfile existing = getCustomerByUsername(username);
         return updateExistingProfile(existing, updatedProfile);
     }
@@ -98,57 +102,68 @@ public class CustomerProfileService {
             return false;
         }
 
+        Account account = profile.getAccount();
+
+        // Delete swap requests where this account is the Customer
         List<SwapRequest> customerRequests =
                 swapRequestRepository.findByCustomerProfile_CustomerProfileId(id);
         if (!customerRequests.isEmpty()) {
             swapRequestRepository.deleteAll(customerRequests);
         }
 
-        Long accountId = profile.getAccount().getAccountId();
-        customerProfileRepository.delete(profile);
-        accountRepository.deleteById(accountId);
+        // If user is also a Provider, delete swap requests for their book listings
+        if (account.getProviderProfile() != null) {
+            Long providerId = account.getProviderProfile().getProviderProfileId();
+            List<SwapRequest> providerRequests =
+                    swapRequestRepository.findByBookListing_ProviderProfile_ProviderProfileId(providerId);
+            if (!providerRequests.isEmpty()) {
+                swapRequestRepository.deleteAll(providerRequests);
+            }
+        }
+
+        // Delete the entire Account (Cascades to CustomerProfile, ProviderProfile, BookListings, and Preferences)
+        accountRepository.delete(account);
+
         return true;
     }
 
     @Transactional
     public boolean deleteCustomerProfileForUsername(String username) {
         CustomerProfile profile = getCustomerByUsername(username);
-        return profile != null
-                && deleteCustomerProfile(profile.getCustomerProfileId());
+        if (profile != null) {
+            return deleteCustomerProfile(profile.getCustomerProfileId());
+        }
+
+        // Fallback: If for some reason CustomerProfile was missing but Account exists
+        Account account = accountRepository.findByUsername(username).orElse(null);
+        if (account != null) {
+            accountRepository.delete(account);
+            return true;
+        }
+
+        return false;
     }
 
     @Transactional
-    public List<CustomerPreference> addPreferenceTag(
-            Long customerProfileId,
-            Tag tagData) {
-        return addPreferenceToProfile(
-                getCustomerById(customerProfileId),
-                tagData);
+    public List<CustomerPreference> addPreferenceTag(Long customerProfileId, Tag tagData) {
+        return addPreferenceToProfile(getCustomerById(customerProfileId), tagData);
     }
 
     @Transactional
-    public List<CustomerPreference> addPreferenceTagForUsername(
-            String username,
-            Tag tagData) {
-        return addPreferenceToProfile(
-                getCustomerByUsername(username),
-                tagData);
+    public List<CustomerPreference> addPreferenceTagForUsername(String username, Tag tagData) {
+        return addPreferenceToProfile(getCustomerByUsername(username), tagData);
     }
 
-    public List<CustomerPreference> getCustomerPreferences(
-            Long customerProfileId) {
+    public List<CustomerPreference> getCustomerPreferences(Long customerProfileId) {
         return preferencesOf(getCustomerById(customerProfileId));
     }
 
     public List<CustomerPreference> getCustomerPreferencesForUsername(String username) {
-        // Query the repository directly.
         return customerPreferenceRepository.findByCustomerProfile_Account_Username(username);
     }
 
     @Transactional
-    public List<CustomerPreference> removePreferenceTag(
-            Long customerProfileId,
-            Long preferenceId) {
+    public List<CustomerPreference> removePreferenceTag(Long customerProfileId, Long preferenceId) {
         CustomerProfile profile = getCustomerById(customerProfileId);
         if (profile == null) {
             return null;
@@ -157,8 +172,7 @@ public class CustomerProfileService {
         CustomerPreference preference = customerPreferenceRepository
                 .findById(preferenceId)
                 .filter(item -> item.getCustomerProfile() != null
-                        && customerProfileId.equals(
-                                item.getCustomerProfile().getCustomerProfileId()))
+                        && customerProfileId.equals(item.getCustomerProfile().getCustomerProfileId()))
                 .orElse(null);
 
         if (preference == null) {
@@ -170,9 +184,7 @@ public class CustomerProfileService {
     }
 
     @Transactional
-    public List<CustomerPreference> removePreferenceTagForUsername(
-            String username,
-            String tagName) {
+    public List<CustomerPreference> removePreferenceTagForUsername(String username, String tagName) {
         if (tagName == null || tagName.isBlank()) {
             return getCustomerPreferencesForUsername(username);
         }
@@ -184,13 +196,11 @@ public class CustomerProfileService {
                 .orElse(null);
 
         if (preference != null) {
-            // Unlink from profile in memory if loaded
             CustomerProfile profile = preference.getCustomerProfile();
             if (profile != null && profile.getPreferences() != null) {
                 profile.getPreferences().remove(preference);
             }
 
-            // Delete from DB and force Hibernate session to synchronize
             customerPreferenceRepository.delete(preference);
             customerPreferenceRepository.flush();
         }
@@ -206,9 +216,7 @@ public class CustomerProfileService {
         return matchedFeedFor(getCustomerByUsername(username));
     }
 
-    private CustomerProfile updateExistingProfile(
-            CustomerProfile existing,
-            CustomerProfile updatedProfile) {
+    private CustomerProfile updateExistingProfile(CustomerProfile existing, CustomerProfile updatedProfile) {
         if (existing == null || updatedProfile == null) {
             return null;
         }
@@ -217,19 +225,13 @@ public class CustomerProfileService {
         return customerProfileRepository.save(existing);
     }
 
-    private List<CustomerPreference> addPreferenceToProfile(
-            CustomerProfile profile,
-            Tag tagData) {
-        if (profile == null
-                || tagData == null
-                || tagData.getTagName() == null
-                || tagData.getTagName().isBlank()) {
+    private List<CustomerPreference> addPreferenceToProfile(CustomerProfile profile, Tag tagData) {
+        if (profile == null || tagData == null || tagData.getTagName() == null || tagData.getTagName().isBlank()) {
             return null;
         }
 
         String normalizedName = tagData.getTagName().trim();
 
-        // Fetch existing Tag or create/save a new Tag entity row
         Tag persistedTag = tagRepository.findByTagName(normalizedName)
                 .orElseGet(() -> {
                     Tag newTag = new Tag();
@@ -237,13 +239,11 @@ public class CustomerProfileService {
                     return tagRepository.save(newTag);
                 });
 
-        // Check if this profile already has this Tag set as a preference
         boolean alreadyPresent = customerPreferenceRepository
                 .existsByCustomerProfile_CustomerProfileIdAndTag_TagNameIgnoreCase(
                         profile.getCustomerProfileId(),
                         normalizedName);
 
-        // Link CustomerProfile and Tag inside a new CustomerPreference entity row
         if (!alreadyPresent) {
             CustomerPreference preference = new CustomerPreference();
             preference.setTag(persistedTag);

@@ -26,6 +26,8 @@
       </#if>
 
       <form class="form" action="/login" method="post">
+        <input type="hidden" name="loginType" value="customer" />
+
         <label class="label" for="username">Username</label>
         <input class="input" id="username" name="username" type="text" required placeholder="Enter customer username" />
 

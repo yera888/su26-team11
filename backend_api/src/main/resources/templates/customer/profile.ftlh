@@ -106,7 +106,9 @@
 
     <section class="account-actions">
       <#if providerId??>
-        <a class="btn-account" href="/providers/me">Open Book Lister Profile</a>
+        <a class="btn-account" href="/providers/me">Switch to Book Provider Profile</a>
+      <#else>
+        <a class="btn-account" href="/providers/enable-provider">Become a Book Provider</a>
       </#if>
       
       <form action="/customer/delete" method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete your account? This cannot be undone.');">
