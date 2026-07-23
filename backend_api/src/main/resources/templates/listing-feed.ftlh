@@ -3,56 +3,71 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>My Feed — Swap-A-Bookaroo</title>
+  <title>My Listings — Swap-A-Bookaroo</title>
   <link rel="stylesheet" href="/css/base.css" />
   <link rel="stylesheet" href="/css/nav.css" />
   <link rel="stylesheet" href="/css/profile.css" />
+  <link rel="stylesheet" href="/css/security-provider.css" />
 </head>
 <body>
   <nav class="topnav">
-    <a class="brand-link" href="/providers/${providerId?c}">Swap-A-Bookaroo</a>
+    <a class="brand-link" href="/providers/me">Swap-A-Bookaroo</a>
     <div class="nav-links">
-      <a href="/listings?providerId=${providerId?c}">My Feed</a>
-      <a href="/providers/${providerId?c}">Profile</a>
-      <a href="/listings/new?providerId=${providerId?c}">Add Book</a>
+      <a href="/listings">My Listings</a>
+      <a href="/providers/me">Profile</a>
+      <a href="/listings/new">Add Book</a>
+      <form class="nav-form" action="/logout" method="post">
+        <button class="nav-button" type="submit">Log Out</button>
+      </form>
     </div>
   </nav>
 
   <main class="profile-wrap">
-    <div class="feed-banner">
-      <img class="feed-banner-img" src="/images/books.jpg" alt="Feed banner" />
-    </div>
-
-    <h1 class="page-title">My Feed</h1>
-    <p class="page-subtitle">All the books you have listed for swapping.</p>
+    <h1 class="page-title">My Listings</h1>
+    <p class="page-subtitle">View, edit, or remove your active listings.</p>
 
     <div class="listing-grid">
       <#list listings as book>
         <article class="listing-card">
           <div class="listing-media">
             <#if book.imageLink?? && book.imageLink != "">
-              <img class="feed-banner-img" src="${book.imageLink}" alt="${book.title}" style="width:100%;height:100%;object-fit:cover;" />
+              <img src="${book.imageLink}" alt="${book.title}" />
             <#else>
               <span class="media-text">${book.title}</span>
             </#if>
           </div>
+
           <div class="listing-body">
             <span class="title">${book.title}</span>
             <span class="author">by ${book.author}</span>
+            <span class="isbn">ISBN: ${book.isbn}</span>
+            <span class="status-badge">${book.status}</span>
+
             <div class="listing-tags">
               <#if book.listingTags??>
                 <#list book.listingTags as bookTag>
-                  <#if bookTag.tag??><soan class="pill">${bookTag.tag.tagName}</soan></#if>
+                  <#if bookTag.tag??>
+                    <span class="pill">${bookTag.tag.tagName}</span>
+                  </#if>
                 </#list>
               </#if>
             </div>
           </div>
+
           <div class="listing-card-actions">
-            <a class="btn-request" href="/listings/${book.listingId?c}">Details</a>
+            <a class="btn-small" href="/listings/${book.listingId?c}">View</a>
+            <a class="btn-small" href="/listings/${book.listingId?c}/edit">Edit</a>
+
+            <form class="inline-form" action="/listings/${book.listingId?c}" method="post">
+              <input type="hidden" name="_method" value="delete" />
+              <button class="btn-small danger" type="submit">Remove</button>
+            </form>
           </div>
         </article>
       <#else>
-        <p class="empty-state">No listings yet. <a href="/listings/new?providerId=${providerId?c}">Add your first book</a>.</p>
+        <p class="empty-state">
+          No active listings yet. <a href="/listings/new">Add your first book</a>.
+        </p>
       </#list>
     </div>
   </main>

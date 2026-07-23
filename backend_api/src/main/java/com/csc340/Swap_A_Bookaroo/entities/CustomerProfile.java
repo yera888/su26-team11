@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "customer_profiles")
@@ -18,9 +19,11 @@ public class CustomerProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customerProfileId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    // Ignored properties to stop infinite recursion loop.
+    @OneToOne
     @JoinColumn(name = "account_id", nullable = false)
-    @JsonIgnoreProperties({ "password", "role" })
+    @ToString.Exclude
+    @JsonIgnoreProperties({ "customerProfile", "providerProfile", "password" })
     private Account account;
 
     @Column(columnDefinition = "TEXT")

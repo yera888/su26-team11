@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Swap Requests — Swap-A-Bookaroo</title>
-    <link rel="stylesheet" href="../provider-prototype/css/base.css" />
-    <link rel="stylesheet" href="../provider-prototype/css/nav.css" />
-    <link rel="stylesheet" href="../provider-prototype/css/profile.css" />
-    <link rel="stylesheet" href="css/requestOverlayCustomer.css?v=2" />
+    <link rel="stylesheet" href="../../static/css/base.css" />
+    <link rel="stylesheet" href="../../static/css/nav.css" />
+    <link rel="stylesheet" href="../../static/css/profile.css" />
+    <link rel="stylesheet" href="../../static/css/requestOverlay.css?v=2" />
 </head>
 <body>
     <!-- Navigation bar -->
@@ -78,9 +78,9 @@
   </div>
 
 
-    <script src="../provider-prototype/js/storage.js"></script>
+    <script src="../../static/js/storage.js"></script>
     <script>
-        requireLogin("../provider-prototype/loginPage.html?redirect=customer");
+        requireLogin("../provider/loginPage.html?redirect=customer");
 
         const requestOverlay = document.getElementById("requestOverlay");
         const closeRequestOverlay = document.getElementById("closeRequestOverlay");
