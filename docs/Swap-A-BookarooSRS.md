@@ -4,8 +4,8 @@
 **Project Name:** Swap-A-Bookaroo \
 **Team:** Yeraldine Tamayo - Provider, Jacob McGinniss - Customer \
 **Course:** CSC 340\
-**Version:** 1.0\
-**Date:** 2026-06-29
+**Version:** 2.0\
+**Date:** July 22, 2026 
 
 ---
 
@@ -33,7 +33,8 @@
 - Search/browse books by ISBN and genre tags
 - Posting, editing, and removing book listings
 - Personalized matched-book feed based on Swap requests and "Interested Books" list
-- Basic listing status tracking (Available / Requested) and swap history
+- Secured password storage;
+- request and swap history
 
 **Out of scope (deferred).**
 
