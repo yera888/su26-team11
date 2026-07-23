@@ -62,22 +62,20 @@ public class CustomerUiController {
         String username = authentication.getName();
         CustomerProfile customerProfile = customerProfileService.getCustomerByUsername(username);
 
-        // FIX: Extract preferences as List<CustomerPreference> to avoid Type Mismatch
-        List<CustomerPreference> preferences = (customerProfile != null && customerProfile.getPreferences() != null)
-                ? customerProfile.getPreferences()
-                : List.of();
+        // Fetch fresh preferences directly from repository
+        List<CustomerPreference> preferences = customerProfileService.getCustomerPreferencesForUsername(username);
 
         ProviderProfile providerProfile = providerProfileService.getProviderProfileByUsername(username);
 
         model.addAttribute("account", customerProfile != null ? customerProfile.getAccount() : null);
         model.addAttribute("customerProfile", customerProfile);
-        model.addAttribute("preferences", preferences);
+        model.addAttribute("preferences", preferences); // Pass fresh list to template
 
         if (providerProfile != null) {
             model.addAttribute("providerId", providerProfile.getProviderProfileId());
         }
 
-        return "profile";
+        return "customer/profile";
     }
 
     @PostMapping("/delete")
@@ -98,20 +96,20 @@ public class CustomerUiController {
     @GetMapping("/preferences")
     public String updatePreferences(@RequestParam("tagName") String tagName, Authentication authentication) {
         String username = authentication.getName();
-        CustomerProfile profile = customerProfileService.getCustomerByUsername(username);
+        
+        List<CustomerPreference> preferences = customerProfileService.getCustomerPreferencesForUsername(username);
 
-        if (profile != null && profile.getPreferences() != null) {
-            CustomerPreference existingPref = profile.getPreferences().stream()
-                    .filter(p -> p.getTagName() != null && p.getTagName().equalsIgnoreCase(tagName))
-                    .findFirst()
-                    .orElse(null);
+        boolean exists = preferences != null && preferences.stream()
+                .anyMatch(p -> p.getTagName() != null && p.getTagName().trim().equalsIgnoreCase(tagName.trim()));
 
-            if (existingPref != null) {
-                customerProfileService.removePreferenceTagForUsername(username, existingPref.getPreferenceId());
-            } else {
-                customerProfileService.addPreferenceTagForUsername(username, tagName);
-            }
+        if (exists) {
+            customerProfileService.removePreferenceTagForUsername(username, tagName.trim());
+        } else {
+            Tag newTag = new Tag();
+            newTag.setTagName(tagName.trim());
+            customerProfileService.addPreferenceTagForUsername(username, newTag);
         }
+
         return "redirect:/customer/profile";
     }
 
@@ -123,7 +121,7 @@ public class CustomerUiController {
 
         model.addAttribute("matchedBooks", matchedBooks);
         model.addAttribute("customerProfile", profile);
-        return "myFeed";
+        return "customer/myFeed";
     }
 
     @PostMapping("/request-swap")

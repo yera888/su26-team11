@@ -140,26 +140,25 @@ public class CustomerProfileService {
         return preferencesOf(getCustomerById(customerProfileId));
     }
 
-    public List<CustomerPreference> getCustomerPreferencesForUsername(
-            String username) {
-        return preferencesOf(getCustomerByUsername(username));
+    public List<CustomerPreference> getCustomerPreferencesForUsername(String username) {
+        // Query the repository directly.
+        return customerPreferenceRepository.findByCustomerProfile_Account_Username(username);
     }
 
     @Transactional
     public List<CustomerPreference> removePreferenceTag(
             Long customerProfileId,
-            Long tagId) {
+            Long preferenceId) {
         CustomerProfile profile = getCustomerById(customerProfileId);
         if (profile == null) {
             return null;
         }
 
         CustomerPreference preference = customerPreferenceRepository
-                .findById(tagId)
+                .findById(preferenceId)
                 .filter(item -> item.getCustomerProfile() != null
                         && customerProfileId.equals(
-                                item.getCustomerProfile()
-                                        .getCustomerProfileId()))
+                                item.getCustomerProfile().getCustomerProfileId()))
                 .orElse(null);
 
         if (preference == null) {
@@ -173,18 +172,29 @@ public class CustomerProfileService {
     @Transactional
     public List<CustomerPreference> removePreferenceTagForUsername(
             String username,
-            Long tagId) {
-        CustomerPreference preference = customerPreferenceRepository
-                .findByTagIdAndCustomerProfile_Account_Username(
-                        tagId,
-                        username)
-                .orElse(null);
-
-        if (preference == null) {
-            return null;
+            String tagName) {
+        if (tagName == null || tagName.isBlank()) {
+            return getCustomerPreferencesForUsername(username);
         }
 
-        customerPreferenceRepository.delete(preference);
+        CustomerPreference preference = customerPreferenceRepository
+                .findByCustomerProfile_Account_UsernameAndTag_TagNameIgnoreCase(
+                        username,
+                        tagName.trim())
+                .orElse(null);
+
+        if (preference != null) {
+            // Unlink from profile in memory if loaded
+            CustomerProfile profile = preference.getCustomerProfile();
+            if (profile != null && profile.getPreferences() != null) {
+                profile.getPreferences().remove(preference);
+            }
+
+            // Delete from DB and force Hibernate session to synchronize
+            customerPreferenceRepository.delete(preference);
+            customerPreferenceRepository.flush();
+        }
+
         return getCustomerPreferencesForUsername(username);
     }
 
@@ -219,22 +229,24 @@ public class CustomerProfileService {
 
         String normalizedName = tagData.getTagName().trim();
 
-        // Ensure master tag exists in DB
+        // Fetch existing Tag or create/save a new Tag entity row
         Tag persistedTag = tagRepository.findByTagName(normalizedName)
                 .orElseGet(() -> {
                     Tag newTag = new Tag();
-                    newTag.createTag(normalizedName);
+                    newTag.setTagName(normalizedName);
                     return tagRepository.save(newTag);
                 });
 
+        // Check if this profile already has this Tag set as a preference
         boolean alreadyPresent = customerPreferenceRepository
-                .existsByCustomerProfile_CustomerProfileIdAndTagNameIgnoreCase(
+                .existsByCustomerProfile_CustomerProfileIdAndTag_TagNameIgnoreCase(
                         profile.getCustomerProfileId(),
                         normalizedName);
 
+        // Link CustomerProfile and Tag inside a new CustomerPreference entity row
         if (!alreadyPresent) {
             CustomerPreference preference = new CustomerPreference();
-            preference.setTagName(persistedTag.getTagName());
+            preference.setTag(persistedTag);
             preference.setCustomerProfile(profile);
             customerPreferenceRepository.save(preference);
         }
@@ -263,7 +275,6 @@ public class CustomerProfileService {
             return allAvailable;
         }
 
-        // Explicit string extraction to avoid ClassCastException
         List<String> preferredNames = preferences.stream()
                 .map(CustomerPreference::getTagName)
                 .filter(Objects::nonNull)
