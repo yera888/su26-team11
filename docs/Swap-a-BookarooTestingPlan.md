@@ -182,7 +182,7 @@
 - **Expected Outcome: The provider completes registration, login, and listing creation within five minutes.The newly created listing appears with the status AVAILABLE.** 
 
 **Scenario U2:Provider processes a swap request and views its history**
-- **Setup:Create Provider P1 with an available listing.Create Customer C1 and submit a pending request for P1’s listing.** 
+- **Setup: Create Provider P1 with an available listing.Create Customer C1 and submit a pending request for P1’s listing.** 
 - **Steps:**
 1. Start a timer.
 
