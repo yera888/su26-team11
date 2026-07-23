@@ -180,7 +180,7 @@
     </section>
 
     <section class="account-actions">
-      <#if customerId??>
+      <#if hasCustomerProfile?? && hasCustomerProfile>
         <a class="btn-account" href="/customer/profile">Switch to Book Seeker Profile</a>
       <#else>
         <a class="btn-account" href="/customer/enable-customer">Become a Book Seeker</a>

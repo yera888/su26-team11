@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="/css/nav.css" />
   <link rel="stylesheet" href="/css/profile.css" />
   <link rel="stylesheet" href="/css/tagSelect.css" />
+  <link rel="stylesheet" href="/css/security-provider.css" />
 </head>
 <body>
   <nav class="topnav">
@@ -81,10 +82,60 @@
 
     <section class="profile-section">
       <div class="section-head">
-        <h3>Swap Requests</h3>
+        <h3>Requests &amp; History</h3>
         <a class="btn-secondary" href="/swap/customer/pending">View All</a>
       </div>
-      <div class="listing-grid">
+
+      <h4 class="subsection-title">Pending Requests</h4>
+      <div class="request-list">
+        <#list pendingRequests![] as request>
+          <article class="request-card">
+            <div>
+              <strong>${(request.bookListing.title)!'Book Title'}</strong>
+              <p>
+                Provider: @${(request.bookListing.providerProfile.account.username)!'N/A'}
+              </p>
+              <p class="request-date">
+                <#if request.requestDate??>
+                  ${request.requestDate?string("MMM d, yyyy h:mm a")}
+                </#if>
+              </p>
+            </div>
+            <span class="history-status">${(request.status)!'PENDING'}</span>
+          </article>
+        <#else>
+          <p class="empty-state">No pending requests.</p>
+        </#list>
+      </div>
+
+      <h4 class="subsection-title">Approved — Awaiting Completion</h4>
+      <div class="request-list">
+        <#list approvedRequests![] as request>
+          <article class="request-card">
+            <div>
+              <strong>${(request.bookListing.title)!'Book Title'}</strong>
+              <p>Approved by @${(request.bookListing.providerProfile.account.username)!'N/A'}</p>
+            </div>
+            <span class="history-status">${(request.status)!'APPROVED'}</span>
+          </article>
+        <#else>
+          <p class="empty-state">No approved swaps awaiting completion.</p>
+        </#list>
+      </div>
+
+      <h4 class="subsection-title">Previous Requests</h4>
+      <div class="request-list">
+        <#list swapHistory![] as request>
+          <article class="request-card">
+            <div>
+              <strong>${(request.bookListing.title)!'Book Title'}</strong>
+              <p>Provider: @${(request.bookListing.providerProfile.account.username)!'N/A'}</p>
+            </div>
+            <span class="history-status">${(request.status)!'COMPLETED'}</span>
+          </article>
+        <#else>
+          <p class="empty-state">No finished requests yet.</p>
+        </#list>
       </div>
     </section>
 

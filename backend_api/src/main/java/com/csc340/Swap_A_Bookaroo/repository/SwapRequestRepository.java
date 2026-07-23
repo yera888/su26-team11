@@ -39,6 +39,11 @@ public interface SwapRequestRepository extends JpaRepository<SwapRequest, Long> 
                     SwapRequestStatus status);
 
     List<SwapRequest>
+            findByCustomerProfile_Account_UsernameAndStatusInOrderByRequestDateDesc(
+                    String username,
+                    List<SwapRequestStatus> statuses);
+
+    List<SwapRequest>
             findByBookListing_ProviderProfile_Account_UsernameAndStatusOrderByRequestDateDesc(
                     String username,
                     SwapRequestStatus status);

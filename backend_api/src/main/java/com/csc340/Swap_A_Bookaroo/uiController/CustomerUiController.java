@@ -75,9 +75,19 @@ public class CustomerUiController {
         List<CustomerPreference> preferences = customerProfileService.getCustomerPreferencesForUsername(username);
         ProviderProfile providerProfile = providerProfileService.getProviderProfileByUsername(username);
 
+        // Fetch lists categorized by status
+        List<SwapRequest> pendingRequests = swapRequestService.getPendingRequestsForCustomer(username);
+        List<SwapRequest> approvedRequests = swapRequestService.getApprovedRequestsForCustomer(username);
+        List<SwapRequest> swapHistory = swapRequestService.getHistoryForCustomer(username);
+
         model.addAttribute("account", customerProfile != null ? customerProfile.getAccount() : null);
         model.addAttribute("customerProfile", customerProfile);
         model.addAttribute("preferences", preferences);
+
+        // Add request lists to model
+        model.addAttribute("pendingRequests", pendingRequests);
+        model.addAttribute("approvedRequests", approvedRequests);
+        model.addAttribute("swapHistory", swapHistory);
 
         if (providerProfile != null) {
             model.addAttribute("providerId", providerProfile.getProviderProfileId());
