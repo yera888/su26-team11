@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "provider_profiles")
@@ -18,9 +19,10 @@ public class ProviderProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long providerProfileId;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "account_id", nullable = false)
-    @JsonIgnoreProperties({ "password", "role" })
+    @ToString.Exclude
+    @JsonIgnoreProperties({ "customerProfile", "providerProfile", "password" })
     private Account account;
 
     private int swapCreditBalance;

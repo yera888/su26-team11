@@ -1,4 +1,4 @@
-package com.csc340.Swap_A_Bookaroo.uicontroller;
+package com.csc340.Swap_A_Bookaroo.uiController;
 
 import java.util.List;
 import org.springframework.http.HttpStatus;

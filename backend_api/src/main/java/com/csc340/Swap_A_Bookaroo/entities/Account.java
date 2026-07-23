@@ -1,5 +1,6 @@
 package com.csc340.Swap_A_Bookaroo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -33,5 +34,17 @@ public class Account {
     private String password;
 
     @Column(nullable = false)
-    private String role;
+    private String role; // Stores "CUSTOMER", "PROVIDER", or "CUSTOMER,PROVIDER"
+
+    // Bidirectional lookup to CustomerProfile
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @JsonIgnoreProperties("account")
+    private CustomerProfile customerProfile;
+
+    // Bidirectional lookup to ProviderProfile
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @JsonIgnoreProperties("account")
+    private ProviderProfile providerProfile;
 }

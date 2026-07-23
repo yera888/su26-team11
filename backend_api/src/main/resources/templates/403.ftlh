@@ -13,7 +13,7 @@
       <h1 class="brand">Access Denied</h1>
       <p class="subhead">Your account does not have permission to open this page.</p>
       <div class="actions">
-        <a class="btn" href="/login">Return to Login</a>
+        <a class="btn" href="/account/provider-login">Return to Login</a>
       </div>
     </div>
   </div>

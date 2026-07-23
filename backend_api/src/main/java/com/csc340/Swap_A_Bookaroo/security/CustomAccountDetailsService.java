@@ -1,5 +1,8 @@
 package com.csc340.Swap_A_Bookaroo.security;
 
+import java.util.Arrays;
+import java.util.List;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,12 +29,18 @@ public class CustomAccountDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("Account has no assigned role");
         }
 
-        String role = account.getRole().trim().toUpperCase();
+        // Split "CUSTOMER,PROVIDER" into individual SimpleGrantedAuthority objects
+        List<SimpleGrantedAuthority> authorities = Arrays.stream(account.getRole().split(","))
+                .map(String::trim)
+                .filter(r -> !r.isEmpty())
+                .map(r -> r.startsWith("ROLE_") ? r : "ROLE_" + r.toUpperCase())
+                .map(SimpleGrantedAuthority::new)
+                .toList();
 
-        return User.builder()
-                .username(account.getUsername())
-                .password(account.getPassword())
-                .roles(role)
-                .build();
+        return new User(
+                account.getUsername(),
+                account.getPassword(),
+                authorities
+        );
     }
 }

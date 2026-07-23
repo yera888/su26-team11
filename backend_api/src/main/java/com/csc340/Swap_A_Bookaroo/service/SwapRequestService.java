@@ -42,6 +42,23 @@ public class SwapRequestService {
                         SwapRequestStatus.PENDING);
     }
 
+    public List<SwapRequest> getApprovedRequestsForCustomer(String username) {
+        return swapRequestRepository
+                .findByCustomerProfile_Account_UsernameAndStatusOrderByRequestDateDesc(
+                        username,
+                        SwapRequestStatus.APPROVED);
+    }
+
+    public List<SwapRequest> getHistoryForCustomer(String username) {
+        return swapRequestRepository
+                .findByCustomerProfile_Account_UsernameAndStatusInOrderByRequestDateDesc(
+                        username,
+                        Arrays.asList(
+                                SwapRequestStatus.COMPLETED,
+                                SwapRequestStatus.REJECTED,
+                                SwapRequestStatus.CANCELLED));
+    }
+
     public List<SwapRequest> getPendingRequestsForProvider(String username) {
         return swapRequestRepository
                 .findByBookListing_ProviderProfile_Account_UsernameAndStatusOrderByRequestDateDesc(

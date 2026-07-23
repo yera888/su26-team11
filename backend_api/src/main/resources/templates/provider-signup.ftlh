@@ -41,7 +41,7 @@
       </form>
 
       <div class="switch">
-        <a href="/login">Already have an account? Log in</a>
+        <a href="/account/provider-login">Already have an account? Log in</a>
       </div>
     </div>
   </div>

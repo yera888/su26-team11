@@ -51,10 +51,19 @@ public class ProviderProfileService {
             return null;
         }
 
-        Account savedAccount = accountService.registerAccount(
-                providerProfile.getAccount(),
-                "PROVIDER");
+        String username = providerProfile.getAccount().getUsername();
+        Account existingAccount = accountRepository.findByUsername(username).orElse(null);
 
+        if (existingAccount != null) {
+            // Account already exists (e.g. as Customer). Attach profile & append role
+            providerProfile.setAccount(existingAccount);
+            providerProfile.setSwapCreditBalance(0);
+            accountService.addRoleToAccount(existingAccount, "PROVIDER");
+            return providerProfileRepository.save(providerProfile);
+        }
+
+        // New account flow
+        Account savedAccount = accountService.registerAccount(providerProfile.getAccount(), "PROVIDER");
         if (savedAccount == null) {
             return null;
         }
@@ -71,26 +80,46 @@ public class ProviderProfileService {
             return false;
         }
 
-        Long accountId = providerProfile.getAccount().getAccountId();
+        Account account = providerProfile.getAccount();
 
+        // Delete swap requests for this provider's book listings
         List<SwapRequest> providerRequests =
-                swapRequestRepository
-                        .findByBookListing_ProviderProfile_ProviderProfileId(
-                                providerProfileId);
+                swapRequestRepository.findByBookListing_ProviderProfile_ProviderProfileId(providerProfileId);
         if (!providerRequests.isEmpty()) {
             swapRequestRepository.deleteAll(providerRequests);
         }
 
-        providerProfileRepository.delete(providerProfile);
-        accountRepository.deleteById(accountId);
+        // If user is also a Customer, delete their customer swap requests
+        if (account.getCustomerProfile() != null) {
+            Long customerId = account.getCustomerProfile().getCustomerProfileId();
+            List<SwapRequest> customerRequests =
+                    swapRequestRepository.findByCustomerProfile_CustomerProfileId(customerId);
+            if (!customerRequests.isEmpty()) {
+                swapRequestRepository.deleteAll(customerRequests);
+            }
+        }
+
+        // Delete the entire Account (Cascades to ProviderProfile, CustomerProfile, BookListings, and Preferences)
+        accountRepository.delete(account);
+
         return true;
     }
 
     @Transactional
     public boolean deleteProviderProfileForUsername(String username) {
         ProviderProfile providerProfile = getProviderProfileByUsername(username);
-        return providerProfile != null
-                && deleteProviderProfile(providerProfile.getProviderProfileId());
+        if (providerProfile != null) {
+            return deleteProviderProfile(providerProfile.getProviderProfileId());
+        }
+
+        // Fallback: If ProviderProfile was missing but Account exists
+        Account account = accountRepository.findByUsername(username).orElse(null);
+        if (account != null) {
+            accountRepository.delete(account);
+            return true;
+        }
+
+        return false;
     }
 
     public List<BookListing> getActiveListings(Long providerProfileId) {

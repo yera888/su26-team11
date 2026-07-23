@@ -47,6 +47,22 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
+    // Helper method to grant an additional role to an existing account
+    @Transactional
+    public Account addRoleToAccount(Account account, String newRole) {
+        if (account == null || newRole == null || newRole.isBlank()) {
+            return account;
+        }
+        
+        String upperRole = newRole.trim().toUpperCase();
+        if (account.getRole() == null || account.getRole().isBlank()) {
+            account.setRole(upperRole);
+        } else if (!account.getRole().contains(upperRole)) {
+            account.setRole(account.getRole() + "," + upperRole);
+        }
+        return accountRepository.save(account);
+    }
+
     @Transactional
     public Account updateAccount(Long accountId, Account updatedAccount) {
         Account existingAccount = accountRepository.findById(accountId).orElse(null);
