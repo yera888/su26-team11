@@ -14,7 +14,7 @@
     <a class="brand-link" href="/customer/profile">Swap-A-Bookaroo</a>
     <div class="nav-links">
       <a href="/customer/feed">My Feed</a>
-      <a href="swapRequests.html">Swap Requests</a>
+      <a href="/swap/customer/pending">Swap Requests</a>
       <a href="/customer/profile">Profile</a>
       <a href="/logout" style="text-decoration: none;">
         <button type="button" id="logoutBtn">Log out</button>
@@ -59,7 +59,7 @@
               </div>
             </div>
             <div class="listing-card-actions">
-              <a class="btn-request" href="/customer/request-swap?listingId=${listing.listingId}">
+              <a class="btn-request" href="/swap/request-swap?listingId=${listing.listingId}">
                 Request Swap
               </a>
             </div>

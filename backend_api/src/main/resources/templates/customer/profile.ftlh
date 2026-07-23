@@ -14,7 +14,7 @@
     <a class="brand-link" href="/customer/profile">Swap-A-Bookaroo</a>
     <div class="nav-links">
       <a href="/customer/feed">My Feed</a>
-      <a href="/customer/swap-requests">Swap Requests</a>
+      <a href="/swap/customer/pending">Swap Requests</a>
       <a href="/customer/profile">Profile</a>
       <form action="/logout" method="post" style="display: inline;">
         <button type="submit" id="logoutBtn">Log out</button>
@@ -82,25 +82,9 @@
     <section class="profile-section">
       <div class="section-head">
         <h3>Swap Requests</h3>
-        <a class="btn-secondary" href="/customer/swap-requests">View All</a>
+        <a class="btn-secondary" href="/swap/customer/pending">View All</a>
       </div>
       <div class="listing-grid">
-        <#if swapRequests?? && swapRequests?has_content>
-          <#list swapRequests as request>
-            <article class="listing-card">
-              <div class="listing-body">
-                <span class="title">${request.status}</span>
-                <span class="author">${request.bookListing.title}</span>
-                <span class="isbn">Status: ${request.status?lower_case}</span>
-              </div>
-              <div class="listing-card-actions">
-                <a class="btn-request" href="/customer/swap-requests">View</a>
-              </div>
-            </article>
-          </#list>
-        <#else>
-          <p>No active swap requests found.</p>
-        </#if>
       </div>
     </section>
 

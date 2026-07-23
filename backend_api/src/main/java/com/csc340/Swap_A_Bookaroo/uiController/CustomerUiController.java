@@ -170,22 +170,4 @@ public class CustomerUiController {
         model.addAttribute("customerProfile", profile);
         return "customer/myFeed";
     }
-
-    @GetMapping("/request-swap")
-    public String showRequestSwapPage(@RequestParam("listingId") Long listingId, Model model) {
-        BookListing listing = bookListingService.getListingById(listingId);
-
-        if (listing == null) {
-            return "redirect:/customer/feed";
-        }
-
-        model.addAttribute("listing", listing);
-        return "customer/requestSwap";
-    }
-
-    @PostMapping("/request-swap")
-    public String requestSwap(@RequestParam("listingId") Long listingId, Authentication authentication) {
-        swapRequestService.createSwapRequestForCustomer(authentication.getName(), listingId);
-        return "redirect:/customer/feed?requested=true";
-    }
 }

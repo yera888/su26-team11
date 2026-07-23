@@ -73,8 +73,8 @@ public class SecurityConfig {
                         .requestMatchers("/providers/enable-provider", "/customer/enable-customer")
                         .hasAnyRole("CUSTOMER", "PROVIDER")
 
-                        // Customer browser pages
-                        .requestMatchers("/customer/**")
+                        // Customer browser pages and swap UI routes
+                        .requestMatchers("/customer/**", "/swap/**")
                         .hasRole("CUSTOMER")
 
                         // Provider browser pages (all other provider endpoints require PROVIDER role)

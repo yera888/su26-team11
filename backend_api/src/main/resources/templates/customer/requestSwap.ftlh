@@ -4,22 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Request Swap — Swap-A-Bookaroo</title>
-  <link rel="stylesheet" href="../css/base.css" />
-  <link rel="stylesheet" href="../css/nav.css" />
-  <link rel="stylesheet" href="../css/profile.css" />
-  <link rel="stylesheet" href="../css/requestOverlayCustomer.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/nav.css" />
+  <link rel="stylesheet" href="/css/profile.css" />
+  <link rel="stylesheet" href="/css/requestOverlayCustomer.css" />
   <style>
     .request-page-wrap {
-      max-width: 900px;
+      max-width: 700px;
       margin: 2rem auto;
       padding: 0 1rem;
     }
 
     .request-content-full {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 2rem;
       background: #ffffff;
       padding: 2.5rem;
       border-radius: 12px;
@@ -28,16 +27,7 @@
     }
 
     .request-panel {
-      flex: 1;
-    }
-
-    @media (max-width: 768px) {
-      .request-content-full {
-        flex-direction: column;
-      }
-      .arrow {
-        transform: rotate(90deg);
-      }
+      width: 100%;
     }
   </style>
 </head>
@@ -46,7 +36,7 @@
     <a class="brand-link" href="/customer/profile">Swap-A-Bookaroo</a>
     <div class="nav-links">
       <a href="/customer/feed">My Feed</a>
-      <a href="swapRequests.html">Swap Requests</a>
+      <a href="/swap/customer/pending">Swap Requests</a>
       <a href="/customer/profile">Profile</a>
       <a href="/logout" style="text-decoration: none;">
         <button type="button" id="logoutBtn">Log out</button>
@@ -56,7 +46,7 @@
 
   <main class="request-page-wrap">
     <h1 class="page-title">Request Swap</h1>
-    <p class="page-subtitle">Confirm your swap details below.</p>
+    <p class="page-subtitle">Confirm your request details below.</p>
 
     <div class="request-content-full">
       <div class="request-panel">
@@ -72,7 +62,7 @@
             <h3>${listing.title!''}</h3>
             <p>by ${listing.author!''}</p>
 
-            <#-- Build tag list string -->
+            <#-- Tag string builder -->
             <#assign tagNamesList = []>
             <#if listing.listingTags??>
               <#list listing.listingTags as listingTag>
@@ -91,22 +81,15 @@
           </div>
         </div>
 
-        <p class="prompt">Are you sure you want to request this book?</p>
+        <p class="prompt" style="margin-top: 1.5rem;">Are you sure you want to request this book?</p>
 
-        <form action="/api/swap-requests/listing/${listing.listingId}" method="POST">
+        <form action="/swap/request-swap" method="POST">
+          <input type="hidden" name="listingId" value="${listing.listingId}" />
           <div class="request-actions">
             <button class="btn" type="submit">Yes, Request Swap</button>
             <a class="btn-secondary" href="/customer/feed" style="text-decoration: none; text-align: center;">Keep Looking</a>
           </div>
         </form>
-      </div>
-
-      <div class="arrow" aria-hidden="true">→</div>
-
-      <div class="request-panel">
-        <div class="mystery-card">
-          <img class="mystery-cover" src="../images/question.jpg" alt="Mystery book placeholder" />
-        </div>
       </div>
     </div>
   </main>
