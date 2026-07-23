@@ -24,16 +24,19 @@ public class CustomerUiController {
     private final ProviderProfileService providerProfileService;
     private final SwapRequestService swapRequestService;
     private final AccountService accountService;
+    private final BookListingService bookListingService; // Added service dependency
 
     @Autowired
     public CustomerUiController(CustomerProfileService customerProfileService,
                                 ProviderProfileService providerProfileService,
                                 SwapRequestService swapRequestService,
-                                AccountService accountService) {
+                                AccountService accountService,
+                                BookListingService bookListingService) {
         this.customerProfileService = customerProfileService;
         this.providerProfileService = providerProfileService;
         this.swapRequestService = swapRequestService;
         this.accountService = accountService;
+        this.bookListingService = bookListingService;
     }
 
     @GetMapping("/signup")
@@ -124,9 +127,24 @@ public class CustomerUiController {
         return "customer/myFeed";
     }
 
+    // Displays the confirmation page for requesting a swap
+    @GetMapping("/request-swap")
+    public String showRequestSwapPage(@RequestParam("listingId") Long listingId, Model model) {
+        BookListing listing = bookListingService.getListingById(listingId);
+
+        if (listing == null) {
+            return "redirect:/customer/feed";
+        }
+
+        model.addAttribute("listing", listing);
+        return "customer/requestSwap"; // renders templates/customer/requestSwap.ftlh
+    }
+
+    // Handles form submission from requestSwap.ftlh when "Yes, Request Swap" is clicked
     @PostMapping("/request-swap")
     public String requestSwap(@RequestParam("listingId") Long listingId, Authentication authentication) {
         swapRequestService.createSwapRequestForCustomer(authentication.getName(), listingId);
         return "redirect:/customer/feed?requested=true";
     }
+
 }
