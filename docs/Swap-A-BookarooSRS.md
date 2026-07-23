@@ -4,8 +4,8 @@
 **Project Name:** Swap-A-Bookaroo \
 **Team:** Yeraldine Tamayo - Provider, Jacob McGinniss - Customer \
 **Course:** CSC 340\
-**Version:** 1.0\
-**Date:** 2026-06-29
+**Version:** 2.0\
+**Date:** July 22, 2026 
 
 ---
 
@@ -20,7 +20,8 @@
 - **Listing:** A book posted by a provider, including its ISBN, tags, and cover image link.
 - **Tag:** A genre label (e.g., Sci-Fi, Fantasy, Romance) assigned to a book; each book has at least 3 tags.
 - **Swap:** The exchange of a book between a customer and a provider, tracked through listing status changes.
-
+- **History:** Requests whose status is COMPLETED, REJECTED, or CANCELLED.
+- **Swap Request:** A customer's request for a provider's listing
 
 
 **Primary Users / Roles.**
@@ -33,7 +34,10 @@
 - Search/browse books by ISBN and genre tags
 - Posting, editing, and removing book listings
 - Personalized matched-book feed based on Swap requests and "Interested Books" list
-- Basic listing status tracking (Available / Requested) and swap history
+- provider approval, rejection, cancellation, and completion actions
+- customer swap requests
+- Secured password storage
+- request and swap history
 
 **Out of scope (deferred).**
 
@@ -104,8 +108,27 @@
     ```gherkin
     Scenario: Create a provider account
         Given I do not have an account
+        And the username is not already registered
         When I submit the sign-up form with first name, last name, username, and password
-        Then I can log in with my credentials
+        Then an account with role PROVIDER is created
+        And the password is stored as a BCrypt hash
+        Then I am redirected to the login page with my login credentials stored in the database
+
+    Scenario: View my provider profile
+        Given I am authenticated as a provider
+        When I open /providers/me
+        Then I see only the profile associated with my authenticated username
+
+
+    Scenario: Delete my provider profile
+        Given I am authenticated as a provider
+        When I submit the delete-account form
+        Then requests associated with my listings are deleted
+        And my provider profile and account are deleted
+        And I am logged out
+
+
+
     ```
 
 - **US‑6 - Create book listings**
@@ -117,7 +140,16 @@
     Scenario: Successfully create a listing
         Given I am logged in as a provider
         When I fill in title, author, ISBN, and at least 3 tags, an IMG and successfully submit
-        Then I see a confirmation that the book was added
+        Then the listing is linked to my provider profile
+        And the listing status is AVAILABLE
+        And the posting date is recorded
+        And the listing appears in my active listing view
+
+Scenario: Reject an invalid listing
+    Given I am logged in as a provider
+    When I submit fewer than three distinct nonblank tags
+    Then the listing wont be created
+    And I am returned to the listing form with an error indicator
 
     ```
 
@@ -127,10 +159,29 @@
     
     _Acceptance:_
     ```gherkin
-    Scenario: Manage book listings
-        Given I am logged in as a provider 
-        When I have posted a book listing
-        Then I should be able to edit the listing
+    Scenario: View my active listings
+        Given I am authenticated as a provider
+        When I open /listings
+        Then I see my listings whose status is AVAILABLE or REQUESTED
+
+
+Scenario: Edit my listing
+    Given I am logged in as a provider
+    And the listing belongs to my account
+    And its status is not SWAPPED or REMOVED
+    When I submit the edit form
+    Then the form is routed to PUT /listings/{id}
+    And the title, author, ISBN, image URL, and tags are updated
+
+Scenario: Remove my listing
+    Given I am authenticated as a provider
+    And the listing belongs to my account
+    When I submit the remove form
+    Then the form is routed to DELETE /listings/{id}
+    And open requests for the listing are rejected
+    And the listing status becomes REMOVED
+    And the listing no longer appears in active feeds
+
     ```
 
 - **US‑8 - Record listing history**
@@ -143,16 +194,60 @@
         Given I am logged in as a provider
         When I open My Profile, 
         Then I see a "Requests & History" section with pending requests: to Approve the swap, and all previous finished swaps
+
+
+Scenario: View requests and history
+    Given I am authenticated as a provider
+    When I open /providers/me
+    Then I see a Requests & History section
+    And I see my PENDING requests
+    And I see my APPROVED requests awaiting completion
+    And I see my COMPLETED, REJECTED, and CANCELLED requests
+    And I see the number of completed swaps
+
+Scenario: Approve a request
+    Given a request for my listing is PENDING
+    And the listing is AVAILABLE
+    When I approve the request
+    Then the request status becomes APPROVED
+    And its response date is recorded
+    And the listing status becomes REQUESTED
+    And other pending requests for the same listing become REJECTED
+
+Scenario: Reject a pending request
+    Given a request for my listing is PENDING
+    When I reject the request
+    Then the request status becomes REJECTED
+    And its response date is recorded
+    And the listing remains AVAILABLE
+
+Scenario: Cancel an approved request
+    Given a request for my listing is APPROVED
+    When I reject the approved request
+    Then the request status becomes REJECTED
+    And the listing status returns to AVAILABLE
+
+Scenario: Complete an approved swap
+    Given a request for my listing is APPROVED
+    And the listing status is REQUESTED
+    When I mark the swap completed
+    Then the request status becomes COMPLETED
+    And the completion date is recorded
+    Then the listing status becomes SWAPPED
+    And the completed-swap count increases in the providers profile
     ```
 
 ## 3. Non‑Functional Requirements (make them measurable)
-- **Performance:** The system shall use less than 160 MB of user RAM.
+- **Performance:** The users profile, listing, request, and feed  should complete within 2 seconds
 - **Availability/Reliability:** The system should be available 99% of the time, with communicated maintenance time.
 - **Security/Privacy:** No sensitive data is public by default. Methods will be used to ensure user data is safe.
 - **Usability:** New users should be able to complete the registration process to find a book to swap within five minutes.
+- **Traceability:** Every use case shall map to the implementation files and routes in backend_api/README.md
 
 ## 4. Assumptions, Constraints, and Policies
-list any rules, policies, assumptions, etc.
+- The browser UI is rendered with FreeMarker.
+- Hibernate schema updates are enabled for the course project.
+- Authentication uses session-based form login rather than JWT.
 
 ## 5. Milestones (course‑aligned)
 - **M1 Requirements** — this file + stories opened as issues.
@@ -163,5 +258,6 @@ list any rules, policies, assumptions, etc.
 - **M6 Final** — complete system & documentation.
 
 ## 6. Change Management
-- Stories are living artifacts; changes are tracked via repository issues and linked pull requests.
+- Stories are living artifacts; changes are tracked via repository issues and linked pull requests and closed with their associated milestone.
 - Major changes should update this SRS.
+- Changes are updated in all README.md files.
