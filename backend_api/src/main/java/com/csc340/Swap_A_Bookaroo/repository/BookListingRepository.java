@@ -25,5 +25,4 @@ public interface BookListingRepository extends JpaRepository<BookListing, Long> 
             String username);
 
     List<BookListing> findByStatus(ListingStatus status);
-    //List<BookListing> findDistinctByStatusAndTagsIn(ListingStatus status, List<Tag> tags);
 }
