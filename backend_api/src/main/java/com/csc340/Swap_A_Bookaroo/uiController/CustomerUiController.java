@@ -1,147 +1,134 @@
 package com.csc340.Swap_A_Bookaroo.uiController;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-import com.csc340.Swap_A_Bookaroo.entities.Account;
-import com.csc340.Swap_A_Bookaroo.entities.BookListing;
-import com.csc340.Swap_A_Bookaroo.entities.CustomerProfile;
-import com.csc340.Swap_A_Bookaroo.entities.ProviderProfile;
-import com.csc340.Swap_A_Bookaroo.entities.Tag;
-import com.csc340.Swap_A_Bookaroo.service.AccountService;
-import com.csc340.Swap_A_Bookaroo.service.BookListingService;
-import com.csc340.Swap_A_Bookaroo.service.CustomerProfileService;
-import com.csc340.Swap_A_Bookaroo.service.ProviderProfileService;
-import com.csc340.Swap_A_Bookaroo.service.SwapRequestService;
+import com.csc340.Swap_A_Bookaroo.entities.*;
+import com.csc340.Swap_A_Bookaroo.service.*;
 
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/customer")
 public class CustomerUiController {
-    // Datafield
-    private final AccountService accountService;
-    private final BookListingService bookListingService;
+
     private final CustomerProfileService customerProfileService;
     private final ProviderProfileService providerProfileService;
     private final SwapRequestService swapRequestService;
+    private final AccountService accountService;
 
-    // Constructors
     @Autowired
-    public CustomerUiController(AccountService accountService,
-                                BookListingService bookListingService,
-                                CustomerProfileService customerProfileService,
+    public CustomerUiController(CustomerProfileService customerProfileService,
                                 ProviderProfileService providerProfileService,
-                                SwapRequestService swapRequestService) {
-        this.accountService = accountService;
-        this.bookListingService = bookListingService;
+                                SwapRequestService swapRequestService,
+                                AccountService accountService) {
         this.customerProfileService = customerProfileService;
         this.providerProfileService = providerProfileService;
         this.swapRequestService = swapRequestService;
+        this.accountService = accountService;
     }
 
-    // Methods
+    @GetMapping("/signup")
+    public String signupForm(Model model) {
+        CustomerProfile profile = new CustomerProfile();
+        profile.setAccount(new Account()); // Pre-initializes nested Account
+        model.addAttribute("customerProfile", profile);
+        return "signup";
+    }
+
+    @PostMapping("/signup")
+    public String registerCustomer(@ModelAttribute("customerProfile") CustomerProfile profile, Model model) {
+        CustomerProfile created = customerProfileService.createCustomerProfile(profile);
+
+        if (created != null) {
+            return "redirect:/account/customer-login?registered=true";
+        } else {
+            model.addAttribute("errorMessage", "Username is already taken. Please try another one.");
+            model.addAttribute("customerProfile", profile); 
+            return "signup";
+        }
+    }
+
     @GetMapping("/profile")
-    public String getCustomerProfile(Model model, HttpSession session) {
-        // Get the logged-in user from the session
-        Account account = (Account) session.getAttribute("user");
-        // If not logged in send to login
-        if (account == null) {
-            return "redirect:/account/login";
-        }
-        Long id = account.getAccountId();
-        // Gets profile details
-        CustomerProfile customerProfile = customerProfileService.getCustomerByAccountId(id);
-        Set<Tag> preferences = null;
-        // Checks to see if there are any preferences
-        if (customerProfile != null) {
-        preferences = customerProfile.getPreferences();
-        }
-        model.addAttribute("account", account);
+    public String getCustomerProfile(Authentication authentication, Model model) {
+        String username = authentication.getName();
+        CustomerProfile customerProfile = customerProfileService.getCustomerByUsername(username);
+
+        // FIX: Extract preferences as List<CustomerPreference> to avoid Type Mismatch
+        List<CustomerPreference> preferences = (customerProfile != null && customerProfile.getPreferences() != null)
+                ? customerProfile.getPreferences()
+                : List.of();
+
+        ProviderProfile providerProfile = providerProfileService.getProviderProfileByUsername(username);
+
+        model.addAttribute("account", customerProfile != null ? customerProfile.getAccount() : null);
         model.addAttribute("customerProfile", customerProfile);
         model.addAttribute("preferences", preferences);
 
-        /* doesnt work becuase of the path var most likely */
-        //if(account.getRole().equals("USER") || account.getRole().equals("PROVIDER")){
-            ProviderProfile providerProfile = providerProfileService.getProviderProfileByAccountId(id);
-            Long providerId = providerProfile.getProviderProfileId();
-            model.addAttribute("providerId", providerId);
-        //}
-        
+        if (providerProfile != null) {
+            model.addAttribute("providerId", providerProfile.getProviderProfileId());
+        }
 
-        // Name of file location
-        return "customer/profile";
+        return "profile";
+    }
+
+    @PostMapping("/delete")
+    public String deleteCurrentCustomer(
+            Authentication authentication,
+            HttpServletRequest request) throws ServletException {
+
+        boolean deleted = customerProfileService.deleteCustomerProfileForUsername(authentication.getName());
+
+        if (!deleted) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        request.logout();
+        return "redirect:/account/customer-login?deleted=true";
     }
 
     @GetMapping("/preferences")
-    public String updatePreferences(@RequestParam("tagName") String tagName, HttpSession session) {
-        Account account = (Account) session.getAttribute("user");
-        if (account == null) {
-            return "redirect:/account/login";
-        }
-        
-        Long id = account.getAccountId();
-        CustomerProfile profile = customerProfileService.getCustomerByAccountId(id);
-        
-        if (profile != null) {
-            // Find if the user already has this tag name in their preference set
-            Tag existingTag = profile.getPreferences().stream()
-                    .filter(t -> t.getTagName().equalsIgnoreCase(tagName))
-                    .findFirst().orElse(null);
+    public String updatePreferences(@RequestParam("tagName") String tagName, Authentication authentication) {
+        String username = authentication.getName();
+        CustomerProfile profile = customerProfileService.getCustomerByUsername(username);
 
-            if (existingTag != null) {
-                // If they have it, break the reference link
-                customerProfileService.removePreferenceTag(profile.getCustomerProfileId(), existingTag.getTagId());
+        if (profile != null && profile.getPreferences() != null) {
+            CustomerPreference existingPref = profile.getPreferences().stream()
+                    .filter(p -> p.getTagName() != null && p.getTagName().equalsIgnoreCase(tagName))
+                    .findFirst()
+                    .orElse(null);
+
+            if (existingPref != null) {
+                customerProfileService.removePreferenceTagForUsername(username, existingPref.getPreferenceId());
             } else {
-                // Otherwise, associate the master tag with this profile
-                Tag newTagRef = new Tag();
-                newTagRef.setTagName(tagName);
-                customerProfileService.addPreferenceTag(profile.getCustomerProfileId(), newTagRef);
+                customerProfileService.addPreferenceTagForUsername(username, tagName);
             }
         }
         return "redirect:/customer/profile";
     }
 
     @GetMapping("/feed")
-    public String getMatchedBookFeed(Model model, HttpSession session) {
-        Account account = (Account) session.getAttribute("user");
-        if (account == null) {
-            return "redirect:/account/login";
-        }
-        
-        Long id = account.getAccountId();
-        CustomerProfile profile = customerProfileService.getCustomerByAccountId(id);
-        if (profile != null) {
-            Long customerId = profile.getCustomerProfileId();
-            
-            // Get the matched books
-            List<BookListing> matchedBooks = customerProfileService.getMatchedBookFeed(customerId);
-            
-            // Push the list to the UI model
-            model.addAttribute("matchedBooks", matchedBooks);
-            model.addAttribute("customerProfile", profile);
-        }
-        return "customer/myFeed";
+    public String getMatchedBookFeed(Authentication authentication, Model model) {
+        String username = authentication.getName();
+        List<BookListing> matchedBooks = customerProfileService.getMatchedBookFeedForUsername(username);
+        CustomerProfile profile = customerProfileService.getCustomerByUsername(username);
+
+        model.addAttribute("matchedBooks", matchedBooks);
+        model.addAttribute("customerProfile", profile);
+        return "myFeed";
     }
 
     @PostMapping("/request-swap")
-    public String requestSwap(Model model, HttpSession session) {
-        Account account = (Account) session.getAttribute("user");
-        if (account == null) {
-            return "redirect:/account/login";
-        }
-        return "redirect:/customer/feed";
+    public String requestSwap(@RequestParam("listingId") Long listingId, Authentication authentication) {
+        swapRequestService.createSwapRequestForCustomer(authentication.getName(), listingId);
+        return "redirect:/customer/feed?requested=true";
     }
-
 }

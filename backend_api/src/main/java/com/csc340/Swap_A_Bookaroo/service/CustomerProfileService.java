@@ -2,6 +2,8 @@ package com.csc340.Swap_A_Bookaroo.service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.csc340.Swap_A_Bookaroo.entities.*;
@@ -217,28 +219,27 @@ public class CustomerProfileService {
 
         String normalizedName = tagData.getTagName().trim();
 
-        tagRepository.findByTagName(normalizedName)
+        // Ensure master tag exists in DB
+        Tag persistedTag = tagRepository.findByTagName(normalizedName)
                 .orElseGet(() -> {
                     Tag newTag = new Tag();
                     newTag.createTag(normalizedName);
                     return tagRepository.save(newTag);
                 });
 
-        boolean alreadyPresent =
-                customerPreferenceRepository
-                        .existsByCustomerProfile_CustomerProfileIdAndTagNameIgnoreCase(
-                                profile.getCustomerProfileId(),
-                                normalizedName);
+        boolean alreadyPresent = customerPreferenceRepository
+                .existsByCustomerProfile_CustomerProfileIdAndTagNameIgnoreCase(
+                        profile.getCustomerProfileId(),
+                        normalizedName);
 
         if (!alreadyPresent) {
             CustomerPreference preference = new CustomerPreference();
-            preference.setTagName(normalizedName);
+            preference.setTagName(persistedTag.getTagName());
             preference.setCustomerProfile(profile);
             customerPreferenceRepository.save(preference);
         }
 
-        return preferencesOf(
-                getCustomerById(profile.getCustomerProfileId()));
+        return preferencesOf(getCustomerById(profile.getCustomerProfileId()));
     }
 
     private List<CustomerPreference> preferencesOf(CustomerProfile profile) {
@@ -255,30 +256,27 @@ public class CustomerProfileService {
             return Collections.emptyList();
         }
 
-        List<BookListing> allAvailable =
-                bookListingRepository.findByStatus(ListingStatus.AVAILABLE);
+        List<BookListing> allAvailable = bookListingRepository.findByStatus(ListingStatus.AVAILABLE);
         List<CustomerPreference> preferences = preferencesOf(customer);
 
         if (preferences == null || preferences.isEmpty()) {
             return allAvailable;
         }
 
+        // Explicit string extraction to avoid ClassCastException
         List<String> preferredNames = preferences.stream()
-                .map(Tag::getTagName)
-                .filter(name -> name != null)
+                .map(CustomerPreference::getTagName)
+                .filter(Objects::nonNull)
                 .map(String::toLowerCase)
                 .toList();
 
         return allAvailable.stream()
                 .filter(book -> book.getListingTags() != null
                         && book.getListingTags().stream()
-                                .anyMatch(listingTag ->
-                                        listingTag.getTag() != null
-                                                && listingTag.getTag().getTagName() != null
-                                                && preferredNames.contains(
-                                                        listingTag.getTag()
-                                                                .getTagName()
-                                                                .toLowerCase())))
+                                .anyMatch(listingTag -> listingTag.getTag() != null
+                                        && listingTag.getTag().getTagName() != null
+                                        && preferredNames.contains(
+                                                listingTag.getTag().getTagName().toLowerCase())))
                 .toList();
     }
 }

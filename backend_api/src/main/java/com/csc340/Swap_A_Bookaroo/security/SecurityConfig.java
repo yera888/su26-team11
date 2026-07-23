@@ -29,8 +29,6 @@ public class SecurityConfig {
         requestCache.setMatchingRequestParameterName(null);
 
         http
-                // This follows the course demo. A production deployment should
-                // re-enable CSRF and include CSRF tokens in modifying forms.
                 .csrf(AbstractHttpConfigurer::disable)
                 .userDetailsService(userDetailsService)
                 .authorizeHttpRequests(authorize -> authorize
@@ -45,84 +43,77 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/css/**",
                                 "/images/**",
+                                "/js/**",
                                 "/*.jpg",
                                 "/*.png",
                                 "/*.gif")
                         .permitAll()
                         .requestMatchers(
                                 "/",
-                                "/login",
                                 "/403",
                                 "/error")
                         .permitAll()
 
-                        // Public registration routes.
+                        // Public Login & Registration routes
                         .requestMatchers(
+                                "/account/customer-login",
+                                "/account/provider-login",
+                                "/customer/signup",
                                 "/providers/new",
                                 "/providers/save")
                         .permitAll()
+
                         .requestMatchers(
                                 HttpMethod.POST,
                                 "/api/provider-profiles",
                                 "/api/customer-profiles")
                         .permitAll()
 
-                        // Provider browser pages.
+                        // Customer browser pages
+                        .requestMatchers("/customer/**")
+                        .hasRole("CUSTOMER")
+
+                        // Provider browser pages
                         .requestMatchers(
                                 "/providers/**",
                                 "/listings/**")
                         .hasRole("PROVIDER")
 
-                        // Provider REST resources.
-                        .requestMatchers("/api/provider-profiles/**")
-                        .hasRole("PROVIDER")
-                        .requestMatchers("/api/book-listings/**")
-                        .hasRole("PROVIDER")
-                        .requestMatchers(
-                                HttpMethod.GET,
-                                "/api/swap-requests/provider/**")
-                        .hasRole("PROVIDER")
-                        .requestMatchers(
-                                HttpMethod.PUT,
-                                "/api/swap-requests/**")
-                        .hasRole("PROVIDER")
+                        // Provider REST resources
+                        .requestMatchers("/api/provider-profiles/**").hasRole("PROVIDER")
+                        .requestMatchers("/api/book-listings/**").hasRole("PROVIDER")
+                        .requestMatchers(HttpMethod.GET, "/api/swap-requests/provider/**").hasRole("PROVIDER")
+                        .requestMatchers(HttpMethod.PUT, "/api/swap-requests/**").hasRole("PROVIDER")
 
-                        // Customer REST resources.
-                        .requestMatchers("/api/customer-profiles/**")
-                        .hasRole("CUSTOMER")
-                        .requestMatchers(
-                                HttpMethod.POST,
-                                "/api/swap-requests/listing/**")
-                        .hasRole("CUSTOMER")
-                        .requestMatchers(
-                                HttpMethod.GET,
-                                "/api/swap-requests/customer/**")
-                        .hasRole("CUSTOMER")
+                        // Customer REST resources
+                        .requestMatchers("/api/customer-profiles/**").hasRole("CUSTOMER")
+                        .requestMatchers(HttpMethod.POST, "/api/swap-requests/listing/**").hasRole("CUSTOMER")
+                        .requestMatchers(HttpMethod.GET, "/api/swap-requests/customer/**").hasRole("CUSTOMER")
 
-                        // Account /me is available to either authenticated role.
-                        .requestMatchers("/api/accounts/me")
-                        .authenticated()
+                        // Shared authenticated routes
+                        .requestMatchers("/api/accounts/me").authenticated()
 
                         .anyRequest().authenticated())
                 .formLogin(form -> form
-                        .loginPage("/login")
+                        // DEFAULT TO PROVIDER LOGIN
+                        .loginPage("/account/provider-login")
                         .loginProcessingUrl("/login")
-                        .failureUrl("/login?error=true")
+                        .failureUrl("/account/provider-login?error=true")
                         .successHandler((request, response, authentication) -> {
                             boolean provider = authentication.getAuthorities()
                                     .stream()
                                     .anyMatch(authority ->
-                                            authority.getAuthority()
-                                                    .equals("ROLE_PROVIDER"));
+                                            authority.getAuthority().equals("ROLE_PROVIDER"));
 
-                            response.sendRedirect(
-                                    provider ? "/providers/me" : "/");
+                            // Redirect providers to /providers/me, customers to /customer/profile
+                            response.sendRedirect(provider ? "/providers/me" : "/customer/profile");
                         })
                         .permitAll())
                 .exceptionHandling(exception ->
                         exception.accessDeniedPage("/403"))
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login?logout=true")
+                        // LOGOUT REDIRECTS TO PROVIDER LOGIN
+                        .logoutSuccessUrl("/account/provider-login?logout=true")
                         .permitAll())
                 .requestCache(cache ->
                         cache.requestCache(requestCache));
