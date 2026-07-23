@@ -96,19 +96,19 @@ public class CustomerProfileApiController {
                         : preferences);
     }
 
-    @DeleteMapping("/me/preferences/{tagId}")
-    public ResponseEntity<List<CustomerPreference>> removePreferenceTag(
-            @PathVariable Long tagId,
-            Authentication authentication) {
+        @DeleteMapping("/me/preferences/{tagName}")
+        public ResponseEntity<List<CustomerPreference>> removePreferenceTag(
+                @PathVariable String tagName,
+                Authentication authentication) {
         List<CustomerPreference> preferences =
                 customerProfileService.removePreferenceTagForUsername(
                         authentication.getName(),
-                        tagId);
+                        tagName);
 
         return preferences != null
                 ? ResponseEntity.ok(preferences)
                 : ResponseEntity.notFound().build();
-    }
+        }
 
     @GetMapping("/me/feed")
     public ResponseEntity<List<BookListing>> getMatchedBookFeed(
